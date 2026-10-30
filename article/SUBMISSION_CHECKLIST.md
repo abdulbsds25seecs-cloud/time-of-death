@@ -10,14 +10,18 @@ Deadline: October 31, 2026, 11:59 PM PDT; November 1, 2026, 11:59 AM Pakistan ti
 - [x] CLI and portable regression script implementation.
 - [x] Controlled five-history evaluation with recorded conditions and outcomes.
 - [x] CPU-only local open-weight model invocation, including preserved failure examples.
-- [x] Initial frontend screenshots captured.
+- [x] Final coroner's-console frontend screenshots captured at 1440px and 375px.
+- [x] Mastra schema workflow exercised with actual local-model output.
+- [x] Temporal worker-crash recovery exercised; three completed checks reused.
+- [x] Sentry SDK spans captured locally with a privacy assertion; cloud delivery not yet tested.
 - [x] Draft structured around the user's article guide.
 
 ## Before publication
 
-- [ ] Receive and apply user's frontend reference document.
-- [ ] Finish final model comparison and review explanations for accuracy.
-- [ ] Recheck the final browser workflow, narrow layout and export downloads.
+- [x] Receive and apply user's frontend reference document.
+- [x] Review recorded model attempts and document semantic/citation limitations.
+- [x] Check narrow layout and download a real Markdown export.
+- [ ] Configure the user's free Sentry project and verify live ingestion before claiming a live dashboard demo.
 - [ ] Complete authenticated Copilot contribution and preserve evidence, or omit that contribution/category claim.
 - [ ] Add public source repository and confirm remote CI results.
 - [ ] Capture final screenshots and record a short video or provide a runnable deployed demo appropriate to local execution.

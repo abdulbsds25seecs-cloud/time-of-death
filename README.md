@@ -2,11 +2,20 @@
 
 **Find the commit that broke your app. Follow the evidence.**
 
-A free local regression investigator with an interactive Git timeline, execution receipts, portable regression scripts, and optional local open-weight AI autopsies. Node 22+ and Git are enough to investigate. No npm installation, account, Docker, paid API, or cloud service is required.
+A free local regression investigator with an interactive Git timeline, execution receipts, portable regression scripts, and optional local open-weight AI autopsies. The prebuilt edition needs Node 22.13+ and Git. Building from source also needs npm. No account, Docker, paid API, or cloud service is required for the standard local mode.
 
-> Development status: engine and initial interface implemented. Frontend redesign is waiting for the user's reference document. Copilot review is pending CLI authentication. See evidence/ and PROJECT_PLAN.md for actual results and outstanding work.
+> Implemented: React coroner's console, fixed Bayer dithering, engine/CLI, reports, optional Mastra workflow, Temporal recovery and opt-in Sentry instrumentation. Local verification: 22 passing test nodes and a separate forced-worker-crash recovery check. Live Sentry delivery awaits a project DSN. Copilot review and public publication have not occurred.
 
 ## Start
+
+From source, run these once:
+
+```powershell
+npm ci
+npm run build
+```
+
+The prebuilt edition already contains `dist/` and does not need these commands for standard mode.
 
 ```powershell
 node server.mjs
@@ -14,7 +23,7 @@ node server.mjs
 
 Open **http://127.0.0.1:4317**. On Windows, you can also double-click `Start-Time-of-Death.cmd`. Keep the terminal running. Set `PORT` to choose another local port.
 
-Choose **Load the 24-commit demo**, then **Start investigation**. This creates a real, explicitly synthetic Git repository and searches for a deliberately introduced session-expiration regression. The timeline and logs come from actual checks.
+Choose **Open the synthetic case**, then **Begin investigation**. This creates a real, explicitly synthetic Git repository and searches for a deliberately introduced session-expiration regression. The timeline and logs come from actual checks.
 
 ## Investigate your project
 
@@ -28,7 +37,7 @@ The source working tree is not switched, stashed, cleaned, or reset. A disposabl
 
 ### A test that did not exist in older commits
 
-Open **Bring a new regression check into old commits** and paste a Node ESM script. It replaces the command field and is injected into each checked revision. Relative imports resolve against that revision.
+Open **Replay a new check in old revisions** and paste a Node ESM script. It replaces the command field and is injected into each checked revision. Relative imports resolve against that revision.
 
 ```js
 import assert from 'node:assert/strict';
@@ -62,7 +71,7 @@ Install [Ollama](https://ollama.com/download), then:
 ollama pull gemma3:1b
 ```
 
-Keep Ollama running. Open **AI settings** to refresh model availability, then generate an autopsy after a conclusive investigation. Local inference sends the bounded diff/log evidence to the configured Ollama server. The default endpoint is on this computer, `http://127.0.0.1:11434`.
+Keep Ollama running. Use **Refresh model status** if needed; an autopsy is requested after a conclusive investigation when a local model is available. Local inference sends the bounded diff/log evidence to the configured Ollama server. The default endpoint is on this computer, `http://127.0.0.1:11434`. `qwen2.5-coder:1.5b` is another tested option; review either model's output.
 
 For an explicitly configured Ollama server on another machine, set `OLLAMA_BASE_URL` before starting the app. In that configuration, evidence is transmitted to that machine; it is no longer strictly on-device. Only use a server you trust. The app does not support Ollama cloud-model names and does not purchase credits.
 
@@ -89,7 +98,17 @@ Run `node cli.mjs --help` for all options. Exit 0 means a boundary was confirmed
 
 ## Reports and privacy
 
-Completed cases are saved under `.data/reports/` and shown in the case archive. Markdown and JSON exports contain execution output, paths, and optionally the portable script and AI evidence packet. They can contain sensitive information. Review exports before sharing. `.data/` is gitignored. There are no external fonts, analytics, telemetry, or runtime npm packages.
+Completed cases are saved under `.data/reports/` and shown in the case archive. Markdown and JSON exports contain execution output, paths, and optionally the portable script and AI evidence packet. They can contain sensitive information. Review exports before sharing. `.data/` and `.env.local` are gitignored. Fonts are bundled locally. Sentry is disabled unless a DSN is configured; see the optional integration guide for precisely what it sends.
+
+## Optional integrations
+
+See [INTEGRATIONS.md](INTEGRATIONS.md) for setup and verification. All three can be combined, but standard mode does not load their SDKs.
+
+- **Mastra:** schema-checked evidence collection, local inference and citation validation. Set `TOD_MASTRA=1` after installing dependencies.
+- **Temporal:** a separate durable CLI/worker mode; retries after worker failure reuse completed local check checkpoints. A local SQLite-backed Temporal service requires no cloud account. An in-flight check can repeat.
+- **Sentry:** opt-in model/check timings, token counts and status spans. Prompts, source, commands, repository paths and captured logs are excluded. Live delivery has not been verified without a project DSN.
+
+On a modest laptop, use standard mode first. Temporal adds a service and worker. Do not run a durable investigation alongside a separate web investigation on the same small machine.
 
 ## Verification
 
@@ -115,6 +134,6 @@ Git performs the binary search. The project adds command replay, endpoint checks
 
 ## Attribution and licenses
 
-Time of Death source is MIT licensed. [Git](https://git-scm.com/) is separately licensed under GPLv2; [Node.js](https://nodejs.org/) and [Ollama](https://github.com/ollama/ollama) have their own licenses. Gemma is **open-weight**, subject to [Google's Gemma terms](https://ai.google.dev/gemma/terms), and is not relicensed by this project. Models and third-party binaries are not bundled.
+Time of Death source is MIT licensed. [Git](https://git-scm.com/) is separately licensed under GPLv2; [Node.js](https://nodejs.org/) and [Ollama](https://github.com/ollama/ollama) have their own licenses. Gemma is **open-weight**, subject to [Google's Gemma terms](https://ai.google.dev/gemma/terms), and is not relicensed by this project. Models and third-party binaries are not bundled. IM Fell English and IBM Plex Mono font licenses are included in `licenses/`; dependency packages retain their respective licenses.
 
 AI coding assistance: Codex was used to build and verify this project. Copilot contributions must be documented only after an actual authenticated session. See `evidence/COPILOT_TASK.md` for the prepared review task; its existence is not proof that a Copilot review occurred.

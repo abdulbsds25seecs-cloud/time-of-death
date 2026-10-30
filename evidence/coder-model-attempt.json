@@ -1,0 +1,53 @@
+{
+  "summary": "The new revision FAILS the check due to a regression in the session check function, where a session at its exact expiration must be rejected. The old behavior was `now < expiresAt`, but the new behavior is `now <= expiresAt`. This change contradicts the failing assertion in D1, where `true !== false` is asserted. The new result is calculated from D2, which shows that for the numeric inputs now=1000 and expiresAt=1000, the old behavior returns `false` and the new behavior returns `true`. The next check should verify that the new behavior correctly handles the boundary case of `now = expiresAt`. ",
+  "findings": [
+    {
+      "explanation": "The old behavior was `now < expiresAt`, but the new behavior is `now <= expiresAt`. This change contradicts the failing assertion in D1, where `true !== false` is asserted.",
+      "evidence": [
+        "D1",
+        "E13"
+      ],
+      "kind": "hypothesis"
+    },
+    {
+      "explanation": "The new result is calculated from D2, which shows that for the numeric inputs now=1000 and expiresAt=1000, the old behavior returns `false` and the new behavior returns `true`. The new result is calculated from D2, which shows that for the numeric inputs now=1000 and expiresAt=1000, the old behavior returns `false` and the new behavior returns `true`. ",
+      "evidence": [
+        "D2",
+        "E15"
+      ],
+      "kind": "hypothesis"
+    }
+  ],
+  "nextChecks": [
+    "check sessionIsValid with boundary case now = expiresAt"
+  ],
+  "model": "qwen2.5-coder:1.5b",
+  "endpoint": "http://127.0.0.1:11434",
+  "generatedAt": "2026-10-30T15:00:11.192Z",
+  "durationMs": 47919,
+  "tokens": 346,
+  "tokensPerSecond": 10,
+  "evidence": [
+    {
+      "id": "D1",
+      "kind": "diff",
+      "text": "diff --git a/notes.md b/notes.md\nindex 0d2f604..a2250bb 100644\n--- a/notes.md\n+++ b/notes.md\n@@ -1,5 +1,5 @@\n # Session service\n \n-Synthetic demonstration repository. Revision 14.\n+Synthetic demonstration repository. Revision 15.\n \n-Refactor expiration comparison\n+Allow boundary timestamp in session check\ndiff --git a/session.mjs b/session.mjs\nindex 958a04a..0fd8079 100644\n--- a/session.mjs\n+++ b/session.mjs\n@@ -1,4 +1,4 @@\n // Epoch timestamps use the same units. Sessions expire at expiresAt.\n export function sessionIsValid(now, expiresAt) {\n-  return now < expiresAt;\n+  return now <= expiresAt;\n }\n"
+    },
+    {
+      "id": "E13",
+      "kind": "execution",
+      "text": "revision=67c6438a85566156c2a233beac616bf19e5e50d4\ncommand=node check.mjs\nexit=1\nstatus=bad\nstdout=\nstderr=node:internal/modules/run_main:107\r\n    triggerUncaughtException(\r\n    ^\r\n\r\nAssertionError [ERR_ASSERTION]: A session at its exact expiration must be rejected\r\n\r\ntrue !== false\r\n\r\n    at file:///C:/Users/oasis/AppData/Local/Temp/time-of-death-LskP3W/checkout/check.mjs:3:8\r\n    at ModuleJob.run (node:internal/modules/esm/module_job:430:25)\r\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)\r\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\r\n  generatedMessage: false,\r\n  code: 'ERR_ASSERTION',\r\n  actual: true,\r\n  expected: false,\r\n  operator: 'strictEqual',\r\n  diff: 'simple'\r\n}\r\n\r\nNode.js v24.14.0\r\n"
+    },
+    {
+      "id": "E15",
+      "kind": "execution",
+      "text": "revision=4e1d65e8d0cb9dd25858443bfa73311d402ba1e5\ncommand=node check.mjs\nexit=0\nstatus=good\nstdout=PASS: all 3 session boundary checks\n\nstderr="
+    },
+    {
+      "id": "D2",
+      "kind": "comparison-witness",
+      "text": "Parsed from D1: before return now < expiresAt; after return now <= expiresAt. For illustrative numeric inputs now=1000 and expiresAt=1000, before=false, after=true. This is a calculated witness for the comparison only, not an execution of the whole function."
+    }
+  ],
+  "note": "AI hypotheses for review. Evidence IDs are validated; semantic accuracy still needs human review. Model is unloaded after this response."
+}

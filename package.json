@@ -4,7 +4,34 @@
   "private": true,
   "type": "module",
   "description": "Find the commit that broke your app. A local Git regression investigator with optional open-weight AI.",
-  "engines": { "node": ">=22" },
-  "scripts": { "start": "node server.mjs", "test": "node --test --test-concurrency=1 test/*.test.mjs", "demo": "node scripts/demo.mjs", "evaluate": "node scripts/evaluate.mjs" },
-  "license": "MIT"
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env.local server.mjs",
+    "test": "npm run build && node --test --test-concurrency=1 test/*.test.mjs",
+    "demo": "node scripts/demo.mjs",
+    "evaluate": "node scripts/evaluate.mjs",
+    "build": "vite build",
+    "dev": "vite --host 127.0.0.1",
+    "worker": "node --env-file-if-exists=.env.local integrations/temporal/worker.mjs",
+    "durable": "node --env-file-if-exists=.env.local integrations/temporal/start.mjs"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@mastra/core": "^1.80.0",
+    "@sentry/node": "^11.10.0",
+    "@temporalio/activity": "^1.25.0",
+    "@temporalio/client": "^1.25.0",
+    "@temporalio/worker": "^1.25.0",
+    "@temporalio/workflow": "^1.25.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@fontsource/ibm-plex-mono": "^5.3.0",
+    "@fontsource/im-fell-english": "^5.3.0",
+    "vite": "^8.3.5"
+  }
 }

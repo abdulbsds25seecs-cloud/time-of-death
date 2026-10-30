@@ -1,0 +1,158 @@
+{
+  "destination": "Local in-memory test transport; not uploaded to Sentry",
+  "envelopes": [
+    [
+      {
+        "event_id": "3c1d13e0990d4fab94815f19b04964f5",
+        "sent_at": "2026-10-30T15:26:08.227Z",
+        "sdk": {
+          "name": "sentry.javascript.node",
+          "version": "11.10.0"
+        },
+        "trace": {
+          "environment": "local",
+          "release": "time-of-death@1.0.0",
+          "public_key": "public",
+          "trace_id": "9822bc7907c5451e8ea3d3bb8ee07248",
+          "transaction": "Evidence autopsy workflow",
+          "sampled": "true",
+          "sample_rand": "0.2798624394652901",
+          "sample_rate": "1"
+        }
+      },
+      [
+        [
+          {
+            "type": "transaction"
+          },
+          {
+            "contexts": {
+              "trace": {
+                "span_id": "883371b085ea0389",
+                "trace_id": "9822bc7907c5451e8ea3d3bb8ee07248",
+                "data": {
+                  "sentry.origin": "manual",
+                  "sentry.op": "gen_ai.invoke_agent",
+                  "gen_ai.request.model": "qwen2.5-coder:1.5b",
+                  "gen_ai.operation.name": "invoke_agent",
+                  "gen_ai.usage.output_tokens": 260,
+                  "duration_ms": 54054
+                },
+                "op": "gen_ai.invoke_agent",
+                "status": "ok",
+                "origin": "manual"
+              }
+            },
+            "spans": [],
+            "start_timestamp": 1793373914.0610006,
+            "timestamp": 1793373968.2232113,
+            "transaction": "Evidence autopsy workflow",
+            "type": "transaction",
+            "transaction_info": {
+              "source": "custom"
+            },
+            "platform": "node",
+            "event_id": "3c1d13e0990d4fab94815f19b04964f5",
+            "environment": "local",
+            "release": "time-of-death@1.0.0",
+            "sdk": {
+              "name": "sentry.javascript.node",
+              "version": "11.10.0",
+              "integrations": [],
+              "packages": [
+                {
+                  "name": "npm:@sentry/node",
+                  "version": "11.10.0"
+                }
+              ]
+            }
+          }
+        ],
+        [
+          {
+            "type": "span",
+            "item_count": 3,
+            "content_type": "application/vnd.sentry.items.span.v2+json"
+          },
+          {
+            "version": 2,
+            "items": [
+              {
+                "trace_id": "9822bc7907c5451e8ea3d3bb8ee07248",
+                "span_id": "8c7260c9a664f1a9",
+                "parent_span_id": "883371b085ea0389",
+                "name": "collect-evidence",
+                "start_timestamp": 1793373914.067405,
+                "end_timestamp": 1793373914.0680275,
+                "status": "ok",
+                "is_segment": false,
+                "attributes": {
+                  "sentry.origin": {
+                    "value": "manual",
+                    "type": "string"
+                  },
+                  "sentry.op": {
+                    "value": "gen_ai.workflow.step",
+                    "type": "string"
+                  },
+                  "gen_ai.request.model": {
+                    "value": "qwen2.5-coder:1.5b",
+                    "type": "string"
+                  }
+                }
+              },
+              {
+                "trace_id": "9822bc7907c5451e8ea3d3bb8ee07248",
+                "span_id": "8fd9af66ed51adb6",
+                "parent_span_id": "883371b085ea0389",
+                "name": "local-model",
+                "start_timestamp": 1793373914.0698843,
+                "end_timestamp": 1793373968.21926,
+                "status": "ok",
+                "is_segment": false,
+                "attributes": {
+                  "sentry.origin": {
+                    "value": "manual",
+                    "type": "string"
+                  },
+                  "sentry.op": {
+                    "value": "gen_ai.chat",
+                    "type": "string"
+                  },
+                  "gen_ai.request.model": {
+                    "value": "qwen2.5-coder:1.5b",
+                    "type": "string"
+                  }
+                }
+              },
+              {
+                "trace_id": "9822bc7907c5451e8ea3d3bb8ee07248",
+                "span_id": "a8619bdcd8f8fa60",
+                "parent_span_id": "883371b085ea0389",
+                "name": "validate-citations",
+                "start_timestamp": 1793373968.2216532,
+                "end_timestamp": 1793373968.2218988,
+                "status": "ok",
+                "is_segment": false,
+                "attributes": {
+                  "sentry.origin": {
+                    "value": "manual",
+                    "type": "string"
+                  },
+                  "sentry.op": {
+                    "value": "gen_ai.workflow.step",
+                    "type": "string"
+                  },
+                  "gen_ai.request.model": {
+                    "value": "qwen2.5-coder:1.5b",
+                    "type": "string"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      ]
+    ]
+  ]
+}

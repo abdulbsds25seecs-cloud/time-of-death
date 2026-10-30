@@ -5,7 +5,7 @@ tags: devchallenge, hf26challenge, git, opensource
 ---
 
 <!-- WORKING DRAFT. Apply the official DEV submission template before publishing.
-Final frontend reference, public repository, demo/video, Copilot review and final inference evaluation are still outstanding.
+Public repository, demo/video and live Sentry dashboard evidence are still outstanding. Copilot was not authenticated and no contribution is claimed.
 Do not publish with these editor notes or unresolved links. -->
 
 A session should stop working at its expiration time. In the test repository I created, a one-character change made it valid for that exact instant instead.
@@ -54,7 +54,7 @@ I wanted the theme to describe what the tool does, not just its colors. A broken
 
 ## How It Works
 
-The application uses Node's built-in HTTP server, a plain browser interface, Git, and optional Ollama inference. It has no runtime npm dependencies and no frontend build step.
+The application uses Node's built-in HTTP server, a React/Vite interface, Git, and optional Ollama inference. Fonts and the interface are bundled for local use. Building from source needs npm; the prebuilt standard edition needs only Node and Git at runtime, plus Ollama for local AI.
 
 Before searching, it checks that the working endpoint passes and the failing endpoint reproduces the failure. It runs selected revisions repeatedly. A timeout is not marked as a bad commit. Exit code 125 means the revision cannot be tested. Inconsistent outcomes and ambiguous skipped commits produce an inconclusive result.
 
@@ -84,7 +84,9 @@ My first CPU-only Gemma 3 1B response took 54.322 seconds. It referenced real ev
 
 I kept that failed response rather than replacing it with a success claim. I revised the prompt to emphasize old versus new behavior and added a calculated example for a limited class of simple changed comparisons. At equal numeric inputs, the tool can calculate the old and new comparison results without evaluating repository code.
 
-The next recorded response took 28.733 seconds and correctly pointed to the boundary-handling area, but remained vague. **[Update this paragraph with the final reviewed inference attempt; keep the earlier failure and distinguish prompt changes from model capability.]**
+The next recorded response took 28.733 seconds and pointed to the boundary-handling area, but remained vague. Another Gemma response still misread the change. Switching to Qwen 2.5 Coder 1.5B produced a better direction-of-change explanation in a recorded 47.919-second run, though its prose still referred to an assertion in the diff instead of the execution receipt. This was a small series of development attempts, not a controlled model benchmark.
+
+A later real Qwen run through Mastra took 54.054 seconds and generated 260 output tokens. It completed evidence collection, inference and citation validation. It again explained `<` becoming `<=`, while retaining the imprecise reference to an assertion in D1. Those limitations belong in the demonstration alongside the useful output.
 
 The model is a second reader, not the authority deciding which revision passed. Hypotheses remain labeled and suggested checks are not executed automatically.
 
@@ -106,18 +108,23 @@ Gemma is open-weight under its own terms. Git, Node and Ollama have their own li
 
 ## Prize Categories
 
-- **Best Use of Gemma:** local open-weight interpretation of the candidate diff and measured check outcomes, with evidence-linked reports and documented model failures.
-- **GitHub Copilot:** **[List only after an actual qualifying contribution is completed and documented. An installed CLI and an unsigned review prompt are not a contribution.]**
+- **Mastra:** a real schema-checked workflow collects evidence, invokes a local open-weight model, and rejects nonexistent citation IDs. Its recorded steps are included in the case file.
+- **Temporal:** optional durable mode recovers a stopped investigation worker using local execution checkpoints. In the recorded fault test, I force-killed the native Windows worker after three completed checks. The replacement worker reused all three and confirmed the expected candidate on its second Activity attempt. The local disk, repository and SQLite-backed service were retained; this does not establish disk-loss recovery or exactly-once execution.
+- **Sentry Agent Tracing:** opt-in spans measure the investigation and AI workflow without collecting prompts, source, commands or logs. The real SDK was tested using an in-memory transport, and a real model run produced captured envelopes. **Live ingestion/dashboard evidence is pending a project DSN; do not describe the local capture as a live Sentry demonstration.**
+
+These are implemented integrations, not a guarantee of category eligibility or an award. Gemma was also exercised locally, including documented failures; Qwen produced the stronger recorded explanation. No Copilot contribution is claimed.
 
 ## Try It
 
-Install Node 22+ and Git, then run:
+Install Node 22.13+ and Git. From source, build the interface and start the server:
 
 ```powershell
-node server.mjs
+npm ci
+npm run build
+npm start
 ```
 
-Open `http://127.0.0.1:4317`, load the synthetic demo, and start the investigation. For local explanations, install Ollama and download `gemma3:1b`.
+Open `http://127.0.0.1:4317`, choose **Open the synthetic case**, then **Begin investigation**. For local explanations, install Ollama and download `gemma3:1b` or `qwen2.5-coder:1.5b`. The prebuilt standard edition can skip npm installation and the build step. Optional integrations have their own setup instructions and are not required for the ordinary local investigation.
 
 **[Final repository link] · [Real demo/video link] · [Recorded evaluation evidence]**
 

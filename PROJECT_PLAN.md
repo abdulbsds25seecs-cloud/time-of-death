@@ -1,6 +1,6 @@
 # Time of Death: implementation and submission plan
 
-Status: planning initialized; application not implemented yet.
+Status: engine, CLI, redesigned React interface, local AI workflow and optional integrations implemented. Twenty-two local test nodes pass. Temporal worker-crash recovery and real Mastra/Ollama analysis were exercised; Sentry SDK envelopes were captured locally. Live Sentry delivery, authenticated Copilot review, public repository/demo links and article publication remain pending. T480 performance is a design target, not a measured result.
 
 ## Product promise
 
