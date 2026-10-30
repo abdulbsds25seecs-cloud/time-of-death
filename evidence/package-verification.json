@@ -1,0 +1,7 @@
+{
+  "archiveSha256": "F60961BA7D6BBD00F19F7D8B3B490B9094004F41E75A2D51D093306090625FD6",
+  "scenario": "Unpacked ZIP without node_modules or .env.local; ran CLI synthetic demo, matched known boundary and served built interface from an ephemeral server",
+  "unpackedTo": "C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-release-56f2d730afd545288c32b8dd444bffbe",
+  "passed": true,
+  "testedAt": "2026-10-30T15:33:37.3581371Z"
+}
