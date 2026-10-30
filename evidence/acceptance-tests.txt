@@ -1,0 +1,25 @@
+▶ Git investigation and application acceptance suite
+  ✔ finds known boundary and preserves dirty tracked/untracked source files (7567.7027ms)
+  ✔ rejects invalid revisions, reversed range, same endpoints and relative repository (847.9315ms)
+  ✔ replays a newly written regression script across older commits (4814.2337ms)
+  ✔ rejects a purported good endpoint that actually fails (1318.9488ms)
+  ✔ rejects a purported bad endpoint that actually passes (2134.4383ms)
+  ✔ unrelated failures do not count as the target regression (1446.6357ms)
+  ✔ missing dependencies are untestable, not bad commits (1231.6123ms)
+  ✔ timeout stops a hanging check without inferring a regression (1918.8867ms)
+  ✔ shell execution failure codes cannot become bad commits (1702.826ms)
+  ✔ cancellation terminates a running check and produces no result (1547.7851ms)
+  ✔ alternating repeated results are inconclusive (1222.363ms)
+  ✔ skip ambiguity cannot produce a precise candidate (9350.7297ms)
+  ✔ AI output requires valid evidence references and exports preserve recorded facts (1.0512ms)
+  ✔ HTTP endpoints require origin/host validation, app token and explicit execution trust (78.7764ms)
+  ✔ process capture bounds noisy command output (108.6518ms)
+✔ Git investigation and application acceptance suite (37838.406ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 38113.614

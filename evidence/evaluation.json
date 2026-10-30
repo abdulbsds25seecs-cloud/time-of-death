@@ -1,0 +1,87 @@
+{
+  "createdAt": "2026-10-30T14:50:33.015Z",
+  "conditions": {
+    "node": "v24.14.0",
+    "platform": "win32",
+    "cpu": "AMD Ryzen 5 3600 6-Core Processor              ",
+    "logicalProcessors": 6,
+    "totalRAM_GB": 15.9,
+    "repeats": 2,
+    "dependencies": "None in synthetic test repositories",
+    "aiIncluded": false
+  },
+  "cases": [
+    {
+      "name": "early-regression",
+      "synthetic": true,
+      "historySize": 16,
+      "expectedCommit": "244887e2e83ec37be7f91ccf1799d77f6f6cdbfe",
+      "observedCommit": "244887e2e83ec37be7f91ccf1799d77f6f6cdbfe",
+      "expectedStatus": "complete",
+      "observedStatus": "complete",
+      "correct": true,
+      "elapsedMs": 6895,
+      "checks": 16,
+      "distinctRevisions": 6
+    },
+    {
+      "name": "middle-regression",
+      "synthetic": true,
+      "historySize": 24,
+      "expectedCommit": "b59e8589a5c60359d56351981924719c386abeff",
+      "observedCommit": "b59e8589a5c60359d56351981924719c386abeff",
+      "expectedStatus": "complete",
+      "observedStatus": "complete",
+      "correct": true,
+      "elapsedMs": 5599,
+      "checks": 16,
+      "distinctRevisions": 6
+    },
+    {
+      "name": "late-regression",
+      "synthetic": true,
+      "historySize": 24,
+      "expectedCommit": "8af8623d4697af8481021b4543ac94c9fd71e98b",
+      "observedCommit": "8af8623d4697af8481021b4543ac94c9fd71e98b",
+      "expectedStatus": "complete",
+      "observedStatus": "complete",
+      "correct": true,
+      "elapsedMs": 6289,
+      "checks": 18,
+      "distinctRevisions": 7
+    },
+    {
+      "name": "no-regression",
+      "synthetic": true,
+      "historySize": 8,
+      "expectedCommit": null,
+      "observedCommit": null,
+      "expectedStatus": "inconclusive",
+      "observedStatus": "inconclusive",
+      "correct": true,
+      "elapsedMs": 1808,
+      "checks": 4,
+      "distinctRevisions": 2,
+      "error": "The failing endpoint did not reproduce the target failure. Review its logs and failure text."
+    },
+    {
+      "name": "ambiguous-skips",
+      "synthetic": true,
+      "historySize": 8,
+      "expectedCommit": "09ff19d7a30f46b3fcbebcecca1ebe5c7e953a9c",
+      "observedCommit": null,
+      "expectedStatus": "inconclusive",
+      "observedStatus": "inconclusive",
+      "correct": true,
+      "elapsedMs": 5137,
+      "checks": 12,
+      "distinctRevisions": 6,
+      "error": "Untestable revisions prevent identifying one commit. Review the bisect log; result is inconclusive."
+    }
+  ],
+  "summary": {
+    "correct": 5,
+    "total": 5
+  },
+  "limitation": "Controlled synthetic histories, not a representative sample of real projects. Timings include Git clone/search/cleanup and checks; no AI inference. No sequential wall-time baseline was measured."
+}

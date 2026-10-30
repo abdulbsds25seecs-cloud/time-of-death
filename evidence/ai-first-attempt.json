@@ -1,0 +1,22 @@
+{
+  "model": "gemma3:1b",
+  "durationMs": 54322,
+  "summary": "The commit introduces a change to the `sessionIsValid` function, ensuring that session expiration checks are performed only when the current time is less than the session's expiration time. This change was introduced in revision 67c6438a85566156c2a233beac616bf19e5e50d4.",
+  "findings": [
+    {
+      "explanation": "The core change involves modifying the `sessionIsValid` function to return `now <= expiresAt` instead of `now < expiresAt`. This ensures that the session is considered invalid if the current time is later than the session's expiration time, effectively enforcing the boundary timestamp check.",
+      "evidence": [
+        "D1"
+      ],
+      "kind": "hypothesis"
+    },
+    {
+      "explanation": "The change addresses a potential issue where the session check might incorrectly trigger when the current time is equal to the session's expiration time. The revised logic now explicitly rejects the assertion when the current time is equal to the session's expiration time.",
+      "evidence": [
+        "E13"
+      ],
+      "kind": "hypothesis"
+    }
+  ],
+  "manualReview": "Rejected during development: summary misdescribes the direction of the comparison change. Evidence ID validation does not ensure semantic correctness. Prompt and deterministic comparison witness were added afterwards."
+}
