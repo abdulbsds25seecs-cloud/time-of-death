@@ -47,7 +47,7 @@ The selected [clsx](https://github.com/lukeed/clsx) range runs from the 1.2.1 re
 The identified boundary is [3ec8e9f, the exports-map change](https://github.com/lukeed/clsx/commit/3ec8e9fa2f6eef3911cb47f656ab761fc1030812). The passing parent is `4a4eadd`. Node's [package entry-point documentation](https://nodejs.org/api/packages.html#package-entry-points) explains how an exports map restricts access to unlisted subpaths.
 
 <!-- automation:real-world:start -->
-The recorded historical run searched 9 commits and executed the check 14 times in 5.183 seconds, excluding AI inference. It identified `3ec8e9f`. Fix verification then ran 6 checks and recorded parent **good**, original culprit **bad**, proposed patch **good**. These are measurements of this reconstructed manifest-resolution check, not a general project benchmark.
+The recorded historical run searched 9 commits and executed the check 14 times in 3.849 seconds, excluding AI inference. It identified `3ec8e9f`. Fix verification then ran 6 checks and recorded parent **good**, original culprit **bad**, proposed patch **good**. These are measurements of this reconstructed manifest-resolution check, not a general project benchmark.
 <!-- automation:real-world:end -->
 
 The proposed compatibility patch explicitly exports `./package.json` while preserving the existing root export conditions. It passes this check. That is a test result, not a recommendation that the upstream project should adopt the patch. Downstream tooling can also stop relying on an unexported package subpath.

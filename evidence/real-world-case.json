@@ -1,23 +1,23 @@
 {
-  "id": "215bb52d-1772-41a3-8fd3-900e314fa658",
-  "createdAt": "2026-10-31T05:41:40.249Z",
+  "id": "dc4627cb-1db4-4063-a27b-6d1f3ab85c28",
+  "createdAt": "2026-10-31T05:44:21.265Z",
   "status": "complete",
   "phase": "Failure boundary confirmed",
   "events": [
     {
-      "at": "2026-10-31T05:41:40.700Z",
+      "at": "2026-10-31T05:44:21.661Z",
       "message": "Cloning committed history into a disposable directory. Original working files are not copied or modified."
     },
     {
-      "at": "2026-10-31T05:41:42.820Z",
+      "at": "2026-10-31T05:44:23.190Z",
       "message": "03e1cf9 → bad. Git selected the next revision."
     },
     {
-      "at": "2026-10-31T05:41:43.698Z",
+      "at": "2026-10-31T05:44:23.757Z",
       "message": "4a4eadd → good. Git selected the next revision."
     },
     {
-      "at": "2026-10-31T05:41:45.422Z",
+      "at": "2026-10-31T05:44:25.103Z",
       "message": "Candidate fails and its parent passes on repeated checks. This establishes the observed boundary, not the semantic root cause."
     }
   ],
@@ -27,14 +27,14 @@
       "hash": "6da37d67472ea9eb177a4ea9a9fa2f3f4a3c445e",
       "stage": "Verify working endpoint",
       "repetition": 1,
-      "at": "2026-10-31T05:41:41.170Z",
+      "at": "2026-10-31T05:44:22.039Z",
       "code": 0,
       "stdout": "PASS: clsx/package.json resolves for downstream tooling\n",
       "stderr": "",
       "timedOut": false,
       "cancelled": false,
       "truncated": false,
-      "durationMs": 105,
+      "durationMs": 79,
       "status": "good"
     },
     {
@@ -42,14 +42,14 @@
       "hash": "6da37d67472ea9eb177a4ea9a9fa2f3f4a3c445e",
       "stage": "Verify working endpoint",
       "repetition": 2,
-      "at": "2026-10-31T05:41:41.276Z",
+      "at": "2026-10-31T05:44:22.118Z",
       "code": 0,
       "stdout": "PASS: clsx/package.json resolves for downstream tooling\n",
       "stderr": "",
       "timedOut": false,
       "cancelled": false,
       "truncated": false,
-      "durationMs": 90,
+      "durationMs": 76,
       "status": "good"
     },
     {
@@ -57,14 +57,14 @@
       "hash": "6232a9e5649143a28419a04f786a15f63a0b7edd",
       "stage": "Verify failing endpoint",
       "repetition": 1,
-      "at": "2026-10-31T05:41:41.628Z",
+      "at": "2026-10-31T05:44:22.406Z",
       "code": 1,
       "stdout": "",
-      "stderr": "PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by \"exports\" in C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-zDrBVA\\checkout\\package.json imported from C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-zDrBVA\\checkout\\.tod-manifest-probe\\probe.cjs\n",
+      "stderr": "PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by \"exports\" in C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-B3hEuC\\checkout\\package.json imported from C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-B3hEuC\\checkout\\.tod-manifest-probe\\probe.cjs\n",
       "timedOut": false,
       "cancelled": false,
       "truncated": false,
-      "durationMs": 97,
+      "durationMs": 71,
       "status": "bad"
     },
     {
@@ -72,14 +72,14 @@
       "hash": "6232a9e5649143a28419a04f786a15f63a0b7edd",
       "stage": "Verify failing endpoint",
       "repetition": 2,
-      "at": "2026-10-31T05:41:41.725Z",
+      "at": "2026-10-31T05:44:22.477Z",
       "code": 1,
       "stdout": "",
-      "stderr": "PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by \"exports\" in C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-zDrBVA\\checkout\\package.json imported from C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-zDrBVA\\checkout\\.tod-manifest-probe\\probe.cjs\n",
+      "stderr": "PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by \"exports\" in C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-B3hEuC\\checkout\\package.json imported from C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-B3hEuC\\checkout\\.tod-manifest-probe\\probe.cjs\n",
       "timedOut": false,
       "cancelled": false,
       "truncated": false,
-      "durationMs": 98,
+      "durationMs": 67,
       "status": "bad"
     },
     {
@@ -87,14 +87,14 @@
       "hash": "03e1cf9149f9d1fca8e1552721568ba1ccd832ae",
       "stage": "Narrowing the revision range",
       "repetition": 1,
-      "at": "2026-10-31T05:41:42.286Z",
+      "at": "2026-10-31T05:44:22.883Z",
       "code": 1,
       "stdout": "",
-      "stderr": "PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by \"exports\" in C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-zDrBVA\\checkout\\package.json imported from C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-zDrBVA\\checkout\\.tod-manifest-probe\\probe.cjs\n",
+      "stderr": "PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by \"exports\" in C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-B3hEuC\\checkout\\package.json imported from C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-B3hEuC\\checkout\\.tod-manifest-probe\\probe.cjs\n",
       "timedOut": false,
       "cancelled": false,
       "truncated": false,
-      "durationMs": 118,
+      "durationMs": 80,
       "status": "bad"
     },
     {
@@ -102,14 +102,14 @@
       "hash": "03e1cf9149f9d1fca8e1552721568ba1ccd832ae",
       "stage": "Narrowing the revision range",
       "repetition": 2,
-      "at": "2026-10-31T05:41:42.404Z",
+      "at": "2026-10-31T05:44:22.962Z",
       "code": 1,
       "stdout": "",
-      "stderr": "PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by \"exports\" in C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-zDrBVA\\checkout\\package.json imported from C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-zDrBVA\\checkout\\.tod-manifest-probe\\probe.cjs\n",
+      "stderr": "PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by \"exports\" in C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-B3hEuC\\checkout\\package.json imported from C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-B3hEuC\\checkout\\.tod-manifest-probe\\probe.cjs\n",
       "timedOut": false,
       "cancelled": false,
       "truncated": false,
-      "durationMs": 91,
+      "durationMs": 68,
       "status": "bad"
     },
     {
@@ -117,14 +117,14 @@
       "hash": "4a4eadd3e492b882e59112b453f86e83316b7133",
       "stage": "Narrowing the revision range",
       "repetition": 1,
-      "at": "2026-10-31T05:41:43.232Z",
+      "at": "2026-10-31T05:44:23.442Z",
       "code": 0,
       "stdout": "PASS: clsx/package.json resolves for downstream tooling\n",
       "stderr": "",
       "timedOut": false,
       "cancelled": false,
       "truncated": false,
-      "durationMs": 126,
+      "durationMs": 85,
       "status": "good"
     },
     {
@@ -132,14 +132,14 @@
       "hash": "4a4eadd3e492b882e59112b453f86e83316b7133",
       "stage": "Narrowing the revision range",
       "repetition": 2,
-      "at": "2026-10-31T05:41:43.358Z",
+      "at": "2026-10-31T05:44:23.526Z",
       "code": 0,
       "stdout": "PASS: clsx/package.json resolves for downstream tooling\n",
       "stderr": "",
       "timedOut": false,
       "cancelled": false,
       "truncated": false,
-      "durationMs": 113,
+      "durationMs": 72,
       "status": "good"
     },
     {
@@ -147,14 +147,14 @@
       "hash": "3ec8e9fa2f6eef3911cb47f656ab761fc1030812",
       "stage": "Narrowing the revision range",
       "repetition": 1,
-      "at": "2026-10-31T05:41:44.018Z",
+      "at": "2026-10-31T05:44:23.985Z",
       "code": 1,
       "stdout": "",
-      "stderr": "PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by \"exports\" in C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-zDrBVA\\checkout\\package.json imported from C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-zDrBVA\\checkout\\.tod-manifest-probe\\probe.cjs\n",
+      "stderr": "PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by \"exports\" in C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-B3hEuC\\checkout\\package.json imported from C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-B3hEuC\\checkout\\.tod-manifest-probe\\probe.cjs\n",
       "timedOut": false,
       "cancelled": false,
       "truncated": false,
-      "durationMs": 177,
+      "durationMs": 77,
       "status": "bad"
     },
     {
@@ -162,14 +162,14 @@
       "hash": "3ec8e9fa2f6eef3911cb47f656ab761fc1030812",
       "stage": "Narrowing the revision range",
       "repetition": 2,
-      "at": "2026-10-31T05:41:44.196Z",
+      "at": "2026-10-31T05:44:24.063Z",
       "code": 1,
       "stdout": "",
-      "stderr": "PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by \"exports\" in C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-zDrBVA\\checkout\\package.json imported from C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-zDrBVA\\checkout\\.tod-manifest-probe\\probe.cjs\n",
+      "stderr": "PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by \"exports\" in C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-B3hEuC\\checkout\\package.json imported from C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-B3hEuC\\checkout\\.tod-manifest-probe\\probe.cjs\n",
       "timedOut": false,
       "cancelled": false,
       "truncated": false,
-      "durationMs": 117,
+      "durationMs": 129,
       "status": "bad"
     },
     {
@@ -177,14 +177,14 @@
       "hash": "3ec8e9fa2f6eef3911cb47f656ab761fc1030812",
       "stage": "Confirm candidate failure",
       "repetition": 1,
-      "at": "2026-10-31T05:41:44.748Z",
+      "at": "2026-10-31T05:44:24.488Z",
       "code": 1,
       "stdout": "",
-      "stderr": "PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by \"exports\" in C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-zDrBVA\\checkout\\package.json imported from C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-zDrBVA\\checkout\\.tod-manifest-probe\\probe.cjs\n",
+      "stderr": "PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by \"exports\" in C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-B3hEuC\\checkout\\package.json imported from C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-B3hEuC\\checkout\\.tod-manifest-probe\\probe.cjs\n",
       "timedOut": false,
       "cancelled": false,
       "truncated": false,
-      "durationMs": 73,
+      "durationMs": 95,
       "status": "bad"
     },
     {
@@ -192,14 +192,14 @@
       "hash": "3ec8e9fa2f6eef3911cb47f656ab761fc1030812",
       "stage": "Confirm candidate failure",
       "repetition": 2,
-      "at": "2026-10-31T05:41:44.822Z",
+      "at": "2026-10-31T05:44:24.583Z",
       "code": 1,
       "stdout": "",
-      "stderr": "PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by \"exports\" in C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-zDrBVA\\checkout\\package.json imported from C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-zDrBVA\\checkout\\.tod-manifest-probe\\probe.cjs\n",
+      "stderr": "PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by \"exports\" in C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-B3hEuC\\checkout\\package.json imported from C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-B3hEuC\\checkout\\.tod-manifest-probe\\probe.cjs\n",
       "timedOut": false,
       "cancelled": false,
       "truncated": false,
-      "durationMs": 75,
+      "durationMs": 79,
       "status": "bad"
     },
     {
@@ -207,14 +207,14 @@
       "hash": "4a4eadd3e492b882e59112b453f86e83316b7133",
       "stage": "Confirm previous revision passes",
       "repetition": 1,
-      "at": "2026-10-31T05:41:45.178Z",
+      "at": "2026-10-31T05:44:24.912Z",
       "code": 0,
       "stdout": "PASS: clsx/package.json resolves for downstream tooling\n",
       "stderr": "",
       "timedOut": false,
       "cancelled": false,
       "truncated": false,
-      "durationMs": 84,
+      "durationMs": 71,
       "status": "good"
     },
     {
@@ -222,14 +222,14 @@
       "hash": "4a4eadd3e492b882e59112b453f86e83316b7133",
       "stage": "Confirm previous revision passes",
       "repetition": 2,
-      "at": "2026-10-31T05:41:45.262Z",
+      "at": "2026-10-31T05:44:24.983Z",
       "code": 0,
       "stdout": "PASS: clsx/package.json resolves for downstream tooling\n",
       "stderr": "",
       "timedOut": false,
       "cancelled": false,
       "truncated": false,
-      "durationMs": 100,
+      "durationMs": 70,
       "status": "good"
     }
   ],
@@ -307,7 +307,7 @@
       "status": "bad"
     }
   ],
-  "elapsedMs": 5183,
+  "elapsedMs": 3849,
   "repo": "C:/Users/oasis/Documents/Codex/2026-10-27/hac/outputs/time-of-death/.data/realworld/clsx",
   "good": "6da37d67472ea9eb177a4ea9a9fa2f3f4a3c445e",
   "bad": "6232a9e5649143a28419a04f786a15f63a0b7edd",
@@ -334,7 +334,7 @@
   },
   "verification": {
     "status": "passed",
-    "startedAt": "2026-10-31T05:41:45.496Z",
+    "startedAt": "2026-10-31T05:44:25.168Z",
     "phase": "Fix verification finished",
     "runs": [
       {
@@ -349,7 +349,7 @@
         "timedOut": false,
         "cancelled": false,
         "truncated": false,
-        "durationMs": 258,
+        "durationMs": 74,
         "status": "good"
       },
       {
@@ -364,7 +364,7 @@
         "timedOut": false,
         "cancelled": false,
         "truncated": false,
-        "durationMs": 156,
+        "durationMs": 72,
         "status": "good"
       },
       {
@@ -375,11 +375,11 @@
         "repetition": 1,
         "code": 1,
         "stdout": "",
-        "stderr": "PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by \"exports\" in C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-fix-7j0NYP\\checkout\\package.json imported from C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-fix-7j0NYP\\checkout\\.tod-manifest-probe\\probe.cjs\n",
+        "stderr": "PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by \"exports\" in C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-fix-u0LEYN\\checkout\\package.json imported from C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-fix-u0LEYN\\checkout\\.tod-manifest-probe\\probe.cjs\n",
         "timedOut": false,
         "cancelled": false,
         "truncated": false,
-        "durationMs": 148,
+        "durationMs": 74,
         "status": "bad"
       },
       {
@@ -390,11 +390,11 @@
         "repetition": 2,
         "code": 1,
         "stdout": "",
-        "stderr": "PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by \"exports\" in C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-fix-7j0NYP\\checkout\\package.json imported from C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-fix-7j0NYP\\checkout\\.tod-manifest-probe\\probe.cjs\n",
+        "stderr": "PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by \"exports\" in C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-fix-u0LEYN\\checkout\\package.json imported from C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-fix-u0LEYN\\checkout\\.tod-manifest-probe\\probe.cjs\n",
         "timedOut": false,
         "cancelled": false,
         "truncated": false,
-        "durationMs": 133,
+        "durationMs": 100,
         "status": "bad"
       },
       {
@@ -409,7 +409,7 @@
         "timedOut": false,
         "cancelled": false,
         "truncated": false,
-        "durationMs": 90,
+        "durationMs": 84,
         "status": "good"
       },
       {
@@ -424,7 +424,7 @@
         "timedOut": false,
         "cancelled": false,
         "truncated": false,
-        "durationMs": 77,
+        "durationMs": 68,
         "status": "good"
       }
     ],
@@ -467,7 +467,7 @@
       "sha256": "8e1343d767d36c73fcacf985e10d006cf05b873f246d37e22cd6dfce043a1e09",
       "patch": "diff --git a/package.json b/package.json\n--- a/package.json\n+++ b/package.json\n@@ -1,47 +1,50 @@\n-{\n-  \"name\": \"clsx\",\n-  \"version\": \"1.2.1\",\n-  \"repository\": \"lukeed/clsx\",\n-  \"description\": \"A tiny (228B) utility for constructing className strings conditionally.\",\n-  \"module\": \"dist/clsx.mjs\",\n-  \"unpkg\": \"dist/clsx.min.js\",\n-  \"main\": \"dist/clsx.js\",\n-  \"exports\": {\n-    \"import\": {\n-      \"types\": \"./clsx.d.mts\",\n-      \"default\": \"./dist/clsx.mjs\"\n-    },\n-    \"default\": {\n-      \"types\": \"./clsx.d.ts\",\n-      \"default\": \"./dist/clsx.js\"\n-    }\n-  },\n-  \"types\": \"clsx.d.ts\",\n-  \"license\": \"MIT\",\n-  \"author\": {\n-    \"name\": \"Luke Edwards\",\n-    \"email\": \"luke.edwards05@gmail.com\",\n-    \"url\": \"https://lukeed.com\"\n-  },\n-  \"engines\": {\n-    \"node\": \">=6\"\n-  },\n-  \"scripts\": {\n-    \"build\": \"node bin\",\n-    \"test\": \"uvu -r esm test\"\n-  },\n-  \"files\": [\n-    \"*.d.ts\",\n-    \"dist\"\n-  ],\n-  \"keywords\": [\n-    \"classes\",\n-    \"classname\",\n-    \"classnames\"\n-  ],\n-  \"devDependencies\": {\n-    \"esm\": \"3.2.25\",\n-    \"terser\": \"4.8.0\",\n-    \"uvu\": \"0.5.4\"\n-  }\n-}\n+{\n+  \"name\": \"clsx\",\n+  \"version\": \"1.2.1\",\n+  \"repository\": \"lukeed/clsx\",\n+  \"description\": \"A tiny (228B) utility for constructing className strings conditionally.\",\n+  \"module\": \"dist/clsx.mjs\",\n+  \"unpkg\": \"dist/clsx.min.js\",\n+  \"main\": \"dist/clsx.js\",\n+  \"exports\": {\n+    \".\": {\n+      \"import\": {\n+        \"types\": \"./clsx.d.mts\",\n+        \"default\": \"./dist/clsx.mjs\"\n+      },\n+      \"default\": {\n+        \"types\": \"./clsx.d.ts\",\n+        \"default\": \"./dist/clsx.js\"\n+      }\n+    },\n+    \"./package.json\": \"./package.json\"\n+  },\n+  \"types\": \"clsx.d.ts\",\n+  \"license\": \"MIT\",\n+  \"author\": {\n+    \"name\": \"Luke Edwards\",\n+    \"email\": \"luke.edwards05@gmail.com\",\n+    \"url\": \"https://lukeed.com\"\n+  },\n+  \"engines\": {\n+    \"node\": \">=6\"\n+  },\n+  \"scripts\": {\n+    \"build\": \"node bin\",\n+    \"test\": \"uvu -r esm test\"\n+  },\n+  \"files\": [\n+    \"*.d.ts\",\n+    \"dist\"\n+  ],\n+  \"keywords\": [\n+    \"classes\",\n+    \"classname\",\n+    \"classnames\"\n+  ],\n+  \"devDependencies\": {\n+    \"esm\": \"3.2.25\",\n+    \"terser\": \"4.8.0\",\n+    \"uvu\": \"0.5.4\"\n+  }\n+}\n"
     },
-    "elapsedMs": 3652,
+    "elapsedMs": 2179,
     "diff": "diff --git a/package.json b/package.json\nindex bf411e9..3944d2b 100644\n--- a/package.json\n+++ b/package.json\n@@ -7,14 +7,17 @@\n   \"unpkg\": \"dist/clsx.min.js\",\n   \"main\": \"dist/clsx.js\",\n   \"exports\": {\n-    \"import\": {\n-      \"types\": \"./clsx.d.mts\",\n-      \"default\": \"./dist/clsx.mjs\"\n+    \".\": {\n+      \"import\": {\n+        \"types\": \"./clsx.d.mts\",\n+        \"default\": \"./dist/clsx.mjs\"\n+      },\n+      \"default\": {\n+        \"types\": \"./clsx.d.ts\",\n+        \"default\": \"./dist/clsx.js\"\n+      }\n     },\n-    \"default\": {\n-      \"types\": \"./clsx.d.ts\",\n-      \"default\": \"./dist/clsx.js\"\n-    }\n+    \"./package.json\": \"./package.json\"\n   },\n   \"types\": \"clsx.d.ts\",\n   \"license\": \"MIT\",\n",
     "message": "The parent passes, the culprit fails, and the proposed fix passes on the recorded repeated checks."
   },

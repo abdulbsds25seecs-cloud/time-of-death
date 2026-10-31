@@ -1,15 +1,15 @@
 {
-  "id": "365d4d27-d0c5-4435-93d9-ce72eac3d1b4",
-  "createdAt": "2026-10-31T05:41:38.490Z",
+  "id": "fcedd460-085d-40ed-b106-16e324986d79",
+  "createdAt": "2026-10-31T05:44:18.939Z",
   "status": "ready",
   "phase": "Endpoint checks verified",
   "events": [
     {
-      "at": "2026-10-31T05:41:39.005Z",
+      "at": "2026-10-31T05:44:19.739Z",
       "message": "Cloning committed history into a disposable directory. Original working files are not copied or modified."
     },
     {
-      "at": "2026-10-31T05:41:40.090Z",
+      "at": "2026-10-31T05:44:21.135Z",
       "message": "The working endpoint passes and the failing endpoint reproduces the target failure. No history search or candidate claim was made."
     }
   ],
@@ -19,7 +19,22 @@
       "hash": "6da37d67472ea9eb177a4ea9a9fa2f3f4a3c445e",
       "stage": "Verify working endpoint",
       "repetition": 1,
-      "at": "2026-10-31T05:41:39.485Z",
+      "at": "2026-10-31T05:44:20.513Z",
+      "code": 0,
+      "stdout": "PASS: clsx/package.json resolves for downstream tooling\n",
+      "stderr": "",
+      "timedOut": false,
+      "cancelled": false,
+      "truncated": false,
+      "durationMs": 145,
+      "status": "good"
+    },
+    {
+      "id": "E2",
+      "hash": "6da37d67472ea9eb177a4ea9a9fa2f3f4a3c445e",
+      "stage": "Verify working endpoint",
+      "repetition": 2,
+      "at": "2026-10-31T05:44:20.658Z",
       "code": 0,
       "stdout": "PASS: clsx/package.json resolves for downstream tooling\n",
       "stderr": "",
@@ -30,33 +45,18 @@
       "status": "good"
     },
     {
-      "id": "E2",
-      "hash": "6da37d67472ea9eb177a4ea9a9fa2f3f4a3c445e",
-      "stage": "Verify working endpoint",
-      "repetition": 2,
-      "at": "2026-10-31T05:41:39.584Z",
-      "code": 0,
-      "stdout": "PASS: clsx/package.json resolves for downstream tooling\n",
-      "stderr": "",
-      "timedOut": false,
-      "cancelled": false,
-      "truncated": false,
-      "durationMs": 87,
-      "status": "good"
-    },
-    {
       "id": "E3",
       "hash": "6232a9e5649143a28419a04f786a15f63a0b7edd",
       "stage": "Verify failing endpoint",
       "repetition": 1,
-      "at": "2026-10-31T05:41:39.914Z",
+      "at": "2026-10-31T05:44:20.979Z",
       "code": 1,
       "stdout": "",
-      "stderr": "PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by \"exports\" in C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-9RScb9\\checkout\\package.json imported from C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-9RScb9\\checkout\\.tod-manifest-probe\\probe.cjs\n",
+      "stderr": "PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by \"exports\" in C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-7hYSxw\\checkout\\package.json imported from C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-7hYSxw\\checkout\\.tod-manifest-probe\\probe.cjs\n",
       "timedOut": false,
       "cancelled": false,
       "truncated": false,
-      "durationMs": 87,
+      "durationMs": 78,
       "status": "bad"
     },
     {
@@ -64,14 +64,14 @@
       "hash": "6232a9e5649143a28419a04f786a15f63a0b7edd",
       "stage": "Verify failing endpoint",
       "repetition": 2,
-      "at": "2026-10-31T05:41:40.002Z",
+      "at": "2026-10-31T05:44:21.058Z",
       "code": 1,
       "stdout": "",
-      "stderr": "PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by \"exports\" in C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-9RScb9\\checkout\\package.json imported from C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-9RScb9\\checkout\\.tod-manifest-probe\\probe.cjs\n",
+      "stderr": "PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by \"exports\" in C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-7hYSxw\\checkout\\package.json imported from C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-7hYSxw\\checkout\\.tod-manifest-probe\\probe.cjs\n",
       "timedOut": false,
       "cancelled": false,
       "truncated": false,
-      "durationMs": 88,
+      "durationMs": 78,
       "status": "bad"
     }
   ],
@@ -149,7 +149,7 @@
       "status": "bad"
     }
   ],
-  "elapsedMs": 1609,
+  "elapsedMs": 2205,
   "operation": "doctor",
   "repo": "C:/Users/oasis/Documents/Codex/2026-10-27/hac/outputs/time-of-death/.data/realworld/clsx",
   "good": "6da37d67472ea9eb177a4ea9a9fa2f3f4a3c445e",

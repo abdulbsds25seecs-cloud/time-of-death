@@ -1,40 +1,28 @@
 {
-  "startedAt": "2026-10-31T05:40:36.390Z",
+  "startedAt": "2026-10-31T05:44:18.796Z",
   "tasks": [
-    {
-      "name": "Build and acceptance tests",
-      "status": "passed",
-      "durationMs": 59639
-    },
     {
       "name": "Historical compatibility investigation, readiness, fix receipts and issue draft",
       "status": "passed",
-      "durationMs": 13135
+      "durationMs": 8560
     },
     {
       "name": "Refresh the article evidence block",
       "status": "passed",
-      "durationMs": 3
-    },
-    {
-      "name": "Managed local Temporal service and forced-worker-crash verification",
-      "status": "passed",
-      "durationMs": 72104
-    },
-    {
-      "name": "Narrated walkthrough from recorded app screenshots",
-      "status": "passed",
-      "durationMs": 20419
+      "durationMs": 2
     },
     {
       "name": "Package reviewed source and built frontend",
-      "status": "failed",
-      "error": "powershell.exe exited 1"
+      "status": "passed",
+      "durationMs": 4296
     }
   ],
-  "pending": [],
+  "pending": [
+    "Add the public repository and hosted demo/video URLs to the article after publication is authorized.",
+    "Create the free Sentry project, configure its DSN locally and verify live trace ingestion. Local test envelopes are not live delivery.",
+    "Review the article and exports, then authorize public repository/video/article publication. Nothing is posted by this command."
+  ],
   "postedAnything": false,
-  "status": "failed",
-  "error": "powershell.exe exited 1",
-  "finishedAt": "2026-10-31T05:43:27.792Z"
+  "status": "prepared",
+  "finishedAt": "2026-10-31T05:44:31.661Z"
 }
