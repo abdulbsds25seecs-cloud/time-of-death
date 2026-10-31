@@ -13,7 +13,7 @@ Deadline: October 31, 2026, 11:59 PM PDT; November 1, 2026, 11:59 AM Pakistan ti
 - [x] Final coroner's-console frontend screenshots captured at 1440px and 375px.
 - [x] Mastra schema workflow exercised with actual local-model output.
 - [x] Temporal worker-crash recovery exercised; three completed checks reused.
-- [x] Sentry SDK spans captured locally with a privacy assertion; cloud delivery not yet tested.
+- [x] Sentry SDK spans captured locally with privacy assertions; controlled synthetic setup spans also verified in the live dashboard.
 - [x] Draft structured around the user's article guide.
 - [x] Repo Doctor readiness workflow, fix verification and issue-draft export implemented.
 - [x] Pinned public-history compatibility case reproduced and distinguished from the synthetic fixtures.
@@ -25,8 +25,8 @@ Deadline: October 31, 2026, 11:59 PM PDT; November 1, 2026, 11:59 AM Pakistan ti
 - [x] Receive and apply user's frontend reference document.
 - [x] Review recorded model attempts and document semantic/citation limitations.
 - [x] Check narrow layout and download a real Markdown export.
-- [ ] Configure the user's free Sentry project and verify live ingestion before claiming a live dashboard demo.
-- [ ] Complete authenticated Copilot contribution and preserve evidence, or omit that contribution/category claim.
+- [x] Configure the free Sentry project and verify controlled synthetic setup spans in the live dashboard. A real-model cloud trace remains unclaimed.
+- [x] Preserve Copilot reports and regression tests, fix their confirmed bugs, and document validation separately.
 - [ ] Add public source repository and confirm remote CI results.
 - [ ] Capture final screenshots and record a short video or provide a runnable deployed demo appropriate to local execution.
 - [ ] Replace every editor note and unresolved link in article/DRAFT.md.

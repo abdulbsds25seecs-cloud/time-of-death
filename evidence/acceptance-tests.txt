@@ -11,60 +11,74 @@ transforming...
 ✓ 17 modules transformed.
 rendering chunks...
 computing gzip size...
-dist/index.html                                                0.51 kB │ gzip:  0.34 kB
+dist/index.html                                                0.51 kB │ gzip:  0.35 kB
 dist/assets/ibm-plex-mono-latin-400-normal-DMJ8VG8y.woff2     14.70 kB
 dist/assets/im-fell-english-latin-400-normal-BhowGHCQ.woff2   59.88 kB
-dist/assets/index-q8e3DBzl.css                                24.88 kB │ gzip:  5.93 kB
-dist/assets/index-BesYIbSf.js                                260.06 kB │ gzip: 80.27 kB
+dist/assets/index-CpfwF4oe.css                                24.96 kB │ gzip:  5.96 kB
+dist/assets/index-BgS5WAZn.js                                261.92 kB │ gzip: 80.73 kB
 
-✓ built in 386ms
-✔ ordered threshold matrix has every rank exactly once (1.4682ms)
-✔ suspect range cools only after consistent repeated evidence (0.507ms)
-✔ diff gutters distinguish old and new line numbers without colour (0.6329ms)
-✔ durable case polling retains pending AI status and releases the inference lock on completion (103.0002ms)
+✓ built in 254ms
+✔ negative fix controls remain rejected or inconclusive and receipts identify the reason (8880.9295ms)
+✔ cancelling an HTTP investigation leaves no false result and permits a later case (5040.3906ms)
+✔ closing the server during work persists an honest interrupted case for restart inspection (1483.9556ms)
+✔ product API journey finds the known boundary, preserves the source tree, and exports receipts (8477.7571ms)
+✔ CLI reports the independently known fixture boundary and distinguishes bad environment controls (6391.0994ms)
+✔ false-positive check replacement remains reproducible through the product API (5978.7055ms)
+✔ fix verification does not accept a patch that disables the command-based regression check (5914.892ms)
+✔ ordered threshold matrix has every rank exactly once (1.2147ms)
+✔ suspect range cools only after consistent repeated evidence (0.3965ms)
+✔ diff gutters distinguish old and new line numbers without colour (0.3429ms)
+✔ durable case polling retains pending AI status and releases the inference lock on completion (83.2649ms)
 ▶ Git investigation and application acceptance suite
-  ✔ finds known boundary and preserves dirty tracked/untracked source files (4370.6518ms)
-  ✔ rejects invalid revisions, reversed range, same endpoints and relative repository (673.4855ms)
-  ✔ replays a newly written regression script across older commits (4425.2501ms)
-  ✔ rejects a purported good endpoint that actually fails (1032.5337ms)
-  ✔ rejects a purported bad endpoint that actually passes (1281.3531ms)
-  ✔ unrelated failures do not count as the target regression (1002.5851ms)
-  ✔ missing dependencies are untestable, not bad commits (985.0757ms)
-  ✔ timeout stops a hanging check without inferring a regression (1739.8336ms)
-  ✔ shell execution failure codes cannot become bad commits (1151.3754ms)
-  ✔ cancellation terminates a running check and produces no result (1502.9162ms)
-  ✔ alternating repeated results are inconclusive (1250.1936ms)
-  ✔ skip ambiguity cannot produce a precise candidate (6540.029ms)
-  ✔ AI output requires valid evidence references and exports preserve recorded facts (1.1833ms)
-  ✔ HTTP endpoints require origin/host validation, app token and explicit execution trust (59.5507ms)
-  ✔ process capture bounds noisy command output (69.4287ms)
-✔ Git investigation and application acceptance suite (28057.7978ms)
+  ✔ finds known boundary and preserves dirty tracked/untracked source files (4428.0831ms)
+  ✔ rejects invalid revisions, reversed range, same endpoints and relative repository (472.2707ms)
+  ✔ replays a newly written regression script across older commits (3425.675ms)
+  ✔ rejects a purported good endpoint that actually fails (959.3766ms)
+  ✔ rejects a purported bad endpoint that actually passes (1252.5511ms)
+  ✔ unrelated failures do not count as the target regression (1028.4467ms)
+  ✔ missing dependencies are untestable, not bad commits (1334.3441ms)
+  ✔ timeout stops a hanging check without inferring a regression (1595.7609ms)
+  ✔ shell execution failure codes cannot become bad commits (942.354ms)
+  ✔ cancellation terminates a running check and produces no result (1271.6719ms)
+  ✔ alternating repeated results are inconclusive (1056.6576ms)
+  ✔ skip ambiguity cannot produce a precise candidate (5325.7494ms)
+  ✔ AI output requires valid evidence references and exports preserve recorded facts (1.4579ms)
+  ✔ HTTP endpoints require origin/host validation, app token and explicit execution trust (65.9083ms)
+  ✔ process capture bounds noisy command output (75.5827ms)
+✔ Git investigation and application acceptance suite (25098.1309ms)
 Error executing step workflow.evidence-autopsy.step.validate-citations: Error: The model returned missing or invalid evidence references. Its report was not accepted.
     at file:///C:/Users/oasis/Documents/Codex/2026-10-27/hac/outputs/time-of-death/lib/ai.mjs:26:147
     at Array.map (<anonymous>)
     at validateAnalysis (file:///C:/Users/oasis/Documents/Codex/2026-10-27/hac/outputs/time-of-death/lib/ai.mjs:25:47)
-    at file:///C:/Users/oasis/Documents/Codex/2026-10-27/hac/outputs/time-of-death/lib/autopsy-workflow.mjs:22:83
-    at file:///C:/Users/oasis/Documents/Codex/2026-10-27/hac/outputs/time-of-death/lib/autopsy-workflow.mjs:14:57
+    at file:///C:/Users/oasis/Documents/Codex/2026-10-27/hac/outputs/time-of-death/lib/autopsy-workflow.mjs:23:83
+    at file:///C:/Users/oasis/Documents/Codex/2026-10-27/hac/outputs/time-of-death/lib/autopsy-workflow.mjs:15:57
     at traced (file:///C:/Users/oasis/Documents/Codex/2026-10-27/hac/outputs/time-of-death/lib/telemetry.mjs:28:20)
-    at Object.execute (file:///C:/Users/oasis/Documents/Codex/2026-10-27/hac/outputs/time-of-death/lib/autopsy-workflow.mjs:13:50)
+    at Object.execute (file:///C:/Users/oasis/Documents/Codex/2026-10-27/hac/outputs/time-of-death/lib/autopsy-workflow.mjs:14:50)
     at fn (file:///C:/Users/oasis/Documents/Codex/2026-10-27/hac/outputs/time-of-death/node_modules/@mastra/core/dist/agent-b2Y5GsZg.js:5376:19)
     at executeWithContext (file:///C:/Users/oasis/Documents/Codex/2026-10-27/hac/outputs/time-of-death/node_modules/@mastra/core/dist/utils-DkqXxW5a.js:1088:9)
     at runStep (file:///C:/Users/oasis/Documents/Codex/2026-10-27/hac/outputs/time-of-death/node_modules/@mastra/core/dist/agent-b2Y5GsZg.js:5374:10)
-✔ Mastra executes evidence, inference and citation validation; rejects invented references (913.8789ms)
-✔ Sentry captures nested spans locally with metadata only; no real DSN or cloud request (1088.3178ms)
-✔ product HTTP flow requires trust, preserves the boundary during fix checks and exports a draft (7791.3335ms)
+✔ Mastra executes evidence, inference and citation validation; rejects invented references (926.6694ms)
+✔ Sentry captures nested spans locally with metadata only; no real DSN or cloud request (1135.8004ms)
+✔ product HTTP flow requires trust, preserves the boundary during fix checks and exports a draft (7996.9081ms)
 ▶ readiness, proposed fix and issue-draft workflow
-  ✔ doctor checks repeated endpoints without declaring a culprit (1551.5542ms)
-  ✔ doctor diagnoses a missing check and reads scripts without running them (1116.8184ms)
-  ✔ a real patch produces pass/fail/pass receipts and preserves the source tree (2264.9247ms)
-  ✔ a proposal that still fails is rejected and an invalid patch stays inconclusive (6373.8924ms)
-  ✔ cancellation cannot produce a passing fix verdict (439.8646ms)
-✔ readiness, proposed fix and issue-draft workflow (17352.6571ms)
-ℹ tests 29
+  ✔ doctor checks repeated endpoints without declaring a culprit (1573.2706ms)
+  ✔ doctor diagnoses a missing check and reads scripts without running them (1174.0991ms)
+  ✔ a real patch produces pass/fail/pass receipts and preserves the source tree (2206.0112ms)
+  ✔ a proposal that still fails is rejected and an invalid patch stays inconclusive (4055.3866ms)
+  ✔ cancellation cannot produce a passing fix verdict (419.3435ms)
+✔ readiness, proposed fix and issue-draft workflow (14531.4294ms)
+✔ shutdown aborts AI, saves its outcome and restart preserves the established boundary (81.9579ms)
+▶ fix integrity covers revision proposals, test inputs and injected portable checks
+  ✔ revision proposals cannot disable the entry check (1868.1865ms)
+  ✔ renaming a check and adding a test helper cannot bypass review (3660.0508ms)
+  ✔ compound shell checks request a portable check instead of certifying a fix (1803.1918ms)
+  ✔ portable script stays independent of a replaced committed check (3725.4926ms)
+✔ fix integrity covers revision proposals, test inputs and injected portable checks (15599.3278ms)
+ℹ tests 42
 ℹ suites 0
-ℹ pass 29
+ℹ pass 42
 ℹ fail 0
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 56298.6046
+ℹ duration_ms 108779.7221

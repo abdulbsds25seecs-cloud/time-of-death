@@ -1,6 +1,6 @@
 # Time of Death: implementation and submission plan
 
-Status: engine, CLI, redesigned React interface, local AI workflow and optional integrations implemented. Repo Doctor, proposed-fix verification, issue-draft export and repeatable release preparation are implemented. Current acceptance results are recorded in evidence/acceptance-tests.txt. Temporal worker-crash recovery and real Mastra/Ollama analysis were exercised; Sentry SDK envelopes were captured locally. Live Sentry delivery, authenticated Copilot review, public repository/demo links and article publication remain pending. T480 performance is a design target, not a measured result.
+Status: engine, CLI, redesigned React interface, local AI workflow and optional integrations implemented. Repo Doctor, proposed-fix verification, issue-draft export and repeatable release preparation are implemented. Current acceptance results are recorded in evidence/acceptance-tests.txt. Temporal worker-crash recovery and real Mastra/Ollama analysis were exercised; Sentry SDK envelopes were captured locally. Live synthetic Sentry setup spans and Copilot review reports/tests are now documented. The two confirmed Copilot bugs have fixes and regression coverage; see evidence/REVIEW_RESOLUTION.md. Public repository/demo links and article publication remain pending. T480 performance is a design target, not a measured result.
 
 ## Product promise
 

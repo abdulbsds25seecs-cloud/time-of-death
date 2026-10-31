@@ -45,7 +45,7 @@ try{
   else report.pending.push('Run the Windows packaging script or package the built dist with the source.');
   const article=await readFile(path.join(root,'article','DRAFT.md'),'utf8');
   if(/\[add the actual|\[Final repository|\[Real demo|\[Recorded evaluation/.test(article))report.pending.push('Add the public repository and hosted demo/video URLs to the article after publication is authorized.');
-  report.pending.push('Create the free Sentry project, configure its DSN locally and verify live trace ingestion. Local test envelopes are not live delivery.');
+  report.pending.push('Review evidence/SENTRY_LIVE_VERIFICATION.md for controlled synthetic setup-span ingestion. A full real-model cloud trace is separate and remains unclaimed.');
   report.pending.push('Review the article and exports, then authorize public repository/video/article publication. Nothing is posted by this command.');
   report.status='prepared';
 }catch(error){report.status='failed';report.error=error.message;process.exitCode=1;}

@@ -47,7 +47,7 @@ The selected [clsx](https://github.com/lukeed/clsx) range runs from the 1.2.1 re
 The identified boundary is [3ec8e9f, the exports-map change](https://github.com/lukeed/clsx/commit/3ec8e9fa2f6eef3911cb47f656ab761fc1030812). The passing parent is `4a4eadd`. Node's [package entry-point documentation](https://nodejs.org/api/packages.html#package-entry-points) explains how an exports map restricts access to unlisted subpaths.
 
 <!-- automation:real-world:start -->
-The recorded historical run searched 9 commits and executed the check 14 times in 3.849 seconds, excluding AI inference. It identified `3ec8e9f`. Fix verification then ran 6 checks and recorded parent **good**, original culprit **bad**, proposed patch **good**. These are measurements of this reconstructed manifest-resolution check, not a general project benchmark.
+The recorded historical run searched 9 commits and executed the check 14 times in 4.212 seconds, excluding AI inference. It identified `3ec8e9f`. Fix verification then ran 6 checks and recorded parent **good**, original culprit **bad**, proposed patch **good**. These are measurements of this reconstructed manifest-resolution check, not a general project benchmark.
 <!-- automation:real-world:end -->
 
 The proposed compatibility patch explicitly exports `./package.json` while preserving the existing root export conditions. It passes this check. That is a test result, not a recommendation that the upstream project should adopt the patch. Downstream tooling can also stop relying on an unexported package subpath.
@@ -128,17 +128,17 @@ A ThinkPad T480 with 8 GB RAM is a design target, not hardware I have benchmarke
 
 The selected range must be linear and at most 500 revisions. Bisection assumes a reproducible good-to-bad transition; bugs that disappear and return can violate that assumption. Historical dependencies are not installed automatically.
 
-A disposable clone protects Git state, not arbitrary code execution. Users must trust the check and repository. A proposed patch can also change tests, so passing fix verification proves only what the recorded check establishes. Local AI output remains advice for review.
+A disposable clone protects Git state, not arbitrary code execution. Users must trust the check and repository. Command verification now blocks proposals that change the direct Node check or recognized test/configuration paths. Shell wrappers require a portable check, injected after applying the proposal. Imported helpers and dependency behavior still need review: passing proves only what the recorded check establishes. Local AI output remains advice for review.
 
 ## My Agent Session
 
-Codex helped implement and test the project. The repository preserves reproducible scripts and recorded outputs. A focused Copilot review and regression-test task is prepared; no completed Copilot contribution is documented yet. Update this paragraph with its actual findings and resulting changes after the review. No DevRelay session is claimed.
+Codex helped implement and test the project. The repository preserves reproducible scripts and recorded outputs. Copilot supplied independent reviews and executable regression tests. It caught a proposed fix passing by replacing the test with `process.exit(0)`, and an active case disappearing during server shutdown. I preserved those failing assertions, added integrity checks and awaited shutdown persistence, then reran them. The original reports and a separate resolution record remain in the repository. No DevRelay session is claimed.
 
 ## Prize Categories
 
-- **GitHub Copilot — planned, pending documented contribution:** independent correctness review and meaningful regression tests. Replace this planning note with actual session evidence and reviewed changes before publication.
+- **GitHub Copilot:** independent product/API testing, negative controls and regression reproducers that led to fixes for false passing verdicts and lost shutdown reports.
 - **Mastra:** the schema-checked local-model autopsy workflow and recorded step results.
 - **Temporal:** durable execution with an exercised worker-crash recovery path and explicit retry limits.
-- **Sentry Agent Tracing:** implemented metadata-only instrumentation; add live trace evidence before presenting a dashboard demonstration.
+- **Sentry Agent Tracing:** metadata-only instrumentation, with live dashboard evidence for controlled synthetic setup spans. A full real-model cloud trace is a separate, unclaimed result.
 
 Gemma was also exercised locally, with both its role and its failures documented. These descriptions report actual use; they do not guarantee category eligibility or an award.

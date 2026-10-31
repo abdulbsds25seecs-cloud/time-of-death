@@ -19,12 +19,29 @@ export async function createApp({ dataDir, port = 4317, analyzeCase = runAutopsy
   await mkdir(path.join(dataDir, 'reports'), { recursive: true });
   const token = randomBytes(24).toString('hex'), instance = randomUUID();
   const states = new Map(), clients = new Map(), localJobs = new Map();
-  let active = null, demoPromise;
-  const persist = async state => { const dest = path.join(dataDir, 'reports', `${state.id}.json`); await writeFile(dest + '.tmp', JSON.stringify(state)); await rename(dest + '.tmp', dest); };
-  const publish = state => { for (const client of clients.get(state.id) || []) client.write(`data: ${JSON.stringify(state)}\n\n`); };
+  let active = null, demoPromise, closing = false, closePromise;
+  const jobs = new Set(), pendingWrites = new Map();
+  // Snapshot now, serialize writes per case, and replace each report atomically.
+  const persist = state => {
+    const dest = path.join(dataDir, 'reports', `${state.id}.json`), body = JSON.stringify(state);
+    const previous = pendingWrites.get(state.id) || Promise.resolve();
+    const next = previous.catch(()=>{}).then(async()=>{await writeFile(dest+'.tmp',body);await rename(dest+'.tmp',dest);});
+    pendingWrites.set(state.id,next);
+    next.finally(()=>{if(pendingWrites.get(state.id)===next)pendingWrites.delete(state.id);}).catch(()=>{});
+    return next;
+  };
+  const track = work => {const job=Promise.resolve().then(work);jobs.add(job);job.finally(()=>jobs.delete(job)).catch(()=>{});return job;};
+  // A terminal verdict is usable only once cleanup/persistence releases its lock.
+  const visibleState = state => {
+    if(active?.id!==state.id)return state;
+    if(!active.operation&&!['queued','running'].includes(state.status))return {...state,status:'running',phase:'Finishing and saving the case',result:undefined};
+    if(active.operation==='verify-fix'&&state.verification?.status!=='running')return {...state,verification:{...state.verification,status:'running',phase:'Finishing and saving verification',message:undefined}};
+    return state;
+  };
+  const publish = state => { for (const client of clients.get(state.id) || []) client.write(`data: ${JSON.stringify(visibleState(state))}\n\n`); };
   const getState = async id => {
     if (!/^[\w-]{1,60}$/.test(id)) throw new Error('Invalid investigation ID.');
-    if(localJobs.has(id))return localJobs.get(id);
+    if(localJobs.has(id))return visibleState(localJobs.get(id));
     if (!states.has(id)||states.get(id)?.durability) {
       const s = JSON.parse(await readFile(path.join(dataDir, 'reports', `${id}.json`), 'utf8'));
       if (!s.durability&&['queued', 'running'].includes(s.status)) { s.status = 'interrupted'; s.error = 'The app stopped before this investigation finished. Start a new investigation.'; }
@@ -32,11 +49,12 @@ export async function createApp({ dataDir, port = 4317, analyzeCase = runAutopsy
       if(s.verification?.status==='running'&&s.verification.owner!==instance)s.verification={...s.verification,status:'interrupted',message:'Fix verification was interrupted. Run it again before claiming a passing fix.'};
       states.set(id, s);
     }
-    return states.get(id);
+    return visibleState(states.get(id));
   };
   const server = http.createServer(async (req, res) => {
     const json = (status, data) => { res.writeHead(status, { 'content-type': 'application/json; charset=utf-8' }); res.end(JSON.stringify(data)); };
     try {
+      if(closing)return json(503,{error:'The app is shutting down. Restart it before starting more work.'});
       const host = req.headers.host;
       if (!host || !/^((127\.0\.0\.1)|(localhost)):\d+$/.test(host)) return json(403, { error: 'This application accepts loopback requests only.' });
       const url = new URL(req.url, `http://${host}`);
@@ -77,9 +95,16 @@ export async function createApp({ dataDir, port = 4317, analyzeCase = runAutopsy
         if (input.trusted !== true) return json(400, { error: 'Confirm that you trust the repository and check command.' });
         const state = newState(randomUUID()); states.set(state.id, state);
         const controller = new AbortController(); active = { id: state.id, controller };
-        json(202, state);
         const execute=url.pathname==='/api/doctor'?checkReadiness:investigate;
-        traced(url.pathname==='/api/doctor'?'Check readiness':'Regression investigation','task',{},()=>execute(input, state, publish, controller.signal)).finally(async () => { await persist(state).catch(e => { state.persistenceError = e.message; }); active = null; publish(state); });
+        track(async()=>{
+          try{
+            await persist(state);
+            const update=value=>{publish(value);persist(value).catch(e=>{state.persistenceError=e.message;});};
+            await traced(url.pathname==='/api/doctor'?'Check readiness':'Regression investigation','task',{},()=>execute(input,state,update,controller.signal));
+          }catch(error){state.status=controller.signal.aborted?'cancelled':'error';state.error=error.message;}
+          finally{await persist(state).catch(e=>{state.persistenceError=e.message;});active=null;publish(state);}
+        });
+        json(202, state);
         return;
       }
       const match = url.pathname.match(/^\/api\/investigations\/([\w-]+)(?:\/(events|cancel|analysis|report|verify-fix))?$/);
@@ -100,8 +125,21 @@ export async function createApp({ dataDir, port = 4317, analyzeCase = runAutopsy
           if(active)return json(409,{error:'Wait for the active investigation to finish before running local inference.'});
           if (s.status !== 'complete') return json(400, { error: 'Complete a conclusive investigation first.' });
           if ([...states.values()].some(x => x.analysis?.status === 'running')) return json(409, { error: 'A local AI report is already being generated.' });
-          s.analysis = { status: 'running', owner:instance }; localJobs.set(id,s); await persist(s); publish(s); json(202, s.analysis);
-          analyzeCase(s, input.model||'gemma3:1b').then(a => { s.analysis = { status: 'complete', ...a }; }).catch(e => { s.analysis = { status: 'error', error: e.message }; }).finally(async () => { await persist(s).catch(() => {}); states.set(id,s);localJobs.delete(id); publish(s); }); return;
+          const controller=new AbortController();
+          s.analysis = { status: 'running', owner:instance, startedAt:new Date().toISOString() }; localJobs.set(id,s);
+          track(async()=>{
+            let analysis;
+            try{await persist(s);const a=await analyzeCase(s,input.model||'gemma3:1b',{signal:controller.signal});analysis={status:'complete',...a};}
+            catch(e){analysis={status:'error',error:e.message};}
+            finally{
+              // Publish terminal status and release its lock together, after saving.
+              await persist({...s,analysis}).catch(e=>{s.persistenceError=e.message;});
+              s.analysis=analysis;states.set(id,s);localJobs.delete(id);active=null;publish(s);
+            }
+          });
+          // AI work shares the same single-job lifecycle and cancellation control.
+          active={id,controller,operation:'analysis'};
+          publish(s);json(202,s.analysis);return;
         }
         if(action==='verify-fix'&&req.method==='POST'){
           if(active||[...states.values()].some(x=>x.analysis?.status==='running'))return json(409,{error:'Wait for the current investigation or local inference to finish.'});
@@ -109,10 +147,15 @@ export async function createApp({ dataDir, port = 4317, analyzeCase = runAutopsy
           if(s.status!=='complete'||!s.result)return json(400,{error:'Confirm a failure boundary first.'});
           const controller=new AbortController();active={id,controller,operation:'verify-fix'};
           s.verification={status:'running',phase:'Preparing fix verification',owner:instance,runs:[],checks:[]};
-          localJobs.set(id,s);await persist(s);publish(s);json(202,s.verification);
+          localJobs.set(id,s);
           let writes=Promise.resolve();
           const update=value=>{s.verification={...value,owner:instance};publish(s);const snapshot=JSON.parse(JSON.stringify(s));writes=writes.then(()=>persist(snapshot)).catch(error=>{s.persistenceError=error.message;});};
-          traced('Verify proposed fix','test',{},()=>verifyFix(s,input,update,controller.signal)).catch(error=>{s.verification={...s.verification,status:'inconclusive',message:error.message};}).finally(async()=>{await writes.catch(()=>{});await persist(s).catch(()=>{});states.set(id,s);localJobs.delete(id);active=null;publish(s);});return;
+          track(async()=>{
+            try{await persist(s);await traced('Verify proposed fix','test',{},()=>verifyFix(s,input,update,controller.signal));}
+            catch(error){s.verification={...s.verification,status:controller.signal.aborted?'cancelled':'inconclusive',message:error.message};}
+            finally{await writes.catch(()=>{});await persist(s).catch(e=>{s.persistenceError=e.message;});states.set(id,s);localJobs.delete(id);active=null;publish(s);}
+          });
+          publish(s);json(202,s.verification);return;
         }
         if (action === 'report' && req.method === 'GET') {
           const format=url.searchParams.get('format'),isJSON=format==='json',isIssue=format==='issue';
@@ -124,7 +167,14 @@ export async function createApp({ dataDir, port = 4317, analyzeCase = runAutopsy
       return json(404, { error: 'Not found' });
     } catch (error) { json(400, { error: error.code === 'ENOENT' ? 'Repository or investigation not found.' : error.message }); }
   });
-  return { server, listen: () => new Promise(resolve => server.listen(port, '127.0.0.1', () => resolve(server.address()))), close: () => { active?.controller.abort(); for (const set of clients.values()) for (const client of set) client.end(); return new Promise(resolve => server.close(resolve)); } };
+  return { server, listen: () => new Promise(resolve => server.listen(port, '127.0.0.1', () => resolve(server.address()))), close: () => {
+    if(closePromise)return closePromise;
+    closing=true;active?.controller.abort();
+    for (const set of clients.values()) for (const client of set) client.end();
+    const stopped=new Promise(resolve=>server.close(resolve));
+    closePromise=(async()=>{await stopped;await Promise.allSettled([...jobs]);await Promise.allSettled([...pendingWrites.values()]);})();
+    return closePromise;
+  } };
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

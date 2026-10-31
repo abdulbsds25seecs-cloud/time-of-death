@@ -50,7 +50,7 @@ Patch verification reruns the baseline; it never edits the original working tree
 
 ## What remains user-controlled
 
-- Free Sentry account/project creation and the project DSN. Local SDK capture is already exercised; live ingestion still needs configuration.
+- Free Sentry account/project setup is complete locally. Live synthetic setup spans are documented in `evidence/SENTRY_LIVE_VERIFICATION.md`; a full real-model cloud trace remains separate.
 - Public repository, video hosting and DEV publication. Review the concrete artifacts before sharing; reports may include source paths and captured output.
 - Final eligibility, article wording and category selection. A prepared local build is not a submitted challenge entry.
 

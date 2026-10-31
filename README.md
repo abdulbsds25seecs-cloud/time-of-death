@@ -4,7 +4,7 @@
 
 A free local regression investigator with an interactive Git timeline, execution receipts, portable regression scripts, and optional local open-weight AI autopsies. The prebuilt edition needs Node 22.13+ and Git. Building from source also needs npm. No account, Docker, paid API, or cloud service is required for the standard local mode.
 
-> Implemented: React coroner's console, fixed Bayer dithering, engine/CLI, reports, optional Mastra workflow, Temporal recovery and opt-in Sentry instrumentation. Local verification includes the acceptance suite and a separate forced-worker-crash recovery check; see evidence/acceptance-tests.txt for the latest counts. Live Sentry delivery awaits a project DSN. Copilot review and public publication have not occurred.
+> Implemented: React coroner's console, fixed Bayer dithering, engine/CLI, reports, optional Mastra workflow, Temporal recovery and opt-in Sentry instrumentation. Local verification includes the acceptance suite and a separate forced-worker-crash recovery check; see evidence/acceptance-tests.txt for the latest counts. Copilot supplied independent bug reproducers, now preserved with the fixes. Controlled synthetic spans were verified in the live Sentry dashboard; a real-model cloud trace and public publication remain separate work.
 
 ## Start
 
@@ -98,13 +98,13 @@ Run `node cli.mjs --help` for all options. Exit 0 means a boundary was confirmed
 
 ## Reports and privacy
 
-Completed cases are saved under `.data/reports/` and shown in the case archive. Markdown and JSON exports contain execution output, paths, and optionally the portable script and AI evidence packet. They can contain sensitive information. Review exports before sharing. `.data/` and `.env.local` are gitignored. Fonts are bundled locally. Sentry is disabled unless a DSN is configured; see the optional integration guide for precisely what it sends.
+Cases are saved under `.data/reports/` when started and as execution progresses, and shown in the case archive. Normal shutdown cancels active local work and waits for its final report. After an abrupt process exit, a saved unfinished case opens as interrupted; ordinary mode does not resume it automatically. Markdown and JSON exports contain execution output, paths, and optionally the portable script and AI evidence packet. They can contain sensitive information. Review exports before sharing. `.data/` and `.env.local` are gitignored. Fonts are bundled locally. Sentry is disabled unless a DSN is configured; see the optional integration guide for precisely what it sends.
 
 ## Check readiness, verify a fix, export an issue draft
 
 Use **Check readiness** to run only the working/failing endpoint checks before searching. It diagnoses missing check files, unavailable dependencies, unstable outcomes and timeouts. Historical package scripts are read as suggestions; nothing is installed or run just because it appears in a manifest. A ready result does not declare a candidate commit.
 
-After a conclusive investigation, **Did the fix work?** accepts a unified patch or a descendant fix revision. It reruns the passing parent, original culprit and proposed fix in a disposable checkout. A passing result has actual pass/fail/pass receipts. Your source working files are not changed. Results apply only to the supplied check; review any test or dependency changes in the proposal.
+After a conclusive investigation, **Did the fix work?** accepts a unified patch or a descendant fix revision. It reruns the passing parent, original culprit and proposed fix in a disposable checkout. A passing result has actual pass/fail/pass receipts. Your source working files are not changed. For command-based verification, use a direct `node check.mjs` command. Changes to that entry point or recognized test/configuration files block a passing verdict. Other shell commands (including npm scripts) require rerunning the investigation with a portable check. Portable scripts are injected after the proposal for all three variants. The result records a check fingerprint and integrity explanation. These controls do not prove semantic correctness or protect against arbitrary malicious code; review imported helpers and dependency behavior.
 
 **Export bug report** produces a local Markdown draft with reproduction steps, candidate/parent evidence and the fix verification record. It never posts an issue. JSON and full Markdown exports also retain the new receipts.
 
@@ -120,7 +120,7 @@ See [INTEGRATIONS.md](INTEGRATIONS.md) for setup and verification. All three can
 
 - **Mastra:** schema-checked evidence collection, local inference and citation validation. Set `TOD_MASTRA=1` after installing dependencies.
 - **Temporal:** a separate durable CLI/worker mode; retries after worker failure reuse completed local check checkpoints. A local SQLite-backed Temporal service requires no cloud account. An in-flight check can repeat.
-- **Sentry:** opt-in model/check timings, token counts and status spans. Prompts, source, commands, repository paths and captured logs are excluded. Live delivery has not been verified without a project DSN.
+- **Sentry:** opt-in model/check timings, token counts and status spans. Prompts, source, commands, repository paths and captured logs are excluded. Controlled synthetic setup spans were verified in the live dashboard; see `evidence/SENTRY_LIVE_VERIFICATION.md`. This is separate from a real-model end-to-end trace.
 
 On a modest laptop, use standard mode first. Temporal adds a service and worker. Do not run a durable investigation alongside a separate web investigation on the same small machine.
 
@@ -152,4 +152,4 @@ Time of Death source is MIT licensed. [Git](https://git-scm.com/) is separately 
 
 The real-history demonstration uses [clsx](https://github.com/lukeed/clsx), MIT licensed by Luke Edwards. Its license is included in `licenses/clsx-MIT.txt`; downloaded history is not bundled. The portable check and proposed compatibility patch are demonstration artifacts, not an upstream endorsement.
 
-AI coding assistance: Codex was used to build and verify this project. Copilot contributions must be documented only after an actual authenticated session. See `evidence/COPILOT_TASK.md` for the prepared review task; its existence is not proof that a Copilot review occurred.
+AI coding assistance: Codex was used to build and verify this project. Copilot supplied three review reports and three regression test files, including reproductions of test-replacement false positives and lost shutdown reports. Their assertions remain intact. See `evidence/REVIEW_RESOLUTION.md` for the resulting fixes, fresh validation and remaining limits.
