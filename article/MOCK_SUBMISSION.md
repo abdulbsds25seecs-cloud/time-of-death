@@ -4,7 +4,7 @@ published: false
 tags: devchallenge, hf26challenge, git, opensource
 ---
 
-<!-- REVIEW COPY, October 31. Not published. Before submitting: make the repository accessible to judges, upload the three screenshots to DEV and replace their relative URLs, and compare this body with the official submission template. The older DRAFT.md is superseded by this review copy. -->
+<!-- REVIEW COPY, October 31. Not published. Before submitting: upload the three screenshots to DEV and replace their relative URLs, and compare this body with the official submission template. The older DRAFT.md is superseded by this review copy. -->
 
 *This is a submission for the [Hacktoberfest Open-Source AI Challenge: Ghost in the Machine](https://dev.to/challenges/hacktoberfest-week4-2026-10-26).*
 

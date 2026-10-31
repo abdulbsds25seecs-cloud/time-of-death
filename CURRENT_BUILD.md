@@ -25,4 +25,4 @@ The local model made a chronology error in its explanation; the raw response is 
 
 Complete fresh visual browser/mobile acceptance could not be performed because browser control could not determine the current URL. DOM and HTTP tests cover behavior, not pixels. T480 performance remains unmeasured. A disposable checkout is not a security sandbox. Review check logic and exports before trusting or sharing them.
 
-The repository is private and GitHub Actions remains disabled. Judges will need repository access before submission; no hosted green CI or automatic DEV publication is claimed.
+The repository and preview release are public. GitHub Actions remains disabled; no hosted green CI or automatic DEV publication is claimed.

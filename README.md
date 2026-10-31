@@ -88,7 +88,7 @@ npm run build
 npm start
 ```
 
-The repository is currently private, so access is required to clone or download it. Running the standard local tool needs no cloud account, Docker or paid API. The prebuilt edition already includes its frontend and does not need `npm ci` for standard mode.
+The repository and preview download are public. Running the standard local tool needs no cloud account, Docker or paid API. The prebuilt edition already includes its frontend and does not need `npm ci` for standard mode.
 
 For a terminal-only synthetic demonstration:
 
@@ -144,7 +144,7 @@ These records show the conditions under which each result was observed. They do 
 - Local AI can give a wrong explanation. Evidence references are checked, but reasoning still needs review.
 - Earlier desktop captures exercised tour opening, the first spotlight, archive loading, typography and report download. Fresh React DOM checks cover all nine steps, keyboard/focus, preferences and blocked storage; the HTTP journey covers investigation through restart. Complete visual browser/mobile acceptance remains pending. T480 performance has not been measured.
 
-Run the source tests with `npm test`. The suite includes the preserved helper reproducer, which now passes. GitHub Actions is disabled for this private preview; no green hosted CI result is implied. [CURRENT_BUILD.md](CURRENT_BUILD.md) describes the uploaded snapshot.
+Run the source tests with `npm test`. The suite includes the preserved helper reproducer, which now passes. GitHub Actions is disabled for this preview; no green hosted CI result is implied. [CURRENT_BUILD.md](CURRENT_BUILD.md) describes the uploaded snapshot.
 
 ## Source, credits and next steps
 

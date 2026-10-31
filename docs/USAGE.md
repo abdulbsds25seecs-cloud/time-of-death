@@ -123,7 +123,7 @@ npm test
 npm run evaluate
 ```
 
-These commands use Node's built-in test runner. Evaluation creates synthetic histories with known answers and writes `evidence/evaluation.json`. Timings include checks and Git operations; they do not include model inference. A Windows/Linux workflow is included, but GitHub Actions is disabled for this private preview. The fresh local suite passed 51 tests, including the unchanged imported-helper reproducer. No hosted green CI result is claimed. See `evidence/FINAL_ACCEPTANCE.md`.
+These commands use Node's built-in test runner. Evaluation creates synthetic histories with known answers and writes `evidence/evaluation.json`. Timings include checks and Git operations; they do not include model inference. A Windows/Linux workflow is included, but GitHub Actions is disabled for this preview. The fresh local suite passed 51 tests, including the unchanged imported-helper reproducer. No hosted green CI result is claimed. See `evidence/FINAL_ACCEPTANCE.md`.
 
 ## Architecture
 
