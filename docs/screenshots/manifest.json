@@ -1,0 +1,64 @@
+{
+  "capturedDate": "2026-10-31",
+  "timezone": "Asia/Karachi",
+  "method": "Native Chrome window screenshots through the computer-use tool, fullscreen browser mode",
+  "format": "JPEG, original returned screenshot bytes; no retouching, cropping or generated UI",
+  "viewport": {
+    "width": 1600,
+    "height": 1200
+  },
+  "caseId": "bf585f40-7ad6-4350-9a59-9b819ba74cc9",
+  "caseSource": "evidence/real-world-case.json",
+  "notes": "The saved investigation and verification were reopened, not rerun for photography. A report was exported through the UI. Ollama was unavailable during capture; no fresh AI generation is implied. Browser was returned to normal mode afterward.",
+  "screenshots": [
+    {
+      "file": "01-workspace.jpg",
+      "title": "Current workspace",
+      "caption": "Idle console with repository inputs, empty timeline, evidence panel and unavailable-local-model state.",
+      "bytes": 219409,
+      "sha256": "901d25974b28437ef8a3d4dbf18baf2c321d6ed7ee3119da5cbfcdbf828ff02a"
+    },
+    {
+      "file": "02-tour-welcome.jpg",
+      "title": "Tour welcome",
+      "caption": "The welcome card was reopened using Take tour in the header.",
+      "bytes": 102835,
+      "sha256": "65cbfa2a18f423c2857baa1d2ccca7c5faabe220e982c522d64319e409238f74"
+    },
+    {
+      "file": "03-tour-spotlight.jpg",
+      "title": "Guided spotlight",
+      "caption": "Step 1 of 9 highlights the repository input while masking the surrounding page.",
+      "bytes": 98302,
+      "sha256": "f0e7a7aebe7d72ff9d1420d52fb23e2c468a17482607d56a7774a114cf37de3e"
+    },
+    {
+      "file": "04-confirmed-boundary.jpg",
+      "title": "Confirmed historical boundary",
+      "caption": "Saved case bf585f40: nine commits, fourteen receipts, candidate 3ec8e9f and passing parent 4a4eadd.",
+      "bytes": 226703,
+      "sha256": "4914e29c4651ecc33073fdde78336a8f4cdaa6fdbe7325dcb145d4ebe1dd21b0"
+    },
+    {
+      "file": "05-receipts-and-export.jpg",
+      "title": "Execution receipts and report export",
+      "caption": "Recorded package-path errors and a newly prepared bug-report download.",
+      "bytes": 263726,
+      "sha256": "e8cb3740505ce907440029021678062112f9934073da90be511fbf72f0b87390"
+    },
+    {
+      "file": "06-fix-verification.jpg",
+      "title": "Saved portable-check verification",
+      "caption": "The saved compatibility patch records parent good, culprit bad and proposed fix good; imported-helper limitations remain.",
+      "bytes": 244596,
+      "sha256": "a189c315a738d4d655a78def645452d54d7f0135b8094a79c7082afb137e0261"
+    },
+    {
+      "file": "07-typography.jpg",
+      "title": "Local font choices",
+      "caption": "Cormorant Garamond selected alongside Newsreader and IM Fell English previews.",
+      "bytes": 125789,
+      "sha256": "ba72e8ac9d39202a53bf3cb8cf4a51a456de0e2316aa551884aa2e3c96326e62"
+    }
+  ]
+}

@@ -6,7 +6,7 @@ tags: devchallenge, hf26challenge, git, opensource
 
 *This is a submission for the [Hacktoberfest Open-Source AI Challenge Week 4: Ghost in the Machine](https://dev.to/challenges/hacktoberfest-week4-2026-10-26).*
 
-<!-- Review draft. Use app screenshots as the main demo. These captures predate the latest UI refresh. The repository is currently private; no DEV submission has been published. -->
+<!-- Review draft. Use app screenshots as the main demo. Current-interface screenshots were captured on October 31, 2026. The repository is currently private; no DEV submission has been published. -->
 
 This is a small line for an upgrade to break:
 
@@ -34,21 +34,25 @@ For the theme, the ghost is an old decision still affecting today's program. The
 
 ## Demo
 
-The walkthrough uses still images of the app. These captures show earlier recorded runs and an earlier interface; the current build adds a compact workspace, guided tour and flowing dither background. Timings printed inside a screenshot belong to that pictured run, separately from the saved measurement below.
+The walkthrough uses fresh still images of the current app. The historical investigation was reopened from its saved case file; its fourteen receipts and 4.212-second timing belong to the original execution. The report download was exercised through the UI during capture. Local Ollama was unavailable, so these images do not imply fresh AI inference.
 
-![The app confirms candidate 3ec8e9f and its passing parent in the recorded clsx investigation.](../evidence/demo-real-boundary.png)
+![The app confirms candidate 3ec8e9f and its passing parent in the recorded clsx investigation.](../docs/screenshots/04-confirmed-boundary.jpg)
 
 The timeline narrows to one boundary, and the candidate tag names the commit, author, date and observed failing status. Unexecuted revisions remain separate from tested ones.
 
-![The app exposes captured package-path errors and prepares a bug-report download.](../evidence/demo-issue-export.png)
+![The app exposes captured package-path errors and prepares a bug-report download.](../docs/screenshots/05-receipts-and-export.jpg)
 
 The execution panel retains stderr from the portable check. The export controls prepare a local report someone else can inspect; nothing is posted automatically.
 
-![A compatibility patch produces recorded parent-good, culprit-bad and proposal-good checks.](../evidence/demo-fix-verification.png)
+![A compatibility patch produces recorded parent-good, culprit-bad and proposal-good checks.](../docs/screenshots/06-fix-verification.jpg)
 
 The proposal passes this specific portable check. The current imported-helper integrity bug remains unresolved for command-based verification, so a green result must not be presented as a general proof of a correct fix.
 
-<!-- Before DEV publication, upload these screenshots and use their hosted image URLs. Replace with current-interface captures when browser capture is available. Keep the existing video as a separate artifact; it is not the main demo. -->
+![The tour spotlights the repository input while dimming the rest of the console.](../docs/screenshots/03-tour-spotlight.jpg)
+
+The first-visit guide explains the workflow one section at a time. The header can reopen it. [The full screenshot gallery](../docs/SCREENSHOTS.md) also includes the welcome and local font choices.
+
+<!-- Before DEV publication, upload these current screenshots and use their hosted image URLs. Keep the existing video as a separate artifact; it is not the main demo. -->
 
 ### A real historical compatibility break
 

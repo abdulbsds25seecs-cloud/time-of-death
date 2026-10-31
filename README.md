@@ -10,9 +10,9 @@ Time of Death is a local regression investigator: give it a working revision, a 
 
 > **Preview status:** fix verification has an unresolved imported-helper integrity bug. A proposal can weaken a helper used by the check and receive a passing verdict. [Read the current limits](#what-still-needs-work) before relying on that feature.
 
-![A recorded clsx investigation showing the narrowed timeline and candidate commit 3ec8e9f.](evidence/demo-real-boundary.png)
+![A recorded clsx investigation showing the narrowed timeline and candidate commit 3ec8e9f.](docs/screenshots/04-confirmed-boundary.jpg)
 
-The console confirms a failing candidate beside its passing parent. This capture shows an earlier interface; the current preview adds the compact workspace, flowing background and guided tour. Screenshots and the metrics below come from separate recorded runs.
+The current console displays a saved historical investigation: candidate `3ec8e9f` fails the check, while parent `4a4eadd` passes. The fourteen execution receipts and elapsed time belong to that saved run. [View all seven current-interface screenshots](docs/SCREENSHOTS.md).
 
 ## One import, one historical boundary
 
@@ -44,23 +44,29 @@ The timing describes this small manifest-resolution experiment, not arbitrary ap
 
 ## See the app at work
 
-These app captures predate the latest visual refresh. Each shows a specific operation and its visible result.
+Fresh desktop captures show the current workspace and real saved results. The case was reopened from the archive, and the bug-report download was exercised through the UI.
 
 ### Start with a check you can repeat
 
-![Earlier interface with repository, working revision, failing revision and check-command inputs.](evidence/demo-doctor.png)
+![Current workspace with repository, working revision, failing revision and check-command inputs.](docs/screenshots/01-workspace.jpg)
 
 The case file asks for the repository, two revisions and a command. The empty timeline has no candidate: a verdict appears only after execution.
 
+### Follow the spotlight tour
+
+![The guided tour highlights the repository input and explains how to open a case.](docs/screenshots/03-tour-spotlight.jpg)
+
+The tour explains one section at a time while dimming the surrounding page. This capture shows step 1 of 9, reopened from the header.
+
 ### Read the failure and preserve its receipt
 
-![Captured package-resolution stderr beside Markdown, JSON and bug-report export controls.](evidence/demo-issue-export.png)
+![Captured package-resolution stderr beside Markdown, JSON and bug-report export controls.](docs/screenshots/05-receipts-and-export.jpg)
 
 The log contains the actual package-path error and confirmation runs. The export panel shows a prepared bug-report draft. A download does not post an issue.
 
 ### Compare a proposed patch with the original failure
 
-![Recorded compatibility-patch verification with parent good, original culprit bad and proposed fix good.](evidence/demo-fix-verification.png)
+![Recorded compatibility-patch verification with parent good, original culprit bad and proposed fix good.](docs/screenshots/06-fix-verification.jpg)
 
 This portable manifest-resolution example records parent good, culprit bad and proposal good. It establishes the result of this check; the unresolved imported-helper bug still limits general fix-verification trust.
 
@@ -136,7 +142,7 @@ These records show the conditions under which each result was observed. They do 
 - Timeouts, unstable repeats and untestable revisions can prevent a conclusive result. Missing-module detection is a limited heuristic; target failure text gives the check more specificity.
 - A disposable checkout is not a code sandbox. Exports may contain paths, logs and the portable script; review them before sharing.
 - Local AI can give a wrong explanation. Evidence references are checked, but reasoning still needs review.
-- The latest tour, focus behavior and animation need real-browser acceptance testing. T480 performance has not been measured.
+- Desktop tour opening, the first spotlight, archive loading, typography previews and report download have been exercised. Complete keyboard, preference and mobile acceptance testing remain pending. T480 performance has not been measured.
 
 Run the source tests with `npm test`. The suite includes the preserved failing helper reproducer. GitHub Actions is disabled for this private preview; no green hosted CI result is implied. [CURRENT_BUILD.md](CURRENT_BUILD.md) describes the uploaded snapshot.
 
