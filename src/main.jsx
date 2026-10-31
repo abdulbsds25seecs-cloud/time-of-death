@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import Dither from './Dither.jsx';
+import AmbientDither from './AmbientDither.jsx';
 import { glyph, revisionStatus, suspectRange, diffRows } from './dither.mjs';
 import './style.css';
 import './console.css';
@@ -17,14 +18,8 @@ async function api(url, body) {
 
 function Status({status,children}) { return <span className={`verdict-word status-${status}`}><span aria-hidden="true">{glyph(status)}</span> {children||status}</span>; }
 
-function Icon({name}) {
-  const paths={case:'M5 5h5l2 2h7v12H5V5Zm3 6h8m-8 4h5',timeline:'M4 12h16M7 8v8m5-11v14m5-10v6',evidence:'M6 3h8l4 4v14H6V3Zm8 0v5h4M9 12h6m-6 4h6',candidate:'m12 3 9 9-9 9-9-9 9-9Zm0 5v5m0 3v.1',autopsy:'M5 18V9m5 9V5m5 13v-6m5 6V3',archive:'M4 7h16v13H4V7ZM3 3h18v4H3V3Zm6 8h6',guide:'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Zm-3-15a3 3 0 0 1 6 1c0 2-3 2-3 5m0 3v1'};
-  return <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={paths[name]||paths.case}/></svg>;
-}
 
 function App() {
-  const [activeSection,setActiveSection]=useState(()=>window.location.hash.slice(1)||'case-file');
-  useEffect(()=>{const changed=()=>setActiveSection(window.location.hash.slice(1)||'case-file');window.addEventListener('hashchange',changed);return()=>window.removeEventListener('hashchange',changed);},[]);
   const [state,setState]=useState(null),[preview,setPreview]=useState(null),[form,setForm]=useState({repo:'',good:'',bad:'HEAD',command:'',repeats:2,timeoutMs:30000,failurePattern:'',reproScript:'',trusted:false,synthetic:false});
   const [selected,setSelected]=useState(null),[error,setError]=useState(''),[busy,setBusy]=useState(false),[archive,setArchive]=useState([]),[models,setModels]=useState({available:false,models:[]}),[model,setModel]=useState('gemma3:1b'),[exported,setExported]=useState(''),[overlay,setOverlay]=useState(null),[diffMode,setDiffMode]=useState('unified'),[connection,setConnection]=useState('idle');
   const stream=useRef(null),caseRef=useRef(state),formRef=useRef(form),logRef=useRef(null),logFollow=useRef(true),timelineRef=useRef(null),headerId=useRef(null),demoRepo=useRef(null),autopsyRequested=useRef(new Set()),[clock,setClock]=useState(Date.now()),receivedAt=useRef(Date.now());
@@ -67,11 +62,7 @@ function App() {
   const showEvidence=id=>{if(id==='D1'){document.getElementById('candidate')?.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});return;}const record=state?.runs.find(r=>r.id===id);if(record){setSelected(record.hash);requestAnimationFrame(()=>document.getElementById(`run-${id}`)?.scrollIntoView({block:'nearest'}));}};
 
   return <>
-    <nav className="workspace-rail" aria-label="Workspace sections">
-      <a className="rail-brand" href="#workspace-top" aria-label="Time of Death workspace">t<span>d</span></a>
-      <div className="rail-links">{[['case','case-file','Case file'],['timeline','timeline','Timeline'],['evidence','selected-evidence','Evidence'],['candidate','candidate','Candidate'],['autopsy','autopsy','Autopsy']].map(([icon,id,label])=><a key={id} href={`#${id}`} title={label} aria-label={label} aria-current={activeSection===id?'location':undefined}><Icon name={icon}/><span>{label}</span></a>)}</div>
-      <div className="rail-bottom"><button disabled={isRunning} onClick={()=>{refreshArchive();setOverlay('archive');}} title="Case archive" aria-label="Case archive"><Icon name="archive"/><span>Archive</span></button><button onClick={()=>setOverlay('guide')} title="Field guide" aria-label="Field guide"><Icon name="guide"/><span>Guide</span></button></div>
-    </nav>
+    <AmbientDither/>
     <header className="masthead" id="workspace-top">
       <div className="identity"><h1>Time of Death</h1><p>{state?<>Case <code>{state.id.slice(0,8)}</code></>:'The coroner’s console'}</p>{!display&&<div className="title-dust"><Dither tone="bone" density={.035}/></div>}</div>
       <div className="header-controls"><p className="privacy-note">Local investigation. Your code stays here.</p><div className="header-buttons"><button type="button" onClick={loadDemo} disabled={busy||isRunning}>Open the synthetic case</button><button type="button" disabled={isRunning} onClick={()=>{refreshArchive();setOverlay('archive');}}>Case archive</button><button type="button" onClick={()=>setOverlay('guide')}>Field guide</button></div>{(display?.synthetic||(form.synthetic&&running(state)))&&<p className="synthetic-label">Synthetic demo repository</p>}</div>

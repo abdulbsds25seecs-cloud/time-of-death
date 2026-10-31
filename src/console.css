@@ -2,7 +2,7 @@
    identity; neutral system type carries controls and dense evidence. Offline. */
 :root {
   --ui: 'Segoe UI', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
-  --rail-width: 68px;
+  --rail-width: 0px;
   --ui-text: #e4dcd6;
   --ui-muted: #aaa09d;
   --ui-border: #352b30;
@@ -12,7 +12,12 @@
   --ui-accent-surface: #302431;
 }
 html { scroll-padding-top: 24px; }
-body { padding-left: var(--rail-width); font-family: var(--ui); font-size: 13px; color: var(--ui-text); -webkit-font-smoothing: antialiased; }
+body { isolation: isolate; padding-left: var(--rail-width); font-family: var(--ui); font-size: 13px; color: var(--ui-text); -webkit-font-smoothing: antialiased; }
+.ambient-dither { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; opacity: .2; }
+.ambient-dither svg { position: absolute; left: -60px; top: -60px; width: calc(100% + 120px); height: calc(100% + 120px); mask-image: radial-gradient(ellipse at 12% 12%,var(--bone),transparent 65%),radial-gradient(ellipse at 90% 80%,var(--bone),transparent 60%); animation: ambient-dither-drift 36s ease-in-out infinite alternate; }
+.ambient-dither pattern rect { fill: var(--ash); }
+.ambient-dither.is-paused svg { animation-play-state: paused; }
+@keyframes ambient-dither-drift { from { transform: translate3d(-18px,-12px,0); } to { transform: translate3d(36px,30px,0); } }
 button,input,textarea,select { font-family: var(--ui); }
 button { font-size: 12px; font-weight: 600; border-color: var(--ui-border); background: var(--slab); border-radius: 5px; min-height: 34px; padding: 7px 12px; transition: background-color .12s, border-color .12s; }
 button:hover { border-color: var(--ash); background: var(--vault); }
@@ -25,15 +30,6 @@ h4 { font-size: 12px; }
 p { line-height: 1.65; }
 .small,small { font-size: 12px; color: var(--ui-muted); line-height: 1.6; }
 code,pre,kbd,.machine { font-size: 11px; }
-.workspace-rail { position: fixed; inset: 0 auto 0 0; z-index: 20; width: var(--rail-width); background: var(--slab); border-right: 1px solid var(--ui-border); display: flex; flex-direction: column; align-items: center; padding: 16px 8px 12px; gap: 24px; }
-.rail-brand { width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; font: 31px/1 var(--serif); text-decoration: none; color: var(--bone); background: var(--oxblood); border: 1px solid var(--arterial); border-radius: 7px; letter-spacing: -3px; padding-right: 3px; }
-.rail-brand span { transform: translateY(3px); }
-.rail-links,.rail-bottom { display: flex; flex-direction: column; align-items: center; gap: 9px; width: 100%; }
-.rail-bottom { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--ui-border); }
-.rail-links a,.rail-bottom button { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px; color: var(--ui-muted); width: 52px; min-height: 49px; border: 0; border-radius: 5px; padding: 6px 1px; background: transparent; text-decoration: none; font-weight: 400; }
-.rail-links a span,.rail-bottom button span { font-size: 9px; line-height: 1.2; }
-.rail-links a:hover,.rail-links a:focus-visible,.rail-bottom button:hover { color: var(--bone); background: var(--vault); }
-.rail-links a[aria-current="location"] { color: var(--bone); background: var(--ui-accent-surface); box-shadow: inset 2px 0 var(--ui-accent); }
 .masthead { padding: 15px 28px; min-height: 78px; gap: 24px; background: var(--slab); border-color: var(--ui-border); }
 .identity { display: flex; align-items: center; gap: 17px; }
 .identity h1 { font: 32px/1.1 var(--serif); letter-spacing: -.8px; white-space: nowrap; }
@@ -205,8 +201,7 @@ dialog { padding: 24px; border-color: var(--ui-border); border-radius: 7px; back
   .shortcuts>span:nth-child(3) { display: none; }
 }
 @media(max-width:1023px) {
-  :root { --rail-width: 58px; }
-  .workspace-rail { padding-left: 3px; padding-right: 3px; }
+  :root { --rail-width: 0px; }
   .masthead { padding: 15px 20px; align-items: center; min-height: 73px; }
   .identity h1 { font-size: 29px; }
   .identity>p,.header-buttons button:not(:first-child),.synthetic-label { display: none; }
@@ -233,7 +228,6 @@ dialog { padding: 24px; border-color: var(--ui-border); border-radius: 7px; back
 }
 @media(max-width:600px) {
   :root { --rail-width: 0px; }
-  .workspace-rail { display: none; }
   .masthead { padding: 14px 16px; gap: 12px; min-height: 67px; flex-direction: row; flex-wrap: wrap; }
   .identity { flex: 0 0 100%; }
   .header-controls { width: 100%; }
@@ -275,4 +269,4 @@ dialog { padding: 24px; border-color: var(--ui-border); border-radius: 7px; back
   .global-notice button { font-size: 11px; }
   dialog { padding: 20px; }
 }
-@media(prefers-reduced-motion:reduce) { button { transition: none; } }
+@media(prefers-reduced-motion:reduce) { button { transition: none; } .ambient-dither svg { animation: none; transform: none; } }
