@@ -154,4 +154,3 @@ Codex helped build the tool. Copilot challenged it with independent reports and 
 
 Start with the [synthetic case in the prebuilt preview](https://github.com/abdulbsds25seecs-cloud/time-of-death/releases/tag/v0.2.0-preview.20261031). For your own project, pick one repeatable failure and two revisions you can defend. The [usage reference](docs/USAGE.md) covers commands, exit codes, portable scripts, recovery, privacy and optional integrations.
 
-The owner-review [mock submission article](article/MOCK_SUBMISSION.md) follows the project writing guide. It has not been published.

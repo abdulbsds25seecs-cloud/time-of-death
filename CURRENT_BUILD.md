@@ -17,7 +17,7 @@ Extract the entire time-of-death-prebuilt.zip, install Node.js 22.13+ and Git, a
 - Real local Mastra/Qwen inference and opt-in Sentry transport HTTP 200 with fourteen child spans.
 - Fresh Temporal forced worker kill/restart reused three completed check checkpoints.
 
-The [acceptance record](evidence/FINAL_ACCEPTANCE.md) links raw evidence and limits. The [mock article](article/MOCK_SUBMISSION.md) is ready for owner review, not published.
+The [acceptance record](evidence/FINAL_ACCEPTANCE.md) links raw evidence and limits.
 
 ## Limits
 

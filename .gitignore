@@ -7,3 +7,7 @@ node_modules/
 work/
 
 dist/
+
+# Submission prose stays local unless explicitly requested.
+article/DRAFT.md
+article/MOCK_SUBMISSION.md
