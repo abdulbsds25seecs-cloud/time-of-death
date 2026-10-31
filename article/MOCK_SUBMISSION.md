@@ -8,15 +8,21 @@ tags: devchallenge, hf26challenge, git, opensource
 
 *This is a submission for the [Hacktoberfest Open-Source AI Challenge: Ghost in the Machine](https://dev.to/challenges/hacktoberfest-week4-2026-10-26).*
 
-One line can turn a dependency upgrade into a debugging session:
+Working with AI coding agents gave me the reason to build this. As the codebases I worked on grew, I found myself spending more time checking their explanations of what had broken. A plausible explanation could send me down the wrong path, and I still needed a repeatable check to establish what actually happened.
+
+I wanted to spend less time retracing changes and more time fixing the failure. Give me the commit where the check changed, the output it produced, and a way to test the proposed repair against the same failure.
+
+I built **Time of Death**, a local tool that searches Git history for the boundary between a passing check and a failing one. It keeps the command output, confirms the candidate against its passing parent, and gives a local open-weight model those receipts to examine.
+
+The challenge arrived at the right time: an excuse to stop procrastinating, build the tool, and put it through tests. The theme fit too. An old change can keep haunting a program long after everyone has forgotten why it was made.
+
+For a concrete example, one line can turn a dependency upgrade into a debugging session:
 
 ```js
 require.resolve('clsx/package.json');
 ```
 
 With an older package manifest, that check passes. After an exports map is introduced, Node reports `ERR_PACKAGE_PATH_NOT_EXPORTED`. The class-name function still has nothing to do with the failure. The question is which change stopped exposing that package subpath.
-
-I built **Time of Death**, a local tool that searches Git history for the boundary between a passing check and a failing one. It keeps the command output, confirms the candidate against its passing parent, and gives a local open-weight model those receipts to examine.
 
 The ghost is an old change still affecting today's program. The coroner needs evidence before writing the report.
 
