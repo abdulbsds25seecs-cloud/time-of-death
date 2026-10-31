@@ -132,10 +132,11 @@ A disposable clone protects Git state, not arbitrary code execution. Users must 
 
 ## My Agent Session
 
-Codex helped implement and test the project. The repository preserves reproducible scripts and recorded outputs. Copilot was installed but not authenticated, so I am not claiming a Copilot contribution or category entry. No DevRelay session is claimed.
+Codex helped implement and test the project. The repository preserves reproducible scripts and recorded outputs. A focused Copilot review and regression-test task is prepared; no completed Copilot contribution is documented yet. Update this paragraph with its actual findings and resulting changes after the review. No DevRelay session is claimed.
 
 ## Prize Categories
 
+- **GitHub Copilot — planned, pending documented contribution:** independent correctness review and meaningful regression tests. Replace this planning note with actual session evidence and reviewed changes before publication.
 - **Mastra:** the schema-checked local-model autopsy workflow and recorded step results.
 - **Temporal:** durable execution with an exercised worker-crash recovery path and explicit retry limits.
 - **Sentry Agent Tracing:** implemented metadata-only instrumentation; add live trace evidence before presenting a dashboard demonstration.
