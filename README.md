@@ -6,7 +6,7 @@ A check that used to pass now fails. Somewhere in your Git history, a change cro
 
 Time of Death is a local regression investigator: give it a working revision, a failing revision and a repeatable check. It searches the history, records what ran, and confirms a failing commit alongside its passing parent. An optional local model offers an explanation with references to that evidence.
 
-[Download the prebuilt preview](https://github.com/abdulbsds25seecs-cloud/time-of-death/releases/tag/v0.2.0-preview.20261031) / [Run from source](#try-it-locally) / [Usage reference](docs/USAGE.md)
+[Explore the live recorded demo](https://abdulbsds25seecs-cloud.github.io/time-of-death/) / [Download the prebuilt preview](https://github.com/abdulbsds25seecs-cloud/time-of-death/releases/tag/v0.2.0-preview.20261031) / [Run from source](#try-it-locally) / [Usage reference](docs/USAGE.md)
 
 > **Fresh acceptance:** 51 local tests passed, including Copilot's unchanged helper reproducer. Command fix replay now restricts proposals to the original culprit change set. [Results and limits](evidence/FINAL_ACCEPTANCE.md).
 
@@ -69,6 +69,10 @@ The log contains the actual package-path error and confirmation runs. The export
 ![Recorded compatibility-patch verification with parent good, original culprit bad and proposed fix good.](docs/screenshots/06-fix-verification.jpg)
 
 This portable manifest-resolution example records parent good, culprit bad and proposal good. It establishes the result of this check; portable checks must keep their assertion logic independent of modified application code.
+
+## Explore online or run locally
+
+The [live GitHub Pages demo](https://abdulbsds25seecs-cloud.github.io/time-of-death/) is a static interactive case explorer. It replays saved results from the public clsx experiment, with selectable revisions, receipts, diffs, patch checks, the reviewed AI response and report downloads. It runs independently of the author's computer. It does not execute Git, call a model or access visitors' files.
 
 ## Try it locally
 
@@ -153,4 +157,3 @@ The project source is [MIT licensed](LICENSE). Git, Node.js, Ollama, models and 
 Codex helped build the tool. Copilot challenged it with independent reports and executable reproducers; the findings, fixes and historical failures remain in [evidence/](evidence/). The coroner metaphor follows an old change still affecting today's program: establish when the check changed, then investigate why.
 
 Start with the [synthetic case in the prebuilt preview](https://github.com/abdulbsds25seecs-cloud/time-of-death/releases/tag/v0.2.0-preview.20261031). For your own project, pick one repeatable failure and two revisions you can defend. The [usage reference](docs/USAGE.md) covers commands, exit codes, portable scripts, recovery, privacy and optional integrations.
-
