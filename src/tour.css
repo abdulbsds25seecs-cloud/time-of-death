@@ -1,0 +1,62 @@
+@font-face{font-family:'Cormorant Garamond';src:url('./fonts/cormorant-garamond-latin-500.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:'Newsreader';src:url('./fonts/newsreader-latin-400.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+:root{--display:'Cormorant Garamond',Georgia,serif;--tour-scrim:rgba(10,8,10,.83);--tour-glow:rgba(184,151,90,.25);--tour-shadow:rgba(0,0,0,.5)}
+:root[data-font='newsreader']{--display:'Newsreader',Georgia,serif}
+:root[data-font='fell']{--display:'IM Fell English',Georgia,serif}
+.identity h1{font:500 36px/1.05 var(--display);letter-spacing:-1px}
+.workspace-heading h2{font:500 32px/1.1 var(--display);letter-spacing:-.6px}
+.section-heading h2{font:500 23px/1.15 var(--display);letter-spacing:-.2px}
+.tag-label,.empty-timeline p{font-family:var(--display);font-weight:500}
+.fix-verification h3{font:500 25px/1.2 var(--display)}
+.header-buttons{flex-wrap:wrap;justify-content:flex-end;gap:5px}
+.header-buttons button{white-space:nowrap}
+.tour-layer{position:fixed;inset:0;z-index:1000;font-family:var(--ui);overscroll-behavior:contain}
+.tour-active-target{scroll-margin-top:28px!important}
+.tour-shade{position:absolute;inset:0;pointer-events:none}
+.tour-shade>rect{fill:var(--tour-scrim)}
+.tour-spotlight{position:fixed;pointer-events:none;border:1px solid var(--tallow);border-radius:8px;box-shadow:0 0 0 3px var(--tour-glow),0 0 30px 8px var(--tour-glow),inset 0 0 16px var(--tour-glow)}
+.tour-card{position:fixed;z-index:1;background:var(--ui-panel);color:var(--ui-text);border:1px solid var(--ui-border);border-top-color:var(--tallow);border-radius:8px;padding:20px 24px 16px;box-shadow:0 20px 70px var(--tour-shadow);max-height:calc(100dvh - 28px);overflow-y:auto;outline:none;scrollbar-color:var(--ash) var(--slab)}
+.tour-card:focus-visible{outline:none}
+.tour-pointer{position:fixed;z-index:2;width:12px;height:12px;background:var(--ui-panel);border:1px solid var(--ui-border);transform:rotate(45deg);pointer-events:none}
+.tour-pointer[data-side='right']{border-right:0;border-top:0}
+.tour-pointer[data-side='left']{border-left:0;border-bottom:0}
+.tour-pointer[data-side='bottom']{border-right:0;border-bottom:0;border-color:var(--tallow)}
+.tour-pointer[data-side='top']{border-left:0;border-top:0}
+.tour-card-top{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:22px}
+.tour-signature{font:500 21px/1 var(--display);color:var(--tallow)}
+.tour-close{font:400 23px/1 var(--ui);min-height:26px;min-width:26px;padding:0;background:transparent;border:0;color:var(--ui-muted)}
+.tour-close:hover{color:var(--bone);background:var(--vault)}
+.tour-intro{color:var(--ui-muted);font:11px/1.5 var(--ui);margin:0 0 12px}
+.tour-card h2{font:500 32px/1.03 var(--display);letter-spacing:-.7px;margin:0 0 16px;color:var(--bone)}
+.tour-welcome{padding:23px 27px 25px}
+.tour-welcome h2{font-size:45px;line-height:1.02;letter-spacing:-1.2px;margin-bottom:21px}
+.tour-card #tour-description{font:13px/1.8 var(--ui);color:var(--ui-muted);margin:0 0 23px}
+.tour-welcome-note{display:flex;align-items:center;gap:13px;border-top:1px solid var(--ui-border);border-bottom:1px solid var(--ui-border);padding:17px 0;margin:24px 0;font:11px/1.65 var(--ui);color:var(--ui-muted)}
+.tour-crosshair{position:relative;width:26px;height:26px;flex-shrink:0;border:1px solid var(--tallow);border-radius:50%}
+.tour-crosshair::before,.tour-crosshair::after{content:'';position:absolute;background:var(--tallow);inset:12px -4px auto;height:1px}
+.tour-crosshair::after{inset:-4px auto -4px 12px;width:1px;height:auto}
+.tour-actions{display:flex;align-items:center;gap:8px}
+.tour-actions button{font:500 11px/1.3 var(--ui);padding:9px 12px;min-height:36px}
+.tour-actions .tour-primary{margin-left:auto;background:var(--bone);color:var(--tomb);border-color:var(--bone)}
+.tour-actions .tour-primary:hover{background:var(--tallow);border-color:var(--tallow)}
+.tour-welcome .tour-actions .tour-primary{margin:0}
+.tour-actions .tour-secondary{background:transparent;color:var(--ui-muted);border-color:var(--ui-border)}
+.tour-actions .tour-skip{margin-left:auto;background:transparent;border-color:transparent;font-size:10px;color:var(--ash);padding-left:3px;padding-right:3px}
+.tour-actions .tour-skip+.tour-primary{margin-left:0}
+.tour-progress{display:flex;gap:4px;margin-bottom:17px}
+.tour-progress span{flex:1;height:2px;background:var(--ui-border)}
+.tour-progress .is-reached{background:var(--tallow)}
+.tour-step-count{display:flex;justify-content:space-between;gap:12px;font:11px/1.3 var(--ui);color:var(--ash);margin:0 0 14px}
+.tour-step-count span{font:10px var(--mono);color:var(--tallow)}
+.tour-key-hint{font:10px/1.5 var(--ui);color:var(--ash);margin:16px 0 0;text-align:center}
+.font-options>p{font-size:12px;color:var(--ui-muted);line-height:1.75}
+.font-option{display:flex;flex-direction:column;gap:14px;width:100%;padding:19px;text-align:left;margin:13px 0;border-color:var(--ui-border);background:var(--slab)}
+.font-option.is-selected{border-color:var(--tallow);background:var(--vault)}
+.font-option-name{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;font:500 12px var(--ui)}
+.font-option-name>span{font:10px var(--ui);color:var(--ash)}
+.is-selected .font-option-name>span{color:var(--tallow)}
+.font-specimen{font-size:32px;font-weight:400;line-height:1.12;letter-spacing:-.4px;color:var(--bone)}
+.font-description{font:11px/1.6 var(--ui);color:var(--ui-muted);max-width:60ch}
+@media(max-width:1023px){.header-buttons{gap:4px;justify-content:flex-end}.header-buttons button{font-size:10px;padding:7px 8px}.identity h1{font-size:32px}}
+@media(max-width:600px){.header-buttons{justify-content:flex-start;gap:5px}.header-buttons button:not(:first-child){padding:7px 8px;font-size:10px}.header-buttons button:first-child{flex-basis:100%;text-align:left}.identity h1{font-size:34px}.workspace-heading h2{font-size:30px}.tour-welcome h2{font-size:40px}.tour-card{padding:18px 20px}.tour-actions button{padding:9px 10px}.tour-actions .tour-skip{padding:9px 0}.font-specimen{font-size:28px}}
+@media(prefers-reduced-motion:reduce){.tour-spotlight,.tour-card{transition:none}}

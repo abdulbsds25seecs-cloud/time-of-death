@@ -3,12 +3,12 @@ import { BAYER_8 } from './dither.mjs';
 
 function rgb(value) { const text=value.trim().replace('#',''); return [0,2,4].map(i=>parseInt(text.slice(i,i+2),16)); }
 
-export default function Dither({ range, tone = 'oxblood', density = .42, animate = false, className = '' }) {
+export default function Dither({ range, tone = 'oxblood', density = .42, animate = false, className = '', svg = false }) {
   const ref = useRef(null), previous = useRef(null);
   const [failed, setFailed] = useState(false);
   const id = useId().replaceAll(':','');
   useEffect(() => {
-    if (failed || !ref.current) return;
+    if (svg || failed || !ref.current) return;
     const canvas=ref.current, ctx=canvas.getContext('2d',{alpha:false});
     if (!ctx) { setFailed(true); return; }
     let raf=0, frameTime=0, offscreen=false, began=performance.now();
@@ -44,7 +44,7 @@ export default function Dither({ range, tone = 'oxblood', density = .42, animate
     document.addEventListener('visibilitychange',refresh);reduced.addEventListener('change',refresh);
     paint(performance.now());
     return ()=>{cancelAnimationFrame(raf);resize.disconnect();observer.disconnect();document.removeEventListener('visibilitychange',refresh);reduced.removeEventListener('change',refresh);};
-  },[range?.start,range?.end,range?.total,range?.resolved,tone,density,animate,failed]);
-  if (failed) return <svg className={`dither ${className}`} aria-hidden="true" width="100%" height="100%"><defs><pattern id={id} width="24" height="24" patternUnits="userSpaceOnUse"><rect width="24" height="24" fill="var(--tomb)"/>{BAYER_8.flatMap((row,y)=>row.map((v,x)=>v/64<density?<rect key={`${x}-${y}`} x={x*3} y={y*3} width="3" height="3" fill={`var(--${tone})`}/>:null))}</pattern></defs><rect width="100%" height="100%" fill="var(--tomb)"/><rect x={`${(range?.start||0)/(range?.total||1)*100}%`} width={`${range?.total ? (range.end-range.start+1)/range.total*100 : 100}%`} height="100%" fill={`url(#${id})`}/></svg>;
+  },[range?.start,range?.end,range?.total,range?.resolved,tone,density,animate,failed,svg]);
+  if (svg || failed) return <svg className={`dither ${className}`} aria-hidden="true" width="100%" height="100%"><defs><pattern id={id} width="24" height="24" patternUnits="userSpaceOnUse"><rect width="24" height="24" fill="var(--tomb)"/>{BAYER_8.flatMap((row,y)=>row.map((v,x)=>v/64<density?<rect key={`${x}-${y}`} x={x*3} y={y*3} width="3" height="3" fill={`var(--${tone})`}/>:null))}</pattern></defs><rect width="100%" height="100%" fill="var(--tomb)"/><rect x={`${(range?.start||0)/(range?.total||1)*100}%`} width={`${range?.total ? (range.end-range.start+1)/range.total*100 : 100}%`} height="100%" fill={`url(#${id})`}/></svg>;
   return <canvas ref={ref} className={`dither ${className}`} aria-hidden="true"/>;
 }
