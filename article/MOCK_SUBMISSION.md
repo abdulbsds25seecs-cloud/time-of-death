@@ -4,19 +4,15 @@ published: false
 tags: devchallenge, hf26challenge, git, opensource
 ---
 
-<!-- REVIEW COPY, October 31. Not published. Follows the supplied official template; optional My Agent Session and The Spirit of It are omitted because there is no saved DevRelay session or external reaction to claim. Uses public repository image URLs for DEV preview; check their rendering before publishing. -->
+<!-- REVIEW COPY, October 31. Not published. Follows the supplied official template; The optional My Agent Session is omitted because there is no saved DevRelay session. The Spirit of It describes the author's stated motivation. Uses public repository image URLs for DEV preview; check their rendering before publishing. -->
 
 *This is a submission for the [Hacktoberfest Open-Source AI Challenge Week 4: Ghost in the Machine](https://dev.to/challenges/hacktoberfest-week4-2026-10-26)*
 
 ## What I Built
 
-Working with AI coding agents gave me the reason to build this. As the codebases I worked on grew, I found myself spending more time checking their explanations of what had broken. A plausible explanation could send me down the wrong path, and I still needed a repeatable check to establish what actually happened.
-
-I wanted to spend less time retracing changes and more time fixing the failure. Give me the commit where the check changed, the output it produced, and a way to test the proposed repair against the same failure.
-
 I built **Time of Death**, a local tool that searches Git history for the boundary between a passing check and a failing one. It keeps the command output, confirms the candidate against its passing parent, and gives a local open-weight model those receipts to examine.
 
-The challenge arrived at the right time: an excuse to stop procrastinating, build the tool, and put it through tests. The theme fit too. An old change can keep haunting a program long after everyone has forgotten why it was made.
+I built it because working with AI agents left me wanting a quicker way to check their explanations when something broke.
 
 Give the app a trusted repository, a known working revision, a later failing revision and a repeatable check. **Check readiness** tests the endpoints first. **Begin investigation** searches the history with Git bisect and records every execution.
 
@@ -137,6 +133,14 @@ Ollama runs a replaceable local open-weight model against a bounded diff and con
 There is no paid inference API in this setup. Local execution still uses your hardware, and the models need an initial download. I already had Codex and Copilot subscriptions for development; those are not required to run the standard tool. A T480 with 8 GB RAM is a design target, not hardware on which I have measured performance.
 
 Running the model locally makes it possible to examine a private repository's diff and logs without sending that evidence to a hosted inference API. I can inspect the workflow, replace the model, and keep the Git search and report format if a provider changes its service. A closed hosted API could provide an explanation, but would require sending the evidence to that service and depending on its availability and terms. The local setup can keep working offline after its tools and model have been downloaded; optional Sentry delivery needs a network connection.
+
+## The Spirit of It
+
+Working with AI coding agents was the reason this idea kept coming back to me. As the codebases I worked on grew, I found myself spending more time checking their explanations of what had broken. An explanation could sound convincing and still need verifying. I wanted to spend less time retracing changes and more time fixing the actual failure.
+
+What I wanted was simple: show me the commit where the check changed, show me what ran, and let me test the proposed repair against the same failure. That frustration became the case file, the execution receipts and the fix replay.
+
+The challenge came at the perfect time to make me stop procrastinating and actually build and test it. “Ghost in the Machine” fit the problem: an old change can keep haunting a program long after everyone has forgotten why it was made. Time of Death is my attempt to give that ghost a commit hash and something I can reproduce.
 
 ## Prize Categories
 
