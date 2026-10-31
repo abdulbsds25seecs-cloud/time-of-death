@@ -1,25 +1,28 @@
-# Current build: October 31, 2026
+# Current build: October 31, 2026 — preview 0.2
 
-This prerelease is a snapshot requested by the owner, not a final hackathon submission or a production-ready release.
+This owner-requested prerelease is not a published hackathon submission or production certification.
 
-## Run the prebuilt edition
+## Run
 
-Download `time-of-death-prebuilt.zip` from this repository's Releases page. Extract the entire ZIP, install Node.js 22.13+ and Git if necessary, and open `Start-Time-of-Death.cmd` on Windows. Standard local mode needs no npm install or paid service. Other platforms can run `node server.mjs` from the extracted folder and open the printed loopback address.
+Extract the entire time-of-death-prebuilt.zip, install Node.js 22.13+ and Git, and open Start-Time-of-Death.cmd on Windows. Other platforms can run node server.mjs in the extracted directory. Standard local mode needs no npm install or paid service. Optional integrations require separate documented dependencies/setup. Credentials, case data, models and third-party executables are excluded.
 
-Optional Ollama models and framework integrations require their documented setup. Credentials and local case data are excluded from the upload.
+## Changed and verified
 
-## Included
+- Block command fix proposals outside the original culprit change set, including imported check helpers of arbitrary names. Accepted command replay is explicitly restricted; no dependency-graph proof is claimed.
+- Preserve Copilot's original reproducer unchanged; it now passes.
+- Build and complete local suite: **51 passed, zero failed/skipped**.
+- Real HTTP journey: readiness, investigation, patch replay, three exports and reopening after restart passed.
+- React DOM tour tests cover nine steps, keyboard/focus behavior, dismissal, replay and blocked storage.
+- Fresh clsx historical case: nine commits, fourteen checks, expected boundary and six successful patch-verification receipts.
+- Real local Mastra/Qwen inference and opt-in Sentry transport HTTP 200 with fourteen child spans.
+- Fresh Temporal forced worker kill/restart reused three completed check checkpoints.
 
-- Local Git investigations, readiness checks, execution receipts and exports.
-- Coroner workspace, flowing Bayer background at 20% opacity and a nine-step spotlight tour.
-- Three bundled display-font choices, with Cormorant Garamond selected by default.
-- Optional local AI, Mastra workflow, Temporal recovery and Sentry instrumentation.
-- Historical evidence, licenses, independent Copilot reports and unchanged bug reproducers.
+The [acceptance record](evidence/FINAL_ACCEPTANCE.md) links raw evidence and limits. The [mock article](article/MOCK_SUBMISSION.md) is ready for owner review, not published.
 
-## Known blocker
+## Limits
 
-`test/copilot-retest.test.mjs` currently fails. A patch can leave the direct check entry point unchanged, weaken a helper it imports, and receive a `passed` verification. The assertion has been preserved. A passing receipt is not sufficient to establish check integrity for arbitrary repositories.
+The local model made a chronology error in its explanation; the raw response is retained. Citation validation does not establish truth. Sentry delivery acknowledgement does not establish fresh dashboard inspection. Temporal retains the same local checkpoint disk; an in-flight check can repeat.
 
-Copilot's earlier post-fix run reported 42 passing tests and this one failure. Subsequent UI work has focused build, render and placement checks; those results do not replace a fresh full acceptance run. Real-browser validation of the latest tour, focus behavior and motion remains pending. T480 performance is a design target, not a completed hardware benchmark.
+Complete fresh visual browser/mobile acceptance could not be performed because browser control could not determine the current URL. DOM and HTTP tests cover behavior, not pixels. T480 performance remains unmeasured. A disposable checkout is not a security sandbox. Review check logic and exports before trusting or sharing them.
 
-GitHub Actions is disabled for this private snapshot upload. CI is not claimed green, and the upload does not start hosted jobs. The workflow file remains available for later use.
+The repository is private and GitHub Actions remains disabled. Judges will need repository access before submission; no hosted green CI or automatic DEV publication is claimed.

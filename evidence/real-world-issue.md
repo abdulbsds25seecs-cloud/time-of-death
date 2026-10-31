@@ -30,7 +30,7 @@ try{
 ```
 
 ## Recorded evidence
-Case bf585f40-7ad6-4350-9a59-9b819ba74cc9; status complete; 14 check executions; 2 execution(s) per selected revision.
+Case 4ca744a8-ef48-49b4-9007-07e9b9aecce4; status complete; 14 check executions; 2 execution(s) per selected revision.
 Candidate: 3ec8e9fa2f6eef3911cb47f656ab761fc1030812
 Passing parent: 4a4eadd3e492b882e59112b453f86e83316b7133
 
@@ -101,25 +101,25 @@ index 8f2f743..bf411e9 100644
 ```
 
 ### E11: Confirm candidate failure
-3ec8e9fa2f6eef3911cb47f656ab761fc1030812; bad; exit 1; 78 ms.
+3ec8e9fa2f6eef3911cb47f656ab761fc1030812; bad; exit 1; 97 ms.
 ```text
-PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by "exports" in C:\Users\oasis\AppData\Local\Temp\time-of-death-6s12Mx\checkout\package.json imported from C:\Users\oasis\AppData\Local\Temp\time-of-death-6s12Mx\checkout\.tod-manifest-probe\probe.cjs
+PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by "exports" in C:\Users\oasis\AppData\Local\Temp\time-of-death-nt5l1S\checkout\package.json imported from C:\Users\oasis\AppData\Local\Temp\time-of-death-nt5l1S\checkout\.tod-manifest-probe\probe.cjs
 ```
 
 ### E12: Confirm candidate failure
-3ec8e9fa2f6eef3911cb47f656ab761fc1030812; bad; exit 1; 80 ms.
+3ec8e9fa2f6eef3911cb47f656ab761fc1030812; bad; exit 1; 133 ms.
 ```text
-PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by "exports" in C:\Users\oasis\AppData\Local\Temp\time-of-death-6s12Mx\checkout\package.json imported from C:\Users\oasis\AppData\Local\Temp\time-of-death-6s12Mx\checkout\.tod-manifest-probe\probe.cjs
+PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by "exports" in C:\Users\oasis\AppData\Local\Temp\time-of-death-nt5l1S\checkout\package.json imported from C:\Users\oasis\AppData\Local\Temp\time-of-death-nt5l1S\checkout\.tod-manifest-probe\probe.cjs
 ```
 
 ### E13: Confirm previous revision passes
-4a4eadd3e492b882e59112b453f86e83316b7133; good; exit 0; 85 ms.
+4a4eadd3e492b882e59112b453f86e83316b7133; good; exit 0; 98 ms.
 ```text
 PASS: clsx/package.json resolves for downstream tooling
 ```
 
 ### E14: Confirm previous revision passes
-4a4eadd3e492b882e59112b453f86e83316b7133; good; exit 0; 104 ms.
+4a4eadd3e492b882e59112b453f86e83316b7133; good; exit 0; 81 ms.
 ```text
 PASS: clsx/package.json resolves for downstream tooling
 ```
@@ -130,7 +130,7 @@ The parent passes, the culprit fails, and the proposed fix passes on the recorde
 - Passing parent: good; revision 4a4eadd3e492b882e59112b453f86e83316b7133; evidence V1, V2
 - Original culprit: bad; revision 3ec8e9fa2f6eef3911cb47f656ab761fc1030812; evidence V3, V4
 - Proposed fix: good; revision 3ec8e9fa2f6eef3911cb47f656ab761fc1030812 with proposed patch; evidence V5, V6
-Verifies only the supplied regression check, not semantic correctness. Portable checks are injected after applying the proposal. Command checks protect the direct Node entry point and recognizable test/configuration paths; review imported helpers and dependency behavior yourself. This is not a tamper-proof sandbox.
+Verifies only the supplied regression check, not semantic correctness. Portable checks are injected after applying the proposal; keep their check logic independent of changed application code. Command proposals are restricted to the original culprit change set and cannot change the entry check or recognized test/configuration paths. This conservative scope guard is not a proof of the full JavaScript dependency graph or a tamper-proof sandbox.
 Check integrity: injected. The recorded portable check is injected after the proposal, using the same script for all three variants.
 
 ## Limits

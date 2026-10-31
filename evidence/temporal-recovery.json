@@ -1,15 +1,15 @@
 {
-  "testedAt": "2026-10-31T05:42:51.218Z",
+  "testedAt": "2026-10-31T09:06:47.287Z",
   "scenario": "Force-killed native Windows worker after completed check checkpoints; restarted worker against the same SQLite-backed Temporal service",
-  "workflowId": "0904dee5-4f34-4e84-8221-e404e1d8e1df",
-  "killedPid": 24852,
+  "workflowId": "733f85ca-12d3-4504-9e81-3eed15a8768a",
+  "killedPid": 22132,
   "cachedBeforeKill": 3,
-  "id": "0904dee5-4f34-4e84-8221-e404e1d8e1df",
+  "id": "733f85ca-12d3-4504-9e81-3eed15a8768a",
   "status": "complete",
-  "candidate": "67c6438a85566156c2a233beac616bf19e5e50d4",
+  "candidate": "a96ec70a9dff6eb65822f40d1c087b3795ed0437",
   "resumedChecks": 3,
-  "reportFile": "C:\\Users\\oasis\\Documents\\Codex\\2026-10-27\\hac\\outputs\\time-of-death\\.data\\reports\\0904dee5-4f34-4e84-8221-e404e1d8e1df.json",
-  "expectedCandidate": "67c6438a85566156c2a233beac616bf19e5e50d4",
+  "reportFile": "C:\\Users\\oasis\\Documents\\Codex\\2026-10-27\\hac\\outputs\\time-of-death\\.data\\reports\\733f85ca-12d3-4504-9e81-3eed15a8768a.json",
+  "expectedCandidate": "a96ec70a9dff6eb65822f40d1c087b3795ed0437",
   "passed": true,
   "limits": "Local checkpoint disk and repository retained; an in-flight check can repeat. This does not test disk loss or remote worker migration."
 }

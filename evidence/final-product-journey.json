@@ -1,0 +1,53 @@
+{
+  "startedAt": "2026-10-31T09:03:52.432Z",
+  "surface": "Real loopback HTTP API, bundled frontend and persisted reports",
+  "steps": [
+    {
+      "name": "Open bundled app",
+      "status": "passed"
+    },
+    {
+      "name": "Check readiness",
+      "status": "passed",
+      "receipts": 4
+    },
+    {
+      "name": "Confirm expected synthetic boundary",
+      "status": "passed",
+      "checks": 16
+    },
+    {
+      "name": "Verify scoped application fix",
+      "status": "passed",
+      "outcomes": [
+        "good",
+        "bad",
+        "good"
+      ]
+    },
+    {
+      "name": "Export json",
+      "status": "passed",
+      "bytes": 28235
+    },
+    {
+      "name": "Export md",
+      "status": "passed",
+      "bytes": 12204
+    },
+    {
+      "name": "Export issue",
+      "status": "passed",
+      "bytes": 4573
+    },
+    {
+      "name": "Close, restart and reopen saved case",
+      "status": "passed"
+    }
+  ],
+  "dataDir": "C:\\Users\\oasis\\Documents\\Codex\\2026-10-27\\hac\\outputs\\time-of-death\\work\\final-journey-5iYMSz",
+  "status": "passed",
+  "caseId": "3c32bb43-e182-420c-b294-db2ec6f9606e",
+  "finishedAt": "2026-10-31T09:04:07.934Z",
+  "limits": "This script checks real HTTP/CLI-adjacent backend behavior, not browser pointer, focus, mobile rendering or model accuracy. Separate browser checks and regression tests cover those surfaces."
+}

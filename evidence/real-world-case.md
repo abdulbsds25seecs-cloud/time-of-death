@@ -1,10 +1,10 @@
-# Time of Death — investigation bf585f40-7ad6-4350-9a59-9b819ba74cc9
+# Time of Death — investigation 4ca744a8-ef48-49b4-9007-07e9b9aecce4
 
 Status: **complete**
-Created: 2026-10-31T07:37:30.470Z
+Created: 2026-10-31T09:03:44.982Z
 Repository: C:/Users/oasis/Documents/Codex/2026-10-27/hac/outputs/time-of-death/.data/realworld/clsx
 Check: Portable Node regression check (injected into every revision)
-Elapsed: 4.21 seconds
+Elapsed: 4.63 seconds
 
 ## Verdict
 First failing boundary in the selected linear range, assuming a reproducible monotonic regression.
@@ -85,7 +85,7 @@ The parent passes, the culprit fails, and the proposed fix passes on the recorde
 - Passing parent: good; 4a4eadd3e492b882e59112b453f86e83316b7133; V1, V2
 - Original culprit: bad; 3ec8e9fa2f6eef3911cb47f656ab761fc1030812; V3, V4
 - Proposed fix: good; 3ec8e9fa2f6eef3911cb47f656ab761fc1030812 + patch; V5, V6
-Verifies only the supplied regression check, not semantic correctness. Portable checks are injected after applying the proposal. Command checks protect the direct Node entry point and recognizable test/configuration paths; review imported helpers and dependency behavior yourself. This is not a tamper-proof sandbox.
+Verifies only the supplied regression check, not semantic correctness. Portable checks are injected after applying the proposal; keep their check logic independent of changed application code. Command proposals are restricted to the original culprit change set and cannot change the entry check or recognized test/configuration paths. This conservative scope guard is not a proof of the full JavaScript dependency graph or a tamper-proof sandbox.
 
 ### Check integrity
 The recorded portable check is injected after the proposal, using the same script for all three variants.
@@ -93,7 +93,7 @@ Status: injected
 Check SHA-256: c990eed6b76001c3de4255191952f136613bbe14c479f7f7d99f9fee108f7c3d
 
 ### V1 — Passing parent
-good; exit 0; 95 ms
+good; exit 0; 80 ms
 ```text
 PASS: clsx/package.json resolves for downstream tooling
 
@@ -101,7 +101,7 @@ PASS: clsx/package.json resolves for downstream tooling
 ```
 
 ### V2 — Passing parent
-good; exit 0; 94 ms
+good; exit 0; 75 ms
 ```text
 PASS: clsx/package.json resolves for downstream tooling
 
@@ -109,23 +109,23 @@ PASS: clsx/package.json resolves for downstream tooling
 ```
 
 ### V3 — Original culprit
-bad; exit 1; 92 ms
+bad; exit 1; 136 ms
 ```text
 
-PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by "exports" in C:\Users\oasis\AppData\Local\Temp\time-of-death-fix-ZH8Kyz\checkout\package.json imported from C:\Users\oasis\AppData\Local\Temp\time-of-death-fix-ZH8Kyz\checkout\.tod-manifest-probe\probe.cjs
+PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by "exports" in C:\Users\oasis\AppData\Local\Temp\time-of-death-fix-3ucEd6\checkout\package.json imported from C:\Users\oasis\AppData\Local\Temp\time-of-death-fix-3ucEd6\checkout\.tod-manifest-probe\probe.cjs
 
 ```
 
 ### V4 — Original culprit
-bad; exit 1; 83 ms
+bad; exit 1; 80 ms
 ```text
 
-PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by "exports" in C:\Users\oasis\AppData\Local\Temp\time-of-death-fix-ZH8Kyz\checkout\package.json imported from C:\Users\oasis\AppData\Local\Temp\time-of-death-fix-ZH8Kyz\checkout\.tod-manifest-probe\probe.cjs
+PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by "exports" in C:\Users\oasis\AppData\Local\Temp\time-of-death-fix-3ucEd6\checkout\package.json imported from C:\Users\oasis\AppData\Local\Temp\time-of-death-fix-3ucEd6\checkout\.tod-manifest-probe\probe.cjs
 
 ```
 
 ### V5 — Proposed fix
-good; exit 0; 95 ms
+good; exit 0; 85 ms
 ```text
 PASS: clsx/package.json resolves for downstream tooling
 
@@ -180,7 +180,7 @@ Not generated. No AI output is implied.
 ## Execution evidence
 
 ### E1 — 6da37d6 — good
-Verify working endpoint; repeat 1; exit 0; 70 ms
+Verify working endpoint; repeat 1; exit 0; 86 ms
 ```text
 PASS: clsx/package.json resolves for downstream tooling
 
@@ -188,7 +188,7 @@ PASS: clsx/package.json resolves for downstream tooling
 ```
 
 ### E2 — 6da37d6 — good
-Verify working endpoint; repeat 2; exit 0; 72 ms
+Verify working endpoint; repeat 2; exit 0; 99 ms
 ```text
 PASS: clsx/package.json resolves for downstream tooling
 
@@ -196,39 +196,39 @@ PASS: clsx/package.json resolves for downstream tooling
 ```
 
 ### E3 — 6232a9e — bad
-Verify failing endpoint; repeat 1; exit 1; 103 ms
+Verify failing endpoint; repeat 1; exit 1; 118 ms
 ```text
 
-PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by "exports" in C:\Users\oasis\AppData\Local\Temp\time-of-death-6s12Mx\checkout\package.json imported from C:\Users\oasis\AppData\Local\Temp\time-of-death-6s12Mx\checkout\.tod-manifest-probe\probe.cjs
+PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by "exports" in C:\Users\oasis\AppData\Local\Temp\time-of-death-nt5l1S\checkout\package.json imported from C:\Users\oasis\AppData\Local\Temp\time-of-death-nt5l1S\checkout\.tod-manifest-probe\probe.cjs
 
 ```
 
 ### E4 — 6232a9e — bad
-Verify failing endpoint; repeat 2; exit 1; 76 ms
+Verify failing endpoint; repeat 2; exit 1; 107 ms
 ```text
 
-PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by "exports" in C:\Users\oasis\AppData\Local\Temp\time-of-death-6s12Mx\checkout\package.json imported from C:\Users\oasis\AppData\Local\Temp\time-of-death-6s12Mx\checkout\.tod-manifest-probe\probe.cjs
+PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by "exports" in C:\Users\oasis\AppData\Local\Temp\time-of-death-nt5l1S\checkout\package.json imported from C:\Users\oasis\AppData\Local\Temp\time-of-death-nt5l1S\checkout\.tod-manifest-probe\probe.cjs
 
 ```
 
 ### E5 — 03e1cf9 — bad
-Narrowing the revision range; repeat 1; exit 1; 89 ms
+Narrowing the revision range; repeat 1; exit 1; 96 ms
 ```text
 
-PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by "exports" in C:\Users\oasis\AppData\Local\Temp\time-of-death-6s12Mx\checkout\package.json imported from C:\Users\oasis\AppData\Local\Temp\time-of-death-6s12Mx\checkout\.tod-manifest-probe\probe.cjs
+PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by "exports" in C:\Users\oasis\AppData\Local\Temp\time-of-death-nt5l1S\checkout\package.json imported from C:\Users\oasis\AppData\Local\Temp\time-of-death-nt5l1S\checkout\.tod-manifest-probe\probe.cjs
 
 ```
 
 ### E6 — 03e1cf9 — bad
-Narrowing the revision range; repeat 2; exit 1; 77 ms
+Narrowing the revision range; repeat 2; exit 1; 82 ms
 ```text
 
-PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by "exports" in C:\Users\oasis\AppData\Local\Temp\time-of-death-6s12Mx\checkout\package.json imported from C:\Users\oasis\AppData\Local\Temp\time-of-death-6s12Mx\checkout\.tod-manifest-probe\probe.cjs
+PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by "exports" in C:\Users\oasis\AppData\Local\Temp\time-of-death-nt5l1S\checkout\package.json imported from C:\Users\oasis\AppData\Local\Temp\time-of-death-nt5l1S\checkout\.tod-manifest-probe\probe.cjs
 
 ```
 
 ### E7 — 4a4eadd — good
-Narrowing the revision range; repeat 1; exit 0; 86 ms
+Narrowing the revision range; repeat 1; exit 0; 87 ms
 ```text
 PASS: clsx/package.json resolves for downstream tooling
 
@@ -236,7 +236,7 @@ PASS: clsx/package.json resolves for downstream tooling
 ```
 
 ### E8 — 4a4eadd — good
-Narrowing the revision range; repeat 2; exit 0; 90 ms
+Narrowing the revision range; repeat 2; exit 0; 79 ms
 ```text
 PASS: clsx/package.json resolves for downstream tooling
 
@@ -244,39 +244,39 @@ PASS: clsx/package.json resolves for downstream tooling
 ```
 
 ### E9 — 3ec8e9f — bad
-Narrowing the revision range; repeat 1; exit 1; 87 ms
+Narrowing the revision range; repeat 1; exit 1; 78 ms
 ```text
 
-PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by "exports" in C:\Users\oasis\AppData\Local\Temp\time-of-death-6s12Mx\checkout\package.json imported from C:\Users\oasis\AppData\Local\Temp\time-of-death-6s12Mx\checkout\.tod-manifest-probe\probe.cjs
+PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by "exports" in C:\Users\oasis\AppData\Local\Temp\time-of-death-nt5l1S\checkout\package.json imported from C:\Users\oasis\AppData\Local\Temp\time-of-death-nt5l1S\checkout\.tod-manifest-probe\probe.cjs
 
 ```
 
 ### E10 — 3ec8e9f — bad
-Narrowing the revision range; repeat 2; exit 1; 85 ms
+Narrowing the revision range; repeat 2; exit 1; 71 ms
 ```text
 
-PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by "exports" in C:\Users\oasis\AppData\Local\Temp\time-of-death-6s12Mx\checkout\package.json imported from C:\Users\oasis\AppData\Local\Temp\time-of-death-6s12Mx\checkout\.tod-manifest-probe\probe.cjs
+PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by "exports" in C:\Users\oasis\AppData\Local\Temp\time-of-death-nt5l1S\checkout\package.json imported from C:\Users\oasis\AppData\Local\Temp\time-of-death-nt5l1S\checkout\.tod-manifest-probe\probe.cjs
 
 ```
 
 ### E11 — 3ec8e9f — bad
-Confirm candidate failure; repeat 1; exit 1; 78 ms
+Confirm candidate failure; repeat 1; exit 1; 97 ms
 ```text
 
-PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by "exports" in C:\Users\oasis\AppData\Local\Temp\time-of-death-6s12Mx\checkout\package.json imported from C:\Users\oasis\AppData\Local\Temp\time-of-death-6s12Mx\checkout\.tod-manifest-probe\probe.cjs
+PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by "exports" in C:\Users\oasis\AppData\Local\Temp\time-of-death-nt5l1S\checkout\package.json imported from C:\Users\oasis\AppData\Local\Temp\time-of-death-nt5l1S\checkout\.tod-manifest-probe\probe.cjs
 
 ```
 
 ### E12 — 3ec8e9f — bad
-Confirm candidate failure; repeat 2; exit 1; 80 ms
+Confirm candidate failure; repeat 2; exit 1; 133 ms
 ```text
 
-PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by "exports" in C:\Users\oasis\AppData\Local\Temp\time-of-death-6s12Mx\checkout\package.json imported from C:\Users\oasis\AppData\Local\Temp\time-of-death-6s12Mx\checkout\.tod-manifest-probe\probe.cjs
+PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by "exports" in C:\Users\oasis\AppData\Local\Temp\time-of-death-nt5l1S\checkout\package.json imported from C:\Users\oasis\AppData\Local\Temp\time-of-death-nt5l1S\checkout\.tod-manifest-probe\probe.cjs
 
 ```
 
 ### E13 — 4a4eadd — good
-Confirm previous revision passes; repeat 1; exit 0; 85 ms
+Confirm previous revision passes; repeat 1; exit 0; 98 ms
 ```text
 PASS: clsx/package.json resolves for downstream tooling
 
@@ -284,7 +284,7 @@ PASS: clsx/package.json resolves for downstream tooling
 ```
 
 ### E14 — 4a4eadd — good
-Confirm previous revision passes; repeat 2; exit 0; 104 ms
+Confirm previous revision passes; repeat 2; exit 0; 81 ms
 ```text
 PASS: clsx/package.json resolves for downstream tooling
 

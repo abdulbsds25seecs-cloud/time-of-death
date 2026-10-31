@@ -40,6 +40,14 @@ test('fix integrity covers revision proposals, test inputs and injected portable
     assert.equal(result.status,'inconclusive');assert.equal(result.checkIntegrity.status,'blocked');
     assert.match(result.message,/portable Node check/);assert.equal(result.checks.length,2);
   });
+  await t.test('an arbitrary added module outside the original change set is blocked even alongside a valid fix',async()=>{
+    const extra='diff --git a/alpha.mjs b/alpha.mjs\nnew file mode 100644\n--- /dev/null\n+++ b/alpha.mjs\n@@ -0,0 +1 @@\n+process.exit(0);\n';
+    const result=await verifyFix(original,{patch:fix+extra});
+    assert.equal(result.status,'inconclusive');assert.equal(result.checkIntegrity.status,'blocked');
+    assert.deepEqual(result.checkIntegrity.files,['alpha.mjs']);
+    assert.ok(result.checkIntegrity.originalChangeFiles.includes('session.mjs'));
+    assert.ok(!result.runs.some(row=>row.variant==='Proposed fix'));
+  });
   await t.test('portable script stays independent of a replaced committed check',async()=>{
     const source={...original,reproScript:check};
     const failed=await verifyFix(source,{fixRevision:revision});

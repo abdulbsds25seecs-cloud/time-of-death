@@ -6,9 +6,9 @@ A check that used to pass now fails. Somewhere in your Git history, a change cro
 
 Time of Death is a local regression investigator: give it a working revision, a failing revision and a repeatable check. It searches the history, records what ran, and confirms a failing commit alongside its passing parent. An optional local model offers an explanation with references to that evidence.
 
-[Download the prebuilt preview](https://github.com/abdulbsds25seecs-cloud/time-of-death/releases/tag/v0.1.0-preview.20261031) / [Run from source](#try-it-locally) / [Usage reference](docs/USAGE.md)
+[Download the prebuilt preview](https://github.com/abdulbsds25seecs-cloud/time-of-death/releases/tag/v0.2.0-preview.20261031) / [Run from source](#try-it-locally) / [Usage reference](docs/USAGE.md)
 
-> **Preview status:** fix verification has an unresolved imported-helper integrity bug. A proposal can weaken a helper used by the check and receive a passing verdict. [Read the current limits](#what-still-needs-work) before relying on that feature.
+> **Fresh acceptance:** 51 local tests passed, including Copilot's unchanged helper reproducer. Command fix replay now restricts proposals to the original culprit change set. [Results and limits](evidence/FINAL_ACCEPTANCE.md).
 
 ![A recorded clsx investigation showing the narrowed timeline and candidate commit 3ec8e9f.](docs/screenshots/04-confirmed-boundary.jpg)
 
@@ -30,14 +30,14 @@ The [saved execution record](evidence/real-world-case.json) identifies candidate
 
 The example reconstructs downstream package-manifest resolution using real public history and a minimal package layout. It does not install or build clsx. The [upstream exports-map change](https://github.com/lukeed/clsx/commit/3ec8e9fa2f6eef3911cb47f656ab761fc1030812) was intentional and marked breaking; this is not a newly discovered upstream defect.
 
-In the saved Windows run, with two executions per selected revision:
+In the latest Windows run, with two executions per selected revision (screenshots show an earlier run of the same case):
 
 | Observation | Recorded result |
 | --- | --- |
 | Selected history | 9 commits |
 | Investigation | 14 check executions across 5 distinct revisions |
 | Failing boundary / passing parent | `3ec8e9f` / `4a4eadd` |
-| Investigation elapsed | 4.212 seconds, excluding AI inference |
+| Investigation elapsed | 4.630 seconds, excluding AI inference |
 | Demonstration compatibility patch | 6 executions: parent good, culprit bad, proposal good |
 
 The timing describes this small manifest-resolution experiment, not arbitrary application builds. The patch passes this check; it does not establish a complete fix or recommend an upstream change. Inspect the [full report](evidence/real-world-case.md), [portable check](examples/clsx-package-exports-check.mjs) and [reproduction script](scripts/real-world-demo.mjs).
@@ -68,11 +68,11 @@ The log contains the actual package-path error and confirmation runs. The export
 
 ![Recorded compatibility-patch verification with parent good, original culprit bad and proposed fix good.](docs/screenshots/06-fix-verification.jpg)
 
-This portable manifest-resolution example records parent good, culprit bad and proposal good. It establishes the result of this check; the unresolved imported-helper bug still limits general fix-verification trust.
+This portable manifest-resolution example records parent good, culprit bad and proposal good. It establishes the result of this check; portable checks must keep their assertion logic independent of modified application code.
 
 ## Try it locally
 
-The **prebuilt preview** needs Node.js **22.13+** and Git. Extract the entire [release ZIP](https://github.com/abdulbsds25seecs-cloud/time-of-death/releases/download/v0.1.0-preview.20261031/time-of-death-prebuilt.zip), then open `Start-Time-of-Death.cmd` on Windows. On other platforms, run `node server.mjs` from the extracted folder.
+The **prebuilt preview** needs Node.js **22.13+** and Git. Extract the entire [release ZIP](https://github.com/abdulbsds25seecs-cloud/time-of-death/releases/download/v0.2.0-preview.20261031/time-of-death-prebuilt.zip), then open `Start-Time-of-Death.cmd` on Windows. On other platforms, run `node server.mjs` from the extracted folder.
 
 Open `http://127.0.0.1:4317`, keep the server running, and choose **Open the synthetic case**, then **Begin investigation**. This creates a real Git repository with a deliberately introduced session-expiration regression. It is labeled synthetic throughout the app.
 
@@ -102,7 +102,7 @@ That writes a Markdown case file. To reproduce the historical example after inst
 
 1. **Establish the check.** Select a trusted local repository and a linear good-to-bad range. Check readiness runs the endpoints first. A portable Node script can replay a newly written check in older revisions.
 2. **Follow the search.** Git bisect narrows the range. Select a tested revision to inspect its command, exit code, duration, stdout and stderr. The dithered texture represents the unresolved interval, not a probability.
-3. **Inspect and preserve.** Read the candidate diff, compare its failure with its passing parent, and export Markdown, JSON or a bug-report draft. Proposed-fix verification is available with the integrity limitation stated above. Nothing is posted automatically.
+3. **Inspect and preserve.** Read the candidate diff, compare its failure with its passing parent, and export Markdown, JSON or a bug-report draft. Command fix replay is restricted to the original culprit change set; broader proposals require an independent portable check. Nothing is posted automatically.
 
 The source working tree is not switched, stashed or cleaned. Execution happens in a disposable clone of committed files. Historical dependencies are not installed automatically. The clone runs code with your account's permissions, so use repositories and commands you trust.
 
@@ -127,29 +127,31 @@ These are separate recorded experiments, with different scopes:
 | Experiment | Recorded outcome | Practical limit |
 | --- | --- | --- |
 | [Five synthetic histories](evidence/evaluation.json) | Three expected boundaries and two expected inconclusive cases | Dependency-free Windows desktop fixtures; two checks per selected revision; AI excluded |
-| [Mastra autopsy](evidence/mastra-local-autopsy.json) | Evidence collection, local inference and citation validation | Valid references do not prove a correct interpretation |
-| [Temporal worker restart](evidence/temporal-recovery.json) | Three completed checkpoints reused after a forced stop | Same local repository and checkpoint disk; an interrupted check can repeat |
-| [Sentry setup](evidence/SENTRY_LIVE_VERIFICATION.md) | Controlled synthetic spans appeared in the live dashboard | Separate from a full real-model investigation trace; tracing is opt-in |
-| [Copilot retest](evidence/COPILOT_RETEST_REPORT.md) | 42 tests passed and one helper reproducer failed in that run | Later UI changes have focused checks, not a new full acceptance claim |
+| [Fresh Mastra autopsy](evidence/final-partner-run.json) | Three steps; local Qwen produced 301 tokens in 53.077 seconds | The explanation contains a chronology error; valid citations do not prove interpretation |
+| [Temporal worker restart](evidence/temporal-recovery.json) | Three completed checkpoints reused after a fresh forced stop | Same local repository and checkpoint disk; an interrupted check can repeat |
+| [Live Sentry transport](evidence/final-partner-run.json) | HTTP 200 acknowledged a real transaction with 14 child spans | New trace has not been visually verified in the dashboard; tracing is opt-in |
+| [Fresh acceptance](evidence/FINAL_ACCEPTANCE.md) | 51 local tests passed; unchanged Copilot helper reproducer passes | Local checks, not hosted CI or arbitrary-repository certification |
 
 These records show the conditions under which each result was observed. They do not establish arbitrary-repository reliability or T480 performance. [Integration setup](INTEGRATIONS.md) covers the optional SDKs and services; standard mode does not load those SDKs.
 
 ## What still needs work
 
-**The current blocker is imported check code.** A proposed patch can leave `check.mjs` unchanged, weaken a helper it imports, and receive `passed`. Copilot's [unchanged reproducer](test/copilot-retest.test.mjs) still fails. A passing fix-verification receipt does not establish that the original check's integrity was preserved.
+**Fix replay has a deliberately restricted scope.** Command proposals cannot change the entry check, recognized test/configuration files, or files outside the original culprit change set. This blocks Copilot's imported-helper reproducer; its assertion remains unchanged. Accepted command replays carry `restricted` integrity rather than claiming a proven immutable dependency graph. Review check logic inside allowed original files. For broader proposals, use a portable check with independent assertions.
 
 - The selected history must be linear and at most 500 revisions. A bug that disappears and returns can violate the good-to-bad assumption.
 - Timeouts, unstable repeats and untestable revisions can prevent a conclusive result. Missing-module detection is a limited heuristic; target failure text gives the check more specificity.
 - A disposable checkout is not a code sandbox. Exports may contain paths, logs and the portable script; review them before sharing.
 - Local AI can give a wrong explanation. Evidence references are checked, but reasoning still needs review.
-- Desktop tour opening, the first spotlight, archive loading, typography previews and report download have been exercised. Complete keyboard, preference and mobile acceptance testing remain pending. T480 performance has not been measured.
+- Earlier desktop captures exercised tour opening, the first spotlight, archive loading, typography and report download. Fresh React DOM checks cover all nine steps, keyboard/focus, preferences and blocked storage; the HTTP journey covers investigation through restart. Complete visual browser/mobile acceptance remains pending. T480 performance has not been measured.
 
-Run the source tests with `npm test`. The suite includes the preserved failing helper reproducer. GitHub Actions is disabled for this private preview; no green hosted CI result is implied. [CURRENT_BUILD.md](CURRENT_BUILD.md) describes the uploaded snapshot.
+Run the source tests with `npm test`. The suite includes the preserved helper reproducer, which now passes. GitHub Actions is disabled for this private preview; no green hosted CI result is implied. [CURRENT_BUILD.md](CURRENT_BUILD.md) describes the uploaded snapshot.
 
 ## Source, credits and next steps
 
 The project source is [MIT licensed](LICENSE). Git, Node.js, Ollama, models and dependencies retain their own licenses and terms. Font notices and the clsx license are included in [licenses/](licenses/).
 
-Codex helped build the tool. Copilot challenged it with independent reports and executable reproducers; the findings, fixes and outstanding failure remain in [evidence/](evidence/). The coroner metaphor follows an old change still affecting today's program: establish when the check changed, then investigate why.
+Codex helped build the tool. Copilot challenged it with independent reports and executable reproducers; the findings, fixes and historical failures remain in [evidence/](evidence/). The coroner metaphor follows an old change still affecting today's program: establish when the check changed, then investigate why.
 
-Start with the [synthetic case in the prebuilt preview](https://github.com/abdulbsds25seecs-cloud/time-of-death/releases/tag/v0.1.0-preview.20261031). For your own project, pick one repeatable failure and two revisions you can defend. The [usage reference](docs/USAGE.md) covers commands, exit codes, portable scripts, recovery, privacy and optional integrations.
+Start with the [synthetic case in the prebuilt preview](https://github.com/abdulbsds25seecs-cloud/time-of-death/releases/tag/v0.2.0-preview.20261031). For your own project, pick one repeatable failure and two revisions you can defend. The [usage reference](docs/USAGE.md) covers commands, exit codes, portable scripts, recovery, privacy and optional integrations.
+
+The owner-review [mock submission article](article/MOCK_SUBMISSION.md) follows the project writing guide. It has not been published.

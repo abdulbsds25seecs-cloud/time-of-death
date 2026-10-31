@@ -1,6 +1,6 @@
 # Time of Death: usage reference
 
-[Back to the project overview](../README.md). For the current preview and known blocker, see [CURRENT_BUILD.md](../CURRENT_BUILD.md).
+[Back to the project overview](../README.md). For the current preview and scope limits, see [CURRENT_BUILD.md](../CURRENT_BUILD.md).
 
 ## Start
 
@@ -96,7 +96,7 @@ Cases are saved under `.data/reports/` when started and as execution progresses,
 
 Use **Check readiness** to run only the working/failing endpoint checks before searching. It diagnoses missing check files, unavailable dependencies, unstable outcomes and timeouts. Historical package scripts are read as suggestions; nothing is installed or run just because it appears in a manifest. A ready result does not declare a candidate commit.
 
-After a conclusive investigation, **Did the fix work?** accepts a unified patch or a descendant fix revision. It reruns the passing parent, original culprit and proposed fix in a disposable checkout. A passing result has actual pass/fail/pass receipts. Your source working files are not changed. For command-based verification, use a direct `node check.mjs` command. Changes to that entry point or recognized test/configuration files block a passing verdict. Other shell commands (including npm scripts) require rerunning the investigation with a portable check. Portable scripts are injected after the proposal for all three variants. The result records a check fingerprint and integrity explanation. These controls do not prove semantic correctness or protect against arbitrary malicious code; review imported helpers and dependency behavior.
+After a conclusive investigation, **Did the fix work?** accepts a unified patch or a descendant fix revision. It reruns the passing parent, original culprit and proposed fix in a disposable checkout. A passing result has actual pass/fail/pass receipts. Your source working files are not changed. For command-based verification, use a direct `node check.mjs` command. Changes to that entry point, recognized test/configuration files, or any file outside the original culprit change set block a passing verdict. Accepted command replays are labeled `restricted`; this does not prove full dependency-graph immutability. Other shell commands (including npm scripts) require rerunning the investigation with a portable check. Portable scripts are injected after the proposal for all three variants. The result records a check fingerprint and integrity explanation. These controls do not prove semantic correctness or protect against arbitrary malicious code; review imported helpers and dependency behavior.
 
 **Export bug report** produces a local Markdown draft with reproduction steps, candidate/parent evidence and the fix verification record. It never posts an issue. JSON and full Markdown exports also retain the new receipts.
 
@@ -112,7 +112,7 @@ See [INTEGRATIONS.md](../INTEGRATIONS.md) for setup and verification. All three 
 
 - **Mastra:** schema-checked evidence collection, local inference and citation validation. Set `TOD_MASTRA=1` after installing dependencies.
 - **Temporal:** a separate durable CLI/worker mode; retries after worker failure reuse completed local check checkpoints. A local SQLite-backed Temporal service requires no cloud account. An in-flight check can repeat.
-- **Sentry:** opt-in model/check timings, token counts and status spans. Prompts, source, commands, repository paths and captured logs are excluded. Controlled synthetic setup spans were verified in the live dashboard; see `evidence/SENTRY_LIVE_VERIFICATION.md`. This is separate from a real-model end-to-end trace.
+- **Sentry:** opt-in model/check timings, token counts and status spans. Prompts, source, commands, repository paths and captured logs are excluded. Earlier synthetic setup spans were verified in the dashboard. A fresh real-model workflow received HTTP 200 from the SDK transport for a transaction with 14 child spans; the new trace has not been visually checked in the dashboard. See `evidence/final-partner-run.json`.
 
 On a modest laptop, use standard mode first. Temporal adds a service and worker. Do not run a durable investigation alongside a separate web investigation on the same small machine.
 
@@ -123,7 +123,7 @@ npm test
 npm run evaluate
 ```
 
-These commands use Node's built-in test runner. Evaluation creates synthetic histories with known answers and writes `evidence/evaluation.json`. Timings include checks and Git operations; they do not include model inference. A Windows/Linux workflow is included, but GitHub Actions is disabled for this private preview. The imported-helper reproducer currently fails; local and remote green CI are not claimed.
+These commands use Node's built-in test runner. Evaluation creates synthetic histories with known answers and writes `evidence/evaluation.json`. Timings include checks and Git operations; they do not include model inference. A Windows/Linux workflow is included, but GitHub Actions is disabled for this private preview. The fresh local suite passed 51 tests, including the unchanged imported-helper reproducer. No hosted green CI result is claimed. See `evidence/FINAL_ACCEPTANCE.md`.
 
 ## Architecture
 
@@ -144,4 +144,4 @@ Time of Death source is MIT licensed. [Git](https://git-scm.com/) is separately 
 
 The real-history demonstration uses [clsx](https://github.com/lukeed/clsx), MIT licensed by Luke Edwards. Its license is included in `licenses/clsx-MIT.txt`; downloaded history is not bundled. The portable check and proposed compatibility patch are demonstration artifacts, not an upstream endorsement.
 
-AI coding assistance: Codex was used to build and verify this project. Copilot supplied independent reports and regression test files, including reproductions of test-replacement false positives and lost shutdown reports. Their assertions remain intact. See [the original resolution](../evidence/REVIEW_RESOLUTION.md) and [the latest retest](../evidence/COPILOT_RETEST_REPORT.md). The imported-helper reproducer remains unresolved.
+AI coding assistance: Codex was used to build and verify this project. Copilot supplied independent reports and regression test files, including reproductions of test-replacement false positives and lost shutdown reports. Their assertions remain intact. See [the original resolution](../evidence/REVIEW_RESOLUTION.md) and [the latest retest](../evidence/COPILOT_RETEST_REPORT.md). The unchanged imported-helper reproducer now passes under the conservative original-change-set guard; see [fresh acceptance](../evidence/FINAL_ACCEPTANCE.md).

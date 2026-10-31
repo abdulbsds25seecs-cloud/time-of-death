@@ -1,0 +1,53 @@
+{
+  "startedAt": "2026-10-31T09:04:40.234Z",
+  "kind": "Actual historical investigation, portable fix, local-model Mastra workflow and opt-in live Sentry transport",
+  "model": "qwen2.5-coder:1.5b",
+  "sentryConfigured": true,
+  "deliveries": [
+    {
+      "statusCode": 200,
+      "traceId": "1005a11d095044d68f9fcc08776d318d",
+      "name": "Submission evidence: historical clsx case",
+      "spans": 14,
+      "transactions": 1,
+      "privacyAssertion": "No repository path, check failure text or check expression in serialized envelope"
+    }
+  ],
+  "status": "passed",
+  "caseId": "1f79b083-7e0a-4c1f-b69e-d2f6e2fcbfad",
+  "candidate": "3ec8e9fa2f6eef3911cb47f656ab761fc1030812",
+  "checks": 14,
+  "fixStatus": "passed",
+  "fixChecks": 6,
+  "mastra": {
+    "framework": "Mastra",
+    "workflow": "evidence-autopsy",
+    "steps": [
+      {
+        "id": "collect-evidence",
+        "durationMs": 0,
+        "status": "complete"
+      },
+      {
+        "id": "local-model",
+        "durationMs": 53102,
+        "status": "complete"
+      },
+      {
+        "id": "validate-citations",
+        "durationMs": 0,
+        "status": "complete"
+      }
+    ]
+  },
+  "inference": {
+    "model": "qwen2.5-coder:1.5b",
+    "durationMs": 53077,
+    "tokens": 301,
+    "summary": "The regression was detected in revision 3ec8e9fa2f6eef3911cb47f656ab761fc1030812 due to a change in the package.json file, which caused the PACKAGE_MANIFEST_ACCESS error. This error was resolved in revision 4a4eadd3e492b882e59112b453f86e83316b7133. The next checks should focus on ensuring that the package.json file is correctly exported and that the PACKAGE_MANIFEST_ACCESS error is no longer present."
+  },
+  "sentryFlushed": true,
+  "liveSentryAcknowledged": true,
+  "finishedAt": "2026-10-31T09:05:41.507Z",
+  "limits": "HTTP acknowledgement is transport evidence, not a dashboard screenshot. Model citations are validated but its reasoning still needs review. Same-machine execution; no T480 benchmark or exactly-once claim."
+}

@@ -6,7 +6,7 @@ tags: devchallenge, hf26challenge, git, opensource
 
 *This is a submission for the [Hacktoberfest Open-Source AI Challenge Week 4: Ghost in the Machine](https://dev.to/challenges/hacktoberfest-week4-2026-10-26).*
 
-<!-- Review draft. Use app screenshots as the main demo. Current-interface screenshots were captured on October 31, 2026. The repository is currently private; no DEV submission has been published. -->
+<!-- Historical draft, superseded by article/MOCK_SUBMISSION.md for current owner review. Review draft. Use app screenshots as the main demo. Current-interface screenshots were captured on October 31, 2026. The repository is currently private; no DEV submission has been published. -->
 
 This is a small line for an upgrade to break:
 
