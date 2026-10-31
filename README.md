@@ -4,6 +4,8 @@
 
 A free local regression investigator with an interactive Git timeline, execution receipts, portable regression scripts, and optional local open-weight AI autopsies. The prebuilt edition needs Node 22.13+ and Git. Building from source also needs npm. No account, Docker, paid API, or cloud service is required for the standard local mode.
 
+> **Current preview:** uploaded as a work-in-progress snapshot. Copilot's imported-check-helper reproducer is still failing: a proposal can weaken an imported helper and receive a passing fix verdict. Do not treat fix verification as check-integrity certification. See [CURRENT_BUILD.md](CURRENT_BUILD.md) and [the retest report](evidence/COPILOT_RETEST_REPORT.md). The original reproducer is included unchanged.
+
 > Implemented: React coroner's console, fixed Bayer dithering, engine/CLI, reports, optional Mastra workflow, Temporal recovery and opt-in Sentry instrumentation. Local verification includes the acceptance suite and a separate forced-worker-crash recovery check; see evidence/acceptance-tests.txt for the latest counts. Copilot supplied independent bug reproducers, now preserved with the fixes. Controlled synthetic spans were verified in the live Sentry dashboard; a real-model cloud trace and public publication remain separate work.
 
 ## Start
