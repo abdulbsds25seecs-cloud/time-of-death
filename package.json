@@ -15,7 +15,9 @@
     "build": "vite build",
     "dev": "vite --host 127.0.0.1",
     "worker": "node --env-file-if-exists=.env.local integrations/temporal/worker.mjs",
-    "durable": "node --env-file-if-exists=.env.local integrations/temporal/start.mjs"
+    "durable": "node --env-file-if-exists=.env.local integrations/temporal/start.mjs",
+    "demo:real": "node scripts/real-world-demo.mjs",
+    "prepare:submission": "node scripts/prepare-submission.mjs"
   },
   "license": "MIT",
   "dependencies": {

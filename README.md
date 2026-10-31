@@ -100,6 +100,20 @@ Run `node cli.mjs --help` for all options. Exit 0 means a boundary was confirmed
 
 Completed cases are saved under `.data/reports/` and shown in the case archive. Markdown and JSON exports contain execution output, paths, and optionally the portable script and AI evidence packet. They can contain sensitive information. Review exports before sharing. `.data/` and `.env.local` are gitignored. Fonts are bundled locally. Sentry is disabled unless a DSN is configured; see the optional integration guide for precisely what it sends.
 
+## Check readiness, verify a fix, export an issue draft
+
+Use **Check readiness** to run only the working/failing endpoint checks before searching. It diagnoses missing check files, unavailable dependencies, unstable outcomes and timeouts. Historical package scripts are read as suggestions; nothing is installed or run just because it appears in a manifest. A ready result does not declare a candidate commit.
+
+After a conclusive investigation, **Did the fix work?** accepts a unified patch or a descendant fix revision. It reruns the passing parent, original culprit and proposed fix in a disposable checkout. A passing result has actual pass/fail/pass receipts. Your source working files are not changed. Results apply only to the supplied check; review any test or dependency changes in the proposal.
+
+**Export bug report** produces a local Markdown draft with reproduction steps, candidate/parent evidence and the fix verification record. It never posts an issue. JSON and full Markdown exports also retain the new receipts.
+
+## Automated demonstration and release preparation
+
+See [AUTOMATION.md](AUTOMATION.md). `npm run demo:real` reconstructs a downstream package-manifest compatibility check against pinned public clsx history, finds its boundary and verifies a compatibility patch. The upstream exports-map change was intentional; this example is not a claim of a newly discovered upstream defect or a personal production incident. It uses Node's real resolver with a minimal layout containing the historical manifest, without installing/building clsx.
+
+`npm run prepare:submission` runs checks, refreshes demonstration evidence and article metrics, and prepares a prebuilt release. Optional flags manage a local Temporal fault experiment and render an offline narrated walkthrough. Account setup and public posting remain separate. No script buys credits or publishes artifacts.
+
 ## Optional integrations
 
 See [INTEGRATIONS.md](INTEGRATIONS.md) for setup and verification. All three can be combined, but standard mode does not load their SDKs.
@@ -135,5 +149,7 @@ Git performs the binary search. The project adds command replay, endpoint checks
 ## Attribution and licenses
 
 Time of Death source is MIT licensed. [Git](https://git-scm.com/) is separately licensed under GPLv2; [Node.js](https://nodejs.org/) and [Ollama](https://github.com/ollama/ollama) have their own licenses. Gemma is **open-weight**, subject to [Google's Gemma terms](https://ai.google.dev/gemma/terms), and is not relicensed by this project. Models and third-party binaries are not bundled. IM Fell English and IBM Plex Mono font licenses are included in `licenses/`; dependency packages retain their respective licenses.
+
+The real-history demonstration uses [clsx](https://github.com/lukeed/clsx), MIT licensed by Luke Edwards. Its license is included in `licenses/clsx-MIT.txt`; downloaded history is not bundled. The portable check and proposed compatibility patch are demonstration artifacts, not an upstream endorsement.
 
 AI coding assistance: Codex was used to build and verify this project. Copilot contributions must be documented only after an actual authenticated session. See `evidence/COPILOT_TASK.md` for the prepared review task; its existence is not proof that a Copilot review occurred.

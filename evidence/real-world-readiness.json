@@ -1,0 +1,209 @@
+{
+  "id": "b19c9fe5-44a4-4de7-a65e-04b421f90b0e",
+  "createdAt": "2026-10-30T15:56:44.087Z",
+  "status": "ready",
+  "phase": "Endpoint checks verified",
+  "events": [
+    {
+      "at": "2026-10-30T15:56:44.642Z",
+      "message": "Cloning committed history into a disposable directory. Original working files are not copied or modified."
+    },
+    {
+      "at": "2026-10-30T15:56:45.808Z",
+      "message": "The working endpoint passes and the failing endpoint reproduces the target failure. No history search or candidate claim was made."
+    }
+  ],
+  "runs": [
+    {
+      "id": "E1",
+      "hash": "6da37d67472ea9eb177a4ea9a9fa2f3f4a3c445e",
+      "stage": "Verify working endpoint",
+      "repetition": 1,
+      "at": "2026-10-30T15:56:45.195Z",
+      "code": 0,
+      "stdout": "PASS: clsx/package.json resolves for downstream tooling\n",
+      "stderr": "",
+      "timedOut": false,
+      "cancelled": false,
+      "truncated": false,
+      "durationMs": 124,
+      "status": "good"
+    },
+    {
+      "id": "E2",
+      "hash": "6da37d67472ea9eb177a4ea9a9fa2f3f4a3c445e",
+      "stage": "Verify working endpoint",
+      "repetition": 2,
+      "at": "2026-10-30T15:56:45.319Z",
+      "code": 0,
+      "stdout": "PASS: clsx/package.json resolves for downstream tooling\n",
+      "stderr": "",
+      "timedOut": false,
+      "cancelled": false,
+      "truncated": false,
+      "durationMs": 84,
+      "status": "good"
+    },
+    {
+      "id": "E3",
+      "hash": "6232a9e5649143a28419a04f786a15f63a0b7edd",
+      "stage": "Verify failing endpoint",
+      "repetition": 1,
+      "at": "2026-10-30T15:56:45.643Z",
+      "code": 1,
+      "stdout": "",
+      "stderr": "PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by \"exports\" in C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-hnEc9Q\\checkout\\package.json imported from C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-hnEc9Q\\checkout\\.tod-manifest-probe\\probe.cjs\n",
+      "timedOut": false,
+      "cancelled": false,
+      "truncated": false,
+      "durationMs": 79,
+      "status": "bad"
+    },
+    {
+      "id": "E4",
+      "hash": "6232a9e5649143a28419a04f786a15f63a0b7edd",
+      "stage": "Verify failing endpoint",
+      "repetition": 2,
+      "at": "2026-10-30T15:56:45.722Z",
+      "code": 1,
+      "stdout": "",
+      "stderr": "PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by \"exports\" in C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-hnEc9Q\\checkout\\package.json imported from C:\\Users\\oasis\\AppData\\Local\\Temp\\time-of-death-hnEc9Q\\checkout\\.tod-manifest-probe\\probe.cjs\n",
+      "timedOut": false,
+      "cancelled": false,
+      "truncated": false,
+      "durationMs": 85,
+      "status": "bad"
+    }
+  ],
+  "commits": [
+    {
+      "hash": "6da37d67472ea9eb177a4ea9a9fa2f3f4a3c445e",
+      "short": "6da37d6",
+      "subject": "1.2.1",
+      "date": "2022-07-05T17:06:44-07:00",
+      "author": "Luke Edwards",
+      "status": "good"
+    },
+    {
+      "hash": "496db1dd7441cb42421cb731cbf4fd1d010e1e69",
+      "short": "496db1d",
+      "subject": "chore: add Tailwind readme section (#65)",
+      "date": "2023-01-18T16:56:20-06:00",
+      "author": "Edgar López",
+      "status": "untested"
+    },
+    {
+      "hash": "4a4eadd3e492b882e59112b453f86e83316b7133",
+      "short": "4a4eadd",
+      "subject": "chore: readme typo (#68)",
+      "date": "2023-02-28T05:53:17-08:00",
+      "author": "Kevin Lowe",
+      "status": "untested"
+    },
+    {
+      "hash": "3ec8e9fa2f6eef3911cb47f656ab761fc1030812",
+      "short": "3ec8e9f",
+      "subject": "break: include \"exports\" map w/ \"types\" conditions (#57)",
+      "date": "2023-07-16T00:45:51+02:00",
+      "author": "Remco Haszing",
+      "status": "untested"
+    },
+    {
+      "hash": "03e1cf9149f9d1fca8e1552721568ba1ccd832ae",
+      "short": "03e1cf9",
+      "subject": "chore: update pkg size",
+      "date": "2023-07-15T15:50:27-07:00",
+      "author": "Luke Edwards",
+      "status": "untested"
+    },
+    {
+      "hash": "c520353bd6ffcd101392e4134ad16121fc6b98d2",
+      "short": "c520353",
+      "subject": "chore: add `numbers` tests;",
+      "date": "2023-07-15T16:31:43-07:00",
+      "author": "Luke Edwards",
+      "status": "untested"
+    },
+    {
+      "hash": "09498683889cc1ed5a433a184871c8a6099559ec",
+      "short": "0949868",
+      "subject": "fix: include `*.d.mts` in pkg zip",
+      "date": "2023-07-15T16:31:59-07:00",
+      "author": "Luke Edwards",
+      "status": "untested"
+    },
+    {
+      "hash": "23b2ced389da237b69d2091621a3baedfc55ac04",
+      "short": "23b2ced",
+      "subject": "2.0.0-next.0",
+      "date": "2023-07-15T16:35:41-07:00",
+      "author": "Luke Edwards",
+      "status": "untested"
+    },
+    {
+      "hash": "6232a9e5649143a28419a04f786a15f63a0b7edd",
+      "short": "6232a9e",
+      "subject": "2.0.0",
+      "date": "2023-07-15T16:58:39-07:00",
+      "author": "Luke Edwards",
+      "status": "bad"
+    }
+  ],
+  "elapsedMs": 1729,
+  "operation": "doctor",
+  "repo": "C:/Users/oasis/Documents/Codex/2026-10-27/hac/outputs/time-of-death/work/realworld/clsx",
+  "good": "6da37d67472ea9eb177a4ea9a9fa2f3f4a3c445e",
+  "bad": "6232a9e5649143a28419a04f786a15f63a0b7edd",
+  "synthetic": false,
+  "command": "Portable Node regression check (injected into every revision)",
+  "reproScript": "// Reconstructed downstream compatibility check, not an upstream clsx test.\n// Uses the historical manifest with Node's real package resolver. No install,\n// build, upstream lifecycle script or third-party executable is needed.\nimport { mkdir,readFile,writeFile } from 'node:fs/promises';\nimport { createRequire } from 'node:module';\nimport path from 'node:path';\nconst probe=path.resolve('.tod-manifest-probe');\nawait mkdir(path.join(probe,'node_modules','clsx'),{recursive:true});\nawait writeFile(path.join(probe,'node_modules','clsx','package.json'),await readFile('package.json','utf8'));\ntry{\n  const require=createRequire(path.join(probe,'probe.cjs'));\n  const resolved=require.resolve('clsx/package.json');\n  if(!resolved.endsWith('package.json'))throw new Error('Unexpected resolution');\n  console.log('PASS: clsx/package.json resolves for downstream tooling');\n}catch(error){console.error(`PACKAGE_MANIFEST_ACCESS: ${error.code||error.name}: ${error.message}`);process.exitCode=1;}",
+  "repeats": 2,
+  "timeoutMs": 10000,
+  "failurePattern": "PACKAGE_MANIFEST_ACCESS",
+  "currentHash": "6232a9e5649143a28419a04f786a15f63a0b7edd",
+  "liveOutput": "",
+  "doctor": {
+    "verdict": "ready",
+    "checks": 4,
+    "diagnosis": "The supplied check consistently passes at the working revision and fails at the failing revision.",
+    "suggestions": [],
+    "scripts": [
+      {
+        "hash": "6da37d67472ea9eb177a4ea9a9fa2f3f4a3c445e",
+        "name": "build",
+        "command": "node bin",
+        "suggestedCommand": "npm run build"
+      },
+      {
+        "hash": "6da37d67472ea9eb177a4ea9a9fa2f3f4a3c445e",
+        "name": "test",
+        "command": "uvu -r esm test",
+        "suggestedCommand": "npm run test"
+      },
+      {
+        "hash": "6232a9e5649143a28419a04f786a15f63a0b7edd",
+        "name": "build",
+        "command": "node bin",
+        "suggestedCommand": "npm run build"
+      },
+      {
+        "hash": "6232a9e5649143a28419a04f786a15f63a0b7edd",
+        "name": "test",
+        "command": "uvu -r esm test",
+        "suggestedCommand": "npm run test"
+      }
+    ],
+    "manifests": [
+      {
+        "hash": "6da37d67472ea9eb177a4ea9a9fa2f3f4a3c445e",
+        "name": "clsx",
+        "packageManager": null
+      },
+      {
+        "hash": "6232a9e5649143a28419a04f786a15f63a0b7edd",
+        "name": "clsx",
+        "packageManager": null
+      }
+    ]
+  }
+}

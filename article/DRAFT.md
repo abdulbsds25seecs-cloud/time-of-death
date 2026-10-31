@@ -1,122 +1,62 @@
 ---
-title: I Built a Time Machine That Finds the Commit That Broke My App
+title: "Time of Death: I built a local coroner for broken builds"
 published: false
 tags: devchallenge, hf26challenge, git, opensource
 ---
 
-<!-- WORKING DRAFT. Apply the official DEV submission template before publishing.
-Public repository, demo/video and live Sentry dashboard evidence are still outstanding. Copilot was not authenticated and no contribution is claimed.
-Do not publish with these editor notes or unresolved links. -->
+*This is a submission for the [Hacktoberfest Open-Source AI Challenge Week 4: Ghost in the Machine](https://dev.to/challenges/hacktoberfest-week4-2026-10-26).*
 
-A session should stop working at its expiration time. In the test repository I created, a one-character change made it valid for that exact instant instead.
+<!-- Review draft. Add public repository/video URLs and uploaded screenshot URLs before publishing. Live Sentry delivery still needs a project DSN. No Copilot contribution is claimed. -->
 
-There were 24 commits in the selected history. The failure was easy to reproduce. Finding the change was the interesting part.
+This is a small line for an upgrade to break:
 
-I built **Time of Death**, a local tool that searches Git history for the first failing boundary, keeps the execution evidence, and asks an open-weight model to help explain it. The demonstration is deliberately synthetic: I planted the bug so I could check the investigator's answer.
+```js
+require.resolve('clsx/package.json');
+```
+
+It resolves with the older manifest in my historical check. After an exports map is introduced, Node reports `ERR_PACKAGE_PATH_NOT_EXPORTED`. The library's class-name function is not involved in that failure.
+
+I built **Time of Death** to turn a reproducible failure into a case file: which commit changed the result, what actually ran, what a local model thinks happened, and whether a proposed fix passes the same check.
+
+The example below reconstructs a downstream compatibility check against real public history. It is not a personal production incident. The upstream change was deliberately marked breaking.
 
 ## What I Built
 
-You give the tool a repository, a known working revision, a later failing revision, and a command that reproduces the problem. It tests revisions in a disposable clone and draws the results on a timeline.
+Time of Death runs locally against a trusted Git repository. You supply a working revision, a later failing revision, and a focused regression check.
 
-The result is a small case file: the candidate commit, a passing parent, the relevant diff, captured output from every check, and an optional local AI autopsy with references back to that evidence.
+**Check readiness** tests the endpoints before searching. It reports missing files, unavailable dependencies, inconsistent repeated results, and timeouts. Historical package scripts can be inspected as suggestions; they are not executed automatically.
 
-Git bisect does the search. I did not invent a new search algorithm. The work here is making the investigation visible, preserving the user's working tree, handling inconclusive cases, and turning the evidence into a report someone else can inspect.
+The investigation uses Git bisect, records every execution, and confirms that the candidate fails while its parent passes. A local open-weight model receives the bounded diff and confirmation logs, returning hypotheses with evidence references.
 
-Repository: **[add the actual public repository URL before publication]**.
+**Verify a fix** accepts a patch or an existing fix revision. In a disposable checkout, it reruns the passing parent, original culprit, and proposal. **Export bug report** turns those receipts into a draft someone else can review. Nothing is posted automatically.
+
+For the theme, the ghost is an old decision still affecting today's program. The coroner's console follows that history to an observed boundary. Its dithered field shows the remaining search interval, not a made-up probability.
 
 ## Demo
 
-<!-- Insert the final frontend screenshot and real demo/video link. -->
+**[Real demo/video link — add the public URL before publishing]**
 
-The bundled repository starts with this condition:
+The local deliverable is a narrated walkthrough assembled from actual app screenshots, with an offline synthesized voice. It is not a continuous live screen recording. A separate synthetic scene demonstrates worker-crash recovery and is labeled accordingly.
 
-```js
-return now < expiresAt;
-```
+<!-- Upload evidence/demo-real-autopsy.png and evidence/demo-fix-verification.png to DEV, then insert their public image URLs here. -->
 
-At commit 15, it becomes:
+### A real historical compatibility break
 
-```js
-return now <= expiresAt;
-```
+The selected [clsx](https://github.com/lukeed/clsx) range runs from the 1.2.1 revision to the 2.0.0 revision. My portable check copies the historical `package.json` into a minimal package layout and asks Node's actual resolver to resolve `clsx/package.json`. It does not install clsx, run its build, or claim to reproduce every aspect of the released package.
 
-My check requires a session to be rejected when `now` equals `expiresAt`. At the candidate commit, that check fails. At its parent, it passes.
+The identified boundary is [3ec8e9f, the exports-map change](https://github.com/lukeed/clsx/commit/3ec8e9fa2f6eef3911cb47f656ab761fc1030812). The passing parent is `4a4eadd`. Node's [package entry-point documentation](https://nodejs.org/api/packages.html#package-entry-points) explains how an exports map restricts access to unlisted subpaths.
 
-One browser run tested six distinct revisions in the 24-commit range. It executed the command 16 times because endpoint checks and final confirmation were repeated. The recorded run took about 7.7 seconds on my development machine. That number excludes AI inference and is not a benchmark for a large application.
+<!-- automation:real-world:start -->
+The recorded historical run searched 9 commits and executed the check 14 times in 4.922 seconds, excluding AI inference. It identified `3ec8e9f`. Fix verification then ran 6 checks and recorded parent **good**, original culprit **bad**, proposed patch **good**. These are measurements of this reconstructed manifest-resolution check, not a general project benchmark.
+<!-- automation:real-world:end -->
 
-There is also a portable-check option. If the regression test you wrote today did not exist in older commits, you can replay the same Node script in each revision. It is injected only into the disposable clone.
+The proposed compatibility patch explicitly exports `./package.json` while preserving the existing root export conditions. It passes this check. That is a test result, not a recommendation that the upstream project should adopt the patch. Downstream tooling can also stop relying on an unexported package subpath.
 
-## Ghost in the Machine
+## Code
 
-The ghost is an old decision that still affects the current program. The interface follows the history until that change becomes visible, then preserves the evidence around it.
+Repository: **[add the actual public repository URL before publication]**.
 
-I wanted the theme to describe what the tool does, not just its colors. A broken build gets an investigation, an observed boundary, and an autopsy report.
-
-## How It Works
-
-The application uses Node's built-in HTTP server, a React/Vite interface, Git, and optional Ollama inference. Fonts and the interface are bundled for local use. Building from source needs npm; the prebuilt standard edition needs only Node and Git at runtime, plus Ollama for local AI.
-
-Before searching, it checks that the working endpoint passes and the failing endpoint reproduces the failure. It runs selected revisions repeatedly. A timeout is not marked as a bad commit. Exit code 125 means the revision cannot be tested. Inconsistent outcomes and ambiguous skipped commits produce an inconclusive result.
-
-When the search converges, it reruns the candidate and its parent. Only then does it produce a confirmed boundary.
-
-For the AI autopsy, Gemma receives a bounded packet containing the diff and the confirmation logs. Its response contains hypotheses, suggested next checks, and evidence identifiers. The application rejects identifiers that do not exist in the packet. Those checks validate references, not the truth of the model's interpretation.
-
-## What the Tests Showed
-
-I evaluated five controlled histories with two executions of each selected revision. These measurements were taken on Windows, Node 24.14.0, and a Ryzen 5 3600 system reporting six logical processors and 15.9 GiB of RAM. The synthetic repositories had no external package dependencies. AI inference was not part of these timings.
-
-| Controlled case | Commits in range | Expected outcome | Observed outcome | Check executions | Duration (s) |
-| --- | ---: | --- | --- | ---: | ---: |
-| Early regression | 16 | Known candidate | Correct candidate | 16 | 6.895 |
-| Middle regression | 24 | Known candidate | Correct candidate | 16 | 5.599 |
-| Late regression | 24 | Known candidate | Correct candidate | 18 | 6.289 |
-| No regression | 8 | Reject failing endpoint | Inconclusive | 4 | 1.808 |
-| Ambiguous skipped revisions | 8 | No unique candidate | Inconclusive | 12 | 5.137 |
-
-All five outcomes matched their expected result. The two inconclusive cases matter: returning a confident hash would have been the wrong answer. Five controlled cases do not establish reliability across arbitrary repositories. I did not measure a sequential wall-time baseline, so I am not claiming a percentage reduction in debugging time.
-
-The acceptance suite also exercises dirty tracked and untracked files, invalid ranges, missing modules, unrelated failures, hanging checks, cancellation, alternating results, report generation, and HTTP request boundaries. The exact test output is saved with the project.
-
-## The Small Model Was Wrong Before It Was Useful
-
-My first CPU-only Gemma 3 1B response took 54.322 seconds. It referenced real evidence but described the changed comparison in the wrong direction. The citation checks accepted its identifiers. They could not make its reasoning correct.
-
-I kept that failed response rather than replacing it with a success claim. I revised the prompt to emphasize old versus new behavior and added a calculated example for a limited class of simple changed comparisons. At equal numeric inputs, the tool can calculate the old and new comparison results without evaluating repository code.
-
-The next recorded response took 28.733 seconds and pointed to the boundary-handling area, but remained vague. Another Gemma response still misread the change. Switching to Qwen 2.5 Coder 1.5B produced a better direction-of-change explanation in a recorded 47.919-second run, though its prose still referred to an assertion in the diff instead of the execution receipt. This was a small series of development attempts, not a controlled model benchmark.
-
-A later real Qwen run through Mastra took 54.054 seconds and generated 260 output tokens. It completed evidence collection, inference and citation validation. It again explained `<` becoming `<=`, while retaining the imprecise reference to an assertion in D1. Those limitations belong in the demonstration alongside the useful output.
-
-The model is a second reader, not the authority deciding which revision passed. Hypotheses remain labeled and suggested checks are not executed automatically.
-
-## Why Open Weights Matter Here
-
-Debugging evidence can contain private source code, internal names and logs. With a local Ollama endpoint, the evidence stays on that machine. The model can be replaced, the report remains readable without it, and there is no per-request API bill.
-
-I also wanted the tool to remain useful on modest hardware. Git checks run sequentially. Inference is deferred until after the search. Gemma is requested to unload after each explanation. A CPU-only 8 GB laptop is a design target, but I have not tested an actual ThinkPad T480 and will not claim its performance from desktop measurements.
-
-Gemma is open-weight under its own terms. Git, Node and Ollama have their own licenses. The model and third-party binaries are not bundled with this project's source.
-
-## What Does Not Work Yet
-
-- This version supports linear selected histories, not ranges containing merges.
-- Bisection assumes the selected check has a reproducible good-to-bad transition. A bug that appears, disappears, and reappears can violate that assumption.
-- Historical dependencies are not installed automatically. A dependency-free check is the easiest starting point.
-- Cloning isolates Git state, not arbitrary code execution. Users must trust the repository and check command.
-- Local AI can misinterpret a valid diff. Valid evidence references are not semantic verification.
-
-## Prize Categories
-
-- **Mastra:** a real schema-checked workflow collects evidence, invokes a local open-weight model, and rejects nonexistent citation IDs. Its recorded steps are included in the case file.
-- **Temporal:** optional durable mode recovers a stopped investigation worker using local execution checkpoints. In the recorded fault test, I force-killed the native Windows worker after three completed checks. The replacement worker reused all three and confirmed the expected candidate on its second Activity attempt. The local disk, repository and SQLite-backed service were retained; this does not establish disk-loss recovery or exactly-once execution.
-- **Sentry Agent Tracing:** opt-in spans measure the investigation and AI workflow without collecting prompts, source, commands or logs. The real SDK was tested using an in-memory transport, and a real model run produced captured envelopes. **Live ingestion/dashboard evidence is pending a project DSN; do not describe the local capture as a live Sentry demonstration.**
-
-These are implemented integrations, not a guarantee of category eligibility or an award. Gemma was also exercised locally, including documented failures; Qwen produced the stronger recorded explanation. No Copilot contribution is claimed.
-
-## Try It
-
-Install Node 22.13+ and Git. From source, build the interface and start the server:
+The source includes the portable historical check, automated reproduction script, acceptance tests, actual reports, and a prebuilt frontend. Standard local mode can run from the prebuilt package with Node 22.13+ and Git. Building from source uses:
 
 ```powershell
 npm ci
@@ -124,8 +64,80 @@ npm run build
 npm start
 ```
 
-Open `http://127.0.0.1:4317`, choose **Open the synthetic case**, then **Begin investigation**. For local explanations, install Ollama and download `gemma3:1b` or `qwen2.5-coder:1.5b`. The prebuilt standard edition can skip npm installation and the build step. Optional integrations have their own setup instructions and are not required for the ordinary local investigation.
+To reproduce the historical case, including readiness, bisection, fix verification, and the issue draft:
 
-**[Final repository link] · [Real demo/video link] · [Recorded evaluation evidence]**
+```powershell
+npm run demo:real
+```
 
-<!-- Editing basis: the user's DEV_article_writing_guide.md. No private anecdote, adoption claim, benchmark or Copilot contribution has been invented. -->
+That command downloads public Git history on first use. Subsequent investigations use the local copy. Ollama and model weights are separate installations.
+
+## How I Built It
+
+The backend uses Node's HTTP server and Git. React and Vite build the interface; IM Fell English and IBM Plex Mono are bundled locally. A fixed Bayer 8-by-8 matrix gives the timeline its two-color texture. Reduced motion, hidden tabs, and offscreen canvases are handled explicitly.
+
+Git supplies the search algorithm. The project adds endpoint diagnosis, portable test replay, repeated checks, execution capture, a visual evidence workflow, local AI interpretation, fix verification, and reports. It does not invent a new bisection algorithm.
+
+### Mastra: three steps I can inspect
+
+The optional Mastra workflow runs `collect-evidence`, `local-model`, and `validate-citations`. Each step has schemas. The model is invoked through local Ollama, and findings citing nonexistent evidence are rejected. The case file includes the completed step record.
+
+On the historical case, Qwen 2.5 Coder 1.5B took 50.669 seconds. Its summary connected the failure to the missing package-manifest export. I still needed the upstream commit message to explain that this was an intentional compatibility change, rather than label it an accidental upstream defect.
+
+Small models were not consistently right. An earlier CPU-only Gemma 3 1B response took 54.322 seconds and read a synthetic comparison change in the wrong direction. Valid citation IDs did not make that reasoning correct. I retained the failed attempts and keep all model prose labeled as hypotheses. This development sequence is not a controlled model benchmark.
+
+### Temporal: restart the worker without losing completed checks
+
+Optional durable mode runs through a native local Temporal service backed by SQLite. An Activity records completed execution results on disk and can reconstruct the search after retry.
+
+In the recorded fault test, the worker was force-stopped after three completed checks. Its replacement reused three checkpoints and confirmed the expected synthetic culprit on Activity attempt 2. This retained the machine, repository, checkpoint files and Temporal database. It does not establish disk-loss recovery or exactly-once execution: an in-flight check can run again.
+
+### Sentry: observe the work without collecting source
+
+Opt-in instrumentation records operation names, model names, durations, token counts, exit codes and check counts. Automatic integrations are disabled, and the instrumentation excludes prompts, model responses, diffs, commands, paths, captured logs and user identity.
+
+The actual Sentry SDK emitted nested spans into a local test transport, including spans around a real local-model run. **Live ingestion and dashboard verification are still pending project configuration.** Local envelopes are not proof of cloud delivery.
+
+### What the tests establish
+
+The latest acceptance output is saved with the source. Tests exercise dirty source-tree preservation, invalid revisions, wrong endpoints, missing dependencies, skip ambiguity, unstable results, timeouts, cancellation, citation validation, request authorization, readiness, passing and failing fix proposals, and report export.
+
+An earlier controlled evaluation used five synthetic histories with two executions per selected revision:
+
+| Case | Selected commits | Observed result | Executions | Seconds |
+| --- | ---: | --- | ---: | ---: |
+| Early regression | 16 | Expected boundary | 16 | 6.895 |
+| Middle regression | 24 | Expected boundary | 16 | 5.599 |
+| Late regression | 24 | Expected boundary | 18 | 6.289 |
+| No regression | 8 | Inconclusive | 4 | 1.808 |
+| Skipped boundary | 8 | Inconclusive | 12 | 5.137 |
+
+Those were Windows/Node 24.14.0 measurements on a Ryzen 5 3600 machine reporting six logical processors and 15.9 GiB RAM. Fixtures had no external package dependencies; model inference was excluded. Correct outcomes on these five cases do not establish arbitrary-repository accuracy.
+
+## Why Does Open Innovation Matter?
+
+A debugging packet can contain private source and internal logs. With the default local Ollama endpoint, the AI evidence stays on the machine. I can change models, inspect the workflow, retain the evidence independently, and use the tool without a per-request model API bill.
+
+Git, the source code, and the optional open-source frameworks make the process inspectable. Open-weight models retain their own license terms; Gemma is not being relicensed by this project. The included fonts and third-party example retain their license notices.
+
+The runtime uses no paid model API. Development used the coding-assistant subscriptions already available to me. Optional Sentry metadata tracing leaves the machine only when configured. Downloading dependencies, public history and model weights requires an initial connection.
+
+A ThinkPad T480 with 8 GB RAM is a design target, not hardware I have benchmarked. Checks run sequentially; local inference follows the investigation and asks Ollama to unload the model afterward. Standard mode loads none of the optional framework SDKs. Temporal adds a service and worker, so it remains optional.
+
+## Limits I Want the Reader to See
+
+The selected range must be linear and at most 500 revisions. Bisection assumes a reproducible good-to-bad transition; bugs that disappear and return can violate that assumption. Historical dependencies are not installed automatically.
+
+A disposable clone protects Git state, not arbitrary code execution. Users must trust the check and repository. A proposed patch can also change tests, so passing fix verification proves only what the recorded check establishes. Local AI output remains advice for review.
+
+## My Agent Session
+
+Codex helped implement and test the project. The repository preserves reproducible scripts and recorded outputs. Copilot was installed but not authenticated, so I am not claiming a Copilot contribution or category entry. No DevRelay session is claimed.
+
+## Prize Categories
+
+- **Mastra:** the schema-checked local-model autopsy workflow and recorded step results.
+- **Temporal:** durable execution with an exercised worker-crash recovery path and explicit retry limits.
+- **Sentry Agent Tracing:** implemented metadata-only instrumentation; add live trace evidence before presenting a dashboard demonstration.
+
+Gemma was also exercised locally, with both its role and its failures documented. These descriptions report actual use; they do not guarantee category eligibility or an award.

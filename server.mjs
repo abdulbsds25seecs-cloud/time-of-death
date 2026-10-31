@@ -8,6 +8,9 @@ import { createDemo } from './lib/demo.mjs';
 import { modelStatus, markdownReport } from './lib/ai.mjs';
 import { runAutopsy } from './lib/autopsy-workflow.mjs';
 import { initTelemetry, traced } from './lib/telemetry.mjs';
+import { checkReadiness } from './lib/doctor.mjs';
+import { verifyFix } from './lib/verify-fix.mjs';
+import { issueReport } from './lib/issue-report.mjs';
 
 export async function createApp({ dataDir, port = 4317, analyzeCase = runAutopsy } = {}) {
   await initTelemetry();
@@ -25,6 +28,7 @@ export async function createApp({ dataDir, port = 4317, analyzeCase = runAutopsy
       const s = JSON.parse(await readFile(path.join(dataDir, 'reports', `${id}.json`), 'utf8'));
       if (!s.durability&&['queued', 'running'].includes(s.status)) { s.status = 'interrupted'; s.error = 'The app stopped before this investigation finished. Start a new investigation.'; }
       if (s.analysis?.status === 'running'&&(!s.durability||(s.analysis.owner&&s.analysis.owner!==instance))) s.analysis = { status: 'error', error: 'AI analysis was interrupted. You can request it again.' };
+      if(s.verification?.status==='running'&&s.verification.owner!==instance)s.verification={...s.verification,status:'interrupted',message:'Fix verification was interrupted. Run it again before claiming a passing fix.'};
       states.set(id, s);
     }
     return states.get(id);
@@ -53,7 +57,7 @@ export async function createApp({ dataDir, port = 4317, analyzeCase = runAutopsy
       if (req.headers['x-app-token'] !== token && !(url.pathname.endsWith('/events') && url.searchParams.get('token') === token)) return json(403, { error: 'Application token required. Reload the app.' });
       let input = {};
       if (req.method === 'POST') {
-        let body = ''; for await (const chunk of req) { body += chunk; if (body.length > 20000) return json(413, { error: 'Request too large.' }); }
+        let body = ''; for await (const chunk of req) { body += chunk; if (Buffer.byteLength(body) > 240000) return json(413, { error: 'Request too large.' }); }
         try { input = JSON.parse(body || '{}'); } catch { return json(400, { error: 'Invalid JSON.' }); }
       }
       if (url.pathname === '/api/health') return json(200, { status: 'ok', version: '1.0.0', node: process.version, memoryMB: Math.round(process.memoryUsage().rss / 1048576), active: active?.id || null });
@@ -61,22 +65,23 @@ export async function createApp({ dataDir, port = 4317, analyzeCase = runAutopsy
       if (url.pathname === '/api/history' && req.method === 'GET') {
         const files = (await readdir(path.join(dataDir, 'reports'))).filter(f => f.endsWith('.json'));
         const history = [];
-        for (const file of files.slice(-100)) { try { const s = await getState(file.slice(0, -5)); history.push({ id: s.id, createdAt: s.createdAt, status: s.status, repo: s.repo, subject: s.result?.subject, elapsedMs: s.elapsedMs }); } catch {} }
+        for (const file of files.slice(-100)) { try { const s = await getState(file.slice(0, -5)); history.push({ id: s.id, createdAt: s.createdAt, status: s.status, repo: s.repo, subject: s.result?.subject||(s.operation==='doctor'?'Check readiness':null), elapsedMs: s.elapsedMs }); } catch {} }
         return json(200, history.sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 20));
       }
       if (url.pathname === '/api/demo' && req.method === 'POST') { demoPromise ||= createDemo(dataDir).catch(e => { demoPromise = null; throw e; }); return json(200, await demoPromise); }
       if (url.pathname === '/api/inspect' && req.method === 'POST') return json(200, await inspectRepository(input.repo, input.good, input.bad));
-      if (url.pathname === '/api/investigations' && req.method === 'POST') {
+      if (['/api/investigations','/api/doctor'].includes(url.pathname) && req.method === 'POST') {
         if ([...states.values()].some(x=>x.analysis?.status==='running')) return json(409,{error:'Wait for the local AI report to finish before starting another investigation.'});
         if (active) return json(409, { error: 'An investigation is already running. Cancel it or wait for its result.' });
         if (input.trusted !== true) return json(400, { error: 'Confirm that you trust the repository and check command.' });
         const state = newState(randomUUID()); states.set(state.id, state);
         const controller = new AbortController(); active = { id: state.id, controller };
         json(202, state);
-        traced('Regression investigation','task',{revisions:state.commits.length},()=>investigate(input, state, publish, controller.signal)).finally(async () => { active = null; await persist(state).catch(e => { state.persistenceError = e.message; }); publish(state); });
+        const execute=url.pathname==='/api/doctor'?checkReadiness:investigate;
+        traced(url.pathname==='/api/doctor'?'Check readiness':'Regression investigation','task',{},()=>execute(input, state, publish, controller.signal)).finally(async () => { await persist(state).catch(e => { state.persistenceError = e.message; }); active = null; publish(state); });
         return;
       }
-      const match = url.pathname.match(/^\/api\/investigations\/([\w-]+)(?:\/(events|cancel|analysis|report))?$/);
+      const match = url.pathname.match(/^\/api\/investigations\/([\w-]+)(?:\/(events|cancel|analysis|report|verify-fix))?$/);
       if (match) {
         const [, id, action] = match; const s = await getState(id);
         if (action === 'events' && req.method === 'GET') {
@@ -87,6 +92,7 @@ export async function createApp({ dataDir, port = 4317, analyzeCase = runAutopsy
           req.on('close', () => { clearInterval(timer); clients.get(id)?.delete(res); }); return;
         }
         if (action === 'cancel' && req.method === 'POST') {
+          if(active?.id===id){active.controller.abort();return json(200,{cancelled:true});}
           if(s.durability){const {Client,Connection}=await import('@temporalio/client');const connection=await Connection.connect({address:process.env.TEMPORAL_ADDRESS||'127.0.0.1:7233'});try{await new Client({connection}).workflow.getHandle(id).cancel();}finally{await connection.close();}return json(200,{cancelled:true});}
           if (active?.id === id) active.controller.abort(); return json(200, { cancelled: active?.id === id }); }
         if (action === 'analysis' && req.method === 'POST') {
@@ -96,10 +102,21 @@ export async function createApp({ dataDir, port = 4317, analyzeCase = runAutopsy
           s.analysis = { status: 'running', owner:instance }; await persist(s); publish(s); json(202, s.analysis);
           analyzeCase(s, input.model||'gemma3:1b').then(a => { s.analysis = { status: 'complete', ...a }; }).catch(e => { s.analysis = { status: 'error', error: e.message }; }).finally(async () => { states.set(s.id,s); await persist(s).catch(() => {}); publish(s); }); return;
         }
+        if(action==='verify-fix'&&req.method==='POST'){
+          if(active||[...states.values()].some(x=>x.analysis?.status==='running'))return json(409,{error:'Wait for the current investigation or local inference to finish.'});
+          if(input.trusted!==true)return json(400,{error:'Confirm that you trust the proposed fix and the existing check.'});
+          if(s.status!=='complete'||!s.result)return json(400,{error:'Confirm a failure boundary first.'});
+          const controller=new AbortController();active={id,controller,operation:'verify-fix'};
+          s.verification={status:'running',phase:'Preparing fix verification',owner:instance,runs:[],checks:[]};
+          await persist(s);publish(s);json(202,s.verification);
+          let writes=Promise.resolve();
+          const update=value=>{s.verification={...value,owner:instance};publish(s);const snapshot=JSON.parse(JSON.stringify(s));writes=writes.then(()=>persist(snapshot)).catch(error=>{s.persistenceError=error.message;});};
+          traced('Verify proposed fix','test',{},()=>verifyFix(s,input,update,controller.signal)).catch(error=>{s.verification={...s.verification,status:'inconclusive',message:error.message};}).finally(async()=>{await writes.catch(()=>{});states.set(id,s);await persist(s).catch(()=>{});active=null;publish(s);});return;
+        }
         if (action === 'report' && req.method === 'GET') {
-          const isJSON = url.searchParams.get('format') === 'json';
-          res.writeHead(200, { 'content-type': isJSON ? 'application/json' : 'text/markdown; charset=utf-8', 'content-disposition': `attachment; filename="time-of-death-${id.slice(0, 8)}.${isJSON ? 'json' : 'md'}"` });
-          return res.end(isJSON ? JSON.stringify(s, null, 2) : markdownReport(s));
+          const format=url.searchParams.get('format'),isJSON=format==='json',isIssue=format==='issue';
+          res.writeHead(200, { 'content-type': isJSON ? 'application/json' : 'text/markdown; charset=utf-8', 'content-disposition': `attachment; filename="time-of-death-${id.slice(0, 8)}${isIssue?'-issue':''}.${isJSON ? 'json' : 'md'}"` });
+          return res.end(isJSON ? JSON.stringify(s, null, 2) : isIssue?issueReport(s):markdownReport(s));
         }
         if (!action && req.method === 'GET') return json(200, s);
       }

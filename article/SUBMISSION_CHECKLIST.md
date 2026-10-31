@@ -15,6 +15,10 @@ Deadline: October 31, 2026, 11:59 PM PDT; November 1, 2026, 11:59 AM Pakistan ti
 - [x] Temporal worker-crash recovery exercised; three completed checks reused.
 - [x] Sentry SDK spans captured locally with a privacy assertion; cloud delivery not yet tested.
 - [x] Draft structured around the user's article guide.
+- [x] Repo Doctor readiness workflow, fix verification and issue-draft export implemented.
+- [x] Pinned public-history compatibility case reproduced and distinguished from the synthetic fixtures.
+- [x] Real patch verified through the browser and bug-report draft downloaded.
+- [x] Official DEV template sections and required tags applied to the article draft.
 
 ## Before publication
 

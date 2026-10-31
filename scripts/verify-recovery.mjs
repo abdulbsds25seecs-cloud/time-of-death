@@ -7,17 +7,17 @@ import os from 'node:os';
 import { randomUUID } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { createDemo } from '../lib/demo.mjs';
-const root=fileURLToPath(new URL('../',import.meta.url)),id=randomUUID();
+const root=fileURLToPath(new URL('../',import.meta.url)),id=randomUUID(),taskQueue=`time-of-death-recovery-${id}`;
 const pause=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 const connection=await Connection.connect({address:process.env.TEMPORAL_ADDRESS||'127.0.0.1:7233'});
 const client=new Client({connection});
 let worker,oldCheckout;
-const launch=()=>spawn(process.execPath,['integrations/temporal/worker.mjs'],{cwd:root,stdio:['ignore','pipe','pipe'],windowsHide:true});
+const launch=()=>spawn(process.execPath,['integrations/temporal/worker.mjs'],{cwd:root,env:{...process.env,TOD_TEMPORAL_TASK_QUEUE:taskQueue},stdio:['ignore','pipe','pipe'],windowsHide:true});
 try{
   const demo=await createDemo(path.join(root,'.data'));
   const config={...demo,synthetic:true,repeats:2,reproScript:"import assert from 'node:assert/strict'; import { sessionIsValid } from './session.mjs'; await new Promise(r=>setTimeout(r,400)); assert.equal(sessionIsValid(1000,1000),false,'expiration regression');"};
   worker=launch();let workerLog='';worker.stdout.on('data',x=>workerLog+=x);worker.stderr.on('data',x=>workerLog+=x);
-  const handle=await client.workflow.start('durableInvestigation',{taskQueue:'time-of-death',workflowId:id,args:[config,id]});
+  const handle=await client.workflow.start('durableInvestigation',{taskQueue,workflowId:id,args:[config,id]});
   const deadline=Date.now()+60000;let cached=0;
   while(Date.now()<deadline){
     try{cached=Object.keys(JSON.parse(await readFile(path.join(root,'.data','durable',id,'checks.json'),'utf8'))).length;}catch{}
@@ -25,7 +25,7 @@ try{
     if(worker.exitCode!==null)throw new Error('Worker exited: '+workerLog.slice(-1500));
     await pause(100);
   }
-  if(cached<3)throw new Error('No checkpoints recorded within 60 seconds. Stop any other Time of Death worker before this test.');
+  if(cached<3)throw new Error('No checkpoints recorded within 60 seconds. Check the Temporal service and worker log.');
   try{oldCheckout=JSON.parse(await readFile(path.join(root,'.data','reports',id+'.json'),'utf8')).checkout;}catch{}
   const killedPid=worker.pid;worker.kill('SIGKILL');await new Promise(resolve=>worker.once('exit',resolve));
   worker=launch();worker.stdout.on('data',()=>{});worker.stderr.on('data',()=>{});

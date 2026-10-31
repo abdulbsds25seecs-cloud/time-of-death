@@ -1,0 +1,32 @@
+[
+  {
+    "image":"evidence/demo-doctor.png",
+    "caption":"Check readiness before searching history. Real public clsx history; reconstructed downstream check.",
+    "narration":"Your check fails after an upgrade. Before hunting through history, Time of Death asks whether that failure can be reproduced reliably. Repo Doctor runs the working and failing endpoints, records the output, and explains missing dependencies or inconsistent results. Nothing is installed automatically."
+  },
+  {
+    "image":"evidence/demo-real-boundary.png",
+    "caption":"Nine historical commits. The candidate fails; its parent passes. Upstream change was intentionally breaking.",
+    "narration":"This example uses the real history of clsx, with a reconstructed downstream package resolution check. Git bisection identifies the commit that introduced an exports map. The change was intentional upstream. Our check shows exactly where tooling that reads the package manifest stops working."
+  },
+  {
+    "image":"evidence/demo-real-autopsy.png",
+    "caption":"Established execution results stay separate from local open-weight model hypotheses.",
+    "narration":"The local open weight model reads the candidate diff and execution receipts. Mastra runs evidence collection, inference, and citation validation as separate steps. The interpretation is clearly labeled a hypothesis. Valid evidence references are checked, while the developer still reviews whether the explanation is correct."
+  },
+  {
+    "image":"evidence/demo-fix-verification.png",
+    "caption":"Fix verification: parent passes, original culprit fails, proposed patch passes.",
+    "narration":"Finding a candidate is only part of debugging. Paste a proposed patch and verify it in a disposable checkout. The tool reruns the parent, the original culprit, and the patched version. Here, all six executions support the pass, fail, pass comparison. The source working tree stays unchanged."
+  },
+  {
+    "image":"evidence/demo-issue-export.png",
+    "caption":"Export a reviewable bug-report draft with reproduction steps and actual receipts. Nothing is posted.",
+    "narration":"Export a bug report with the reproduction check, candidate commit, relevant diff, execution evidence, and fix verification. It is a draft for review. The tool never publishes an issue automatically. Markdown and JSON reports preserve the full case for a teammate or a later debugging session."
+  },
+  {
+    "image":"evidence/design-integrations-1440.png",
+    "caption":"Separate synthetic recovery test: three completed checks reused after a worker crash. Sentry cloud delivery pending setup.",
+    "narration":"A separate synthetic fault test force stopped the Temporal worker, then recovered three completed check checkpoints after restart. Sentry tracing is optional and excludes source and prompts. Live cloud delivery still needs project setup. The standard local tool uses no paid API, and modest laptop performance remains a target to verify."
+  }
+]

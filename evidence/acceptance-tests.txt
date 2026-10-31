@@ -11,34 +11,34 @@ transforming...
 ✓ 17 modules transformed.
 rendering chunks...
 computing gzip size...
-dist/index.html                                                0.51 kB │ gzip:  0.35 kB
+dist/index.html                                                0.51 kB │ gzip:  0.34 kB
 dist/assets/ibm-plex-mono-latin-400-normal-DMJ8VG8y.woff2     14.70 kB
 dist/assets/im-fell-english-latin-400-normal-BhowGHCQ.woff2   59.88 kB
-dist/assets/index-B5XHE38W.css                                23.17 kB │ gzip:  5.66 kB
-dist/assets/index-Cssrbm5K.js                                254.84 kB │ gzip: 79.06 kB
+dist/assets/index-q8e3DBzl.css                                24.88 kB │ gzip:  5.93 kB
+dist/assets/index-v1Gjp4bK.js                                259.53 kB │ gzip: 80.08 kB
 
-✓ built in 211ms
-✔ ordered threshold matrix has every rank exactly once (1.1636ms)
-✔ suspect range cools only after consistent repeated evidence (0.3802ms)
-✔ diff gutters distinguish old and new line numbers without colour (0.307ms)
-✔ durable case polling retains pending AI status and releases the inference lock on completion (105.3231ms)
+✓ built in 300ms
+✔ ordered threshold matrix has every rank exactly once (2.2575ms)
+✔ suspect range cools only after consistent repeated evidence (0.6771ms)
+✔ diff gutters distinguish old and new line numbers without colour (0.585ms)
+✔ durable case polling retains pending AI status and releases the inference lock on completion (121.3869ms)
 ▶ Git investigation and application acceptance suite
-  ✔ finds known boundary and preserves dirty tracked/untracked source files (7520.397ms)
-  ✔ rejects invalid revisions, reversed range, same endpoints and relative repository (555.0305ms)
-  ✔ replays a newly written regression script across older commits (4604.4101ms)
-  ✔ rejects a purported good endpoint that actually fails (1182.7784ms)
-  ✔ rejects a purported bad endpoint that actually passes (1644.8472ms)
-  ✔ unrelated failures do not count as the target regression (1187.6918ms)
-  ✔ missing dependencies are untestable, not bad commits (1156.6991ms)
-  ✔ timeout stops a hanging check without inferring a regression (1706.2425ms)
-  ✔ shell execution failure codes cannot become bad commits (1205.0749ms)
-  ✔ cancellation terminates a running check and produces no result (1409.2415ms)
-  ✔ alternating repeated results are inconclusive (1174.0836ms)
-  ✔ skip ambiguity cannot produce a precise candidate (7321.002ms)
-  ✔ AI output requires valid evidence references and exports preserve recorded facts (2.0186ms)
-  ✔ HTTP endpoints require origin/host validation, app token and explicit execution trust (77.3583ms)
-  ✔ process capture bounds noisy command output (114.8725ms)
-✔ Git investigation and application acceptance suite (34943.2205ms)
+  ✔ finds known boundary and preserves dirty tracked/untracked source files (5099.8232ms)
+  ✔ rejects invalid revisions, reversed range, same endpoints and relative repository (659.1806ms)
+  ✔ replays a newly written regression script across older commits (4240.9336ms)
+  ✔ rejects a purported good endpoint that actually fails (1051.9714ms)
+  ✔ rejects a purported bad endpoint that actually passes (1455.1719ms)
+  ✔ unrelated failures do not count as the target regression (1048.1075ms)
+  ✔ missing dependencies are untestable, not bad commits (1157.2737ms)
+  ✔ timeout stops a hanging check without inferring a regression (1899.3418ms)
+  ✔ shell execution failure codes cannot become bad commits (1149.4013ms)
+  ✔ cancellation terminates a running check and produces no result (1428.2846ms)
+  ✔ alternating repeated results are inconclusive (1197.3312ms)
+  ✔ skip ambiguity cannot produce a precise candidate (6758.4892ms)
+  ✔ AI output requires valid evidence references and exports preserve recorded facts (3.2347ms)
+  ✔ HTTP endpoints require origin/host validation, app token and explicit execution trust (88.8122ms)
+  ✔ process capture bounds noisy command output (96.4213ms)
+✔ Git investigation and application acceptance suite (29583.2767ms)
 Error executing step workflow.evidence-autopsy.step.validate-citations: Error: The model returned missing or invalid evidence references. Its report was not accepted.
     at file:///C:/Users/oasis/Documents/Codex/2026-10-27/hac/outputs/time-of-death/lib/ai.mjs:26:147
     at Array.map (<anonymous>)
@@ -50,13 +50,20 @@ Error executing step workflow.evidence-autopsy.step.validate-citations: Error: T
     at fn (file:///C:/Users/oasis/Documents/Codex/2026-10-27/hac/outputs/time-of-death/node_modules/@mastra/core/dist/agent-b2Y5GsZg.js:5376:19)
     at executeWithContext (file:///C:/Users/oasis/Documents/Codex/2026-10-27/hac/outputs/time-of-death/node_modules/@mastra/core/dist/utils-DkqXxW5a.js:1088:9)
     at runStep (file:///C:/Users/oasis/Documents/Codex/2026-10-27/hac/outputs/time-of-death/node_modules/@mastra/core/dist/agent-b2Y5GsZg.js:5374:10)
-✔ Mastra executes evidence, inference and citation validation; rejects invented references (917.821ms)
-✔ Sentry captures nested spans locally with metadata only; no real DSN or cloud request (923.3264ms)
-ℹ tests 22
+✔ Mastra executes evidence, inference and citation validation; rejects invented references (852.1716ms)
+✔ Sentry captures nested spans locally with metadata only; no real DSN or cloud request (1016.9523ms)
+▶ readiness, proposed fix and issue-draft workflow
+  ✔ doctor checks repeated endpoints without declaring a culprit (1792.4194ms)
+  ✔ doctor diagnoses a missing check and reads scripts without running them (1294.5497ms)
+  ✔ a real patch produces pass/fail/pass receipts and preserves the source tree (2386.1938ms)
+  ✔ a proposal that still fails is rejected and an invalid patch stays inconclusive (4411.5241ms)
+  ✔ cancellation cannot produce a passing fix verdict (514.2229ms)
+✔ readiness, proposed fix and issue-draft workflow (16365.6788ms)
+ℹ tests 28
 ℹ suites 0
-ℹ pass 22
+ℹ pass 28
 ℹ fail 0
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 37579.2572
+ℹ duration_ms 48642.8732
