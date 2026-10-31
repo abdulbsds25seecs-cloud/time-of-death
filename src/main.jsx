@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import Dither from './Dither.jsx';
 import { glyph, revisionStatus, suspectRange, diffRows } from './dither.mjs';
 import './style.css';
+import './console.css';
 
 const token = document.querySelector('meta[name="app-token"]').content;
 const short = hash => hash?.slice(0,7) || '—';
@@ -16,7 +17,14 @@ async function api(url, body) {
 
 function Status({status,children}) { return <span className={`verdict-word status-${status}`}><span aria-hidden="true">{glyph(status)}</span> {children||status}</span>; }
 
+function Icon({name}) {
+  const paths={case:'M5 5h5l2 2h7v12H5V5Zm3 6h8m-8 4h5',timeline:'M4 12h16M7 8v8m5-11v14m5-10v6',evidence:'M6 3h8l4 4v14H6V3Zm8 0v5h4M9 12h6m-6 4h6',candidate:'m12 3 9 9-9 9-9-9 9-9Zm0 5v5m0 3v.1',autopsy:'M5 18V9m5 9V5m5 13v-6m5 6V3',archive:'M4 7h16v13H4V7ZM3 3h18v4H3V3Zm6 8h6',guide:'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Zm-3-15a3 3 0 0 1 6 1c0 2-3 2-3 5m0 3v1'};
+  return <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={paths[name]||paths.case}/></svg>;
+}
+
 function App() {
+  const [activeSection,setActiveSection]=useState(()=>window.location.hash.slice(1)||'case-file');
+  useEffect(()=>{const changed=()=>setActiveSection(window.location.hash.slice(1)||'case-file');window.addEventListener('hashchange',changed);return()=>window.removeEventListener('hashchange',changed);},[]);
   const [state,setState]=useState(null),[preview,setPreview]=useState(null),[form,setForm]=useState({repo:'',good:'',bad:'HEAD',command:'',repeats:2,timeoutMs:30000,failurePattern:'',reproScript:'',trusted:false,synthetic:false});
   const [selected,setSelected]=useState(null),[error,setError]=useState(''),[busy,setBusy]=useState(false),[archive,setArchive]=useState([]),[models,setModels]=useState({available:false,models:[]}),[model,setModel]=useState('gemma3:1b'),[exported,setExported]=useState(''),[overlay,setOverlay]=useState(null),[diffMode,setDiffMode]=useState('unified'),[connection,setConnection]=useState('idle');
   const stream=useRef(null),caseRef=useRef(state),formRef=useRef(form),logRef=useRef(null),logFollow=useRef(true),timelineRef=useRef(null),headerId=useRef(null),demoRepo=useRef(null),autopsyRequested=useRef(new Set()),[clock,setClock]=useState(Date.now()),receivedAt=useRef(Date.now());
@@ -59,17 +67,33 @@ function App() {
   const showEvidence=id=>{if(id==='D1'){document.getElementById('candidate')?.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});return;}const record=state?.runs.find(r=>r.id===id);if(record){setSelected(record.hash);requestAnimationFrame(()=>document.getElementById(`run-${id}`)?.scrollIntoView({block:'nearest'}));}};
 
   return <>
-    <header className="masthead">
+    <nav className="workspace-rail" aria-label="Workspace sections">
+      <a className="rail-brand" href="#workspace-top" aria-label="Time of Death workspace">t<span>d</span></a>
+      <div className="rail-links">{[['case','case-file','Case file'],['timeline','timeline','Timeline'],['evidence','selected-evidence','Evidence'],['candidate','candidate','Candidate'],['autopsy','autopsy','Autopsy']].map(([icon,id,label])=><a key={id} href={`#${id}`} title={label} aria-label={label} aria-current={activeSection===id?'location':undefined}><Icon name={icon}/><span>{label}</span></a>)}</div>
+      <div className="rail-bottom"><button disabled={isRunning} onClick={()=>{refreshArchive();setOverlay('archive');}} title="Case archive" aria-label="Case archive"><Icon name="archive"/><span>Archive</span></button><button onClick={()=>setOverlay('guide')} title="Field guide" aria-label="Field guide"><Icon name="guide"/><span>Guide</span></button></div>
+    </nav>
+    <header className="masthead" id="workspace-top">
       <div className="identity"><h1>Time of Death</h1><p>{state?<>Case <code>{state.id.slice(0,8)}</code></>:'The coroner’s console'}</p>{!display&&<div className="title-dust"><Dither tone="bone" density={.035}/></div>}</div>
       <div className="header-controls"><p className="privacy-note">Local investigation. Your code stays here.</p><div className="header-buttons"><button type="button" onClick={loadDemo} disabled={busy||isRunning}>Open the synthetic case</button><button type="button" disabled={isRunning} onClick={()=>{refreshArchive();setOverlay('archive');}}>Case archive</button><button type="button" onClick={()=>setOverlay('guide')}>Field guide</button></div>{(display?.synthetic||(form.synthetic&&running(state)))&&<p className="synthetic-label">Synthetic demo repository</p>}</div>
     </header>
+
+    <div className="workspace-heading">
+      <div><div className="workspace-breadcrumb">Local workspace <span aria-hidden="true">/</span> Investigations {state&&<><span aria-hidden="true">/</span><code>{state.id.slice(0,8)}</code></>}</div><h2>Regression investigation</h2><p>Find the commit. Keep the evidence.</p></div>
+      <div className="workspace-context"><span className="local-indicator"><span aria-hidden="true"/> Local execution</span><span className="workspace-subtle">Your working tree stays yours.</span></div>
+    </div>
+    <dl className="case-overview" aria-label="Investigation overview">
+      <div><dt>Repository</dt><dd title={form.repo||undefined}>{form.repo?form.repo.replaceAll('\\','/').split('/').filter(Boolean).at(-1):'Not selected'}</dd></div>
+      <div><dt>Revision range</dt><dd>{display?.commits.length?<><code>{short(display.commits[0].hash)}</code><span className="range-separator">to</span><code>{short(display.commits.at(-1).hash)}</code></>:'Not loaded'}</dd></div>
+      <div><dt>Recorded checks</dt><dd><strong>{state?.runs.length||0}</strong><span className="overview-detail">execution receipts</span></dd></div>
+      <div><dt>Case status</dt><dd>{state?<Status status={isRunning?'running':state.status}>{isRunning?'In progress':state.status==='complete'?'Boundary confirmed':state.status}</Status>:<span className="idle-status">Awaiting a case</span>}</dd></div>
+    </dl>
 
     {connection==='reconnecting'&&state&&<div className="global-notice" role="status"><span>!</span><p>Connection lost. Reconnecting to the local app. If you restarted it, reload to reconnect and open the saved case from the archive.</p><button onClick={()=>window.location.reload()}>Reload app</button></div>}
     {state?.persistenceError&&<div className="global-notice" role="alert"><span>!</span><p>This case could not be saved: {state.persistenceError}. Export the record before closing.</p></div>}
     {error&&<div className="global-notice" role="alert"><span>!</span><p>{error}</p><button onClick={()=>setError('')} aria-label="Dismiss notification">Dismiss</button></div>}
 
     <main className="console">
-      <section className="case-file" aria-labelledby="case-heading"><div className="section-heading"><h2 id="case-heading">The case file</h2>{state&&!isRunning&&<button className="plain" onClick={newCase}>New case</button>}</div>
+      <section className="case-file" id="case-file" aria-labelledby="case-heading"><div className="section-heading"><h2 id="case-heading">The case file</h2>{state&&!isRunning&&<button className="plain" onClick={newCase}>New case</button>}</div>
         <form id="case-form" onSubmit={begin}>
           <fieldset disabled={isRunning||busy}>
             <label className="field">Repository<input name="repo" value={form.repo} onChange={update} required autoComplete="off" placeholder="Absolute local path" spellCheck="false"/></label>
@@ -92,7 +116,8 @@ function App() {
         {state?.bisectLog&&<details className="raw-log"><summary>Git bisect record</summary><pre>{state.bisectLog}</pre></details>}
       </section>
 
-      <section className="timeline-region" aria-labelledby="timeline-heading"><div className="section-heading"><h2 id="timeline-heading">The timeline</h2><span className="small">{display?.commits.length?`${display.commits.length} revisions`:'Awaiting history'}</span></div>
+      <div className="investigation-main">
+      <section className="timeline-region" id="timeline" aria-labelledby="timeline-heading"><div className="section-heading"><h2 id="timeline-heading">The timeline</h2><span className="small">{display?.commits.length?`${display.commits.length} revisions`:'Awaiting history'}</span></div>
         {state?.doctor&&<section className="doctor-result" aria-label="Check readiness report"><h3>{state.doctor.verdict==='ready'?'Ready to investigate':'Check needs attention'}</h3><p>{state.doctor.diagnosis}</p><p className="small">{state.doctor.checks} execution receipts recorded. No history search was performed.</p>{state.doctor.suggestions.map(text=><p className="small" key={text}>{text}</p>)}{state.doctor.scripts.length>0&&<details><summary>Scripts declared in historical manifests</summary><p className="small">Read from committed package.json files. These are suggestions to review, not verified regression checks.</p>{state.doctor.scripts.slice(0,12).map((script,index)=><div className="doctor-script" key={index}><code>{short(script.hash)}: {script.name}</code><button type="button" onClick={()=>setForm(f=>({...f,command:script.suggestedCommand,reproScript:'',trusted:false}))}>Use command</button><pre>{script.command}</pre></div>)}</details>}</section>}
         {!display?.commits.length?<div className="empty-timeline"><Dither tone="vault" density={.12}/><p>No history loaded.</p></div>:<>
           <div className="timeline-endpoints"><span>Oldest <code>{short(display.commits[0].hash)}</code></span><span>Newest <code>{short(display.commits.at(-1).hash)}</code></span></div>
@@ -114,7 +139,8 @@ function App() {
         {state?.result&&<FixVerification key={state.id} state={state} disabled={isRunning||state.analysis?.status==='running'} onError={setError}/>}
       </section>
 
-      <aside className="autopsy-region" aria-labelledby="autopsy-heading"><div className="section-heading"><h2 id="autopsy-heading">The autopsy</h2><span className="small">Local model</span></div><section className="established"><h3>What changed</h3><span className="statement-label">Established</span>{state?.result?<><p>The check fails at <button className="evidence-link machine" onClick={()=>showEvidence(state.runs.find(r=>r.hash===state.result.candidate&&r.stage==='Confirm candidate failure')?.id||'D1')}>{short(state.result.candidate)}</button>. Its parent <button className="evidence-link machine" onClick={()=>{setSelected(state.result.parent);document.getElementById('selected-evidence')?.focus();}}>{short(state.result.parent)}</button> passes.</p><p>{state.repeats} recorded checks per tested revision, including confirmation.</p></>:<p>A confirmed failure boundary and its execution evidence will be recorded here.</p>}</section>
+      </div>
+      <aside className="autopsy-region" id="autopsy" aria-labelledby="autopsy-heading"><div className="section-heading"><h2 id="autopsy-heading">The autopsy</h2><span className="small">Local model</span></div><section className="established"><h3>What changed</h3><span className="statement-label">Established</span>{state?.result?<><p>The check fails at <button className="evidence-link machine" onClick={()=>showEvidence(state.runs.find(r=>r.hash===state.result.candidate&&r.stage==='Confirm candidate failure')?.id||'D1')}>{short(state.result.candidate)}</button>. Its parent <button className="evidence-link machine" onClick={()=>{setSelected(state.result.parent);document.getElementById('selected-evidence')?.focus();}}>{short(state.result.parent)}</button> passes.</p><p>{state.repeats} recorded checks per tested revision, including confirmation.</p></>:<p>A confirmed failure boundary and its execution evidence will be recorded here.</p>}</section>
         <section className="model-controls"><label className="field">Model<select value={model} onChange={event=>setModel(event.target.value)}>{models.models.length?models.models.map(m=><option key={m.name} value={m.name}>{m.name}</option>):<option value="gemma3:1b">No local model available</option>}</select></label><button disabled={!complete||!hasModel||state.analysis?.status==='running'} onClick={()=>requestAutopsy(state)}>{state?.analysis?.status==='running'?'Examining the evidence…':state?.analysis?.status==='complete'?'Generate another autopsy':'Generate autopsy'}</button><button className="plain" onClick={refreshModels}>Refresh model status</button>{!hasModel&&<div className="model-unavailable"><h3>{models.available?'No local model installed':'Local model unavailable'}</h3><p>The Git result remains available in full. Start Ollama, download a local model, then refresh.</p><pre>ollama pull gemma3:1b</pre></div>}<p className="small">{hasModel?'Runs locally. The model is requested to unload after each report.':'No paid API is required.'}</p></section>
         {state?.analysis?.status==='running'&&<p className="autopsy-wait" role="status">Reading the recorded diff and check output. CPU inference may take a few minutes.</p>}
         {state?.analysis?.status==='error'&&<p className="model-error" role="status">{state.analysis.error}</p>}
