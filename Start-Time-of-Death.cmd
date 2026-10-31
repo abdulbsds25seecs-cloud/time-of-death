@@ -7,18 +7,13 @@ if errorlevel 1 (
   pause
   exit /b 1
 )
-where git >nul 2>nul
+if not exist "scripts\launch.mjs" (
+  echo Extract the ENTIRE prebuilt ZIP first, then open this launcher from the extracted folder.
+  pause
+  exit /b 1
+)
+node scripts\launch.mjs
 if errorlevel 1 (
-  echo Install Git from https://git-scm.com then reopen this launcher.
   pause
   exit /b 1
 )
-echo Open http://127.0.0.1:4317 in your browser.
-echo Press Ctrl+C to stop. Ollama is optional and runs separately.
-if not exist "dist\index.html" (
-  echo Build the interface first: npm ci, then npm run build.
-  pause
-  exit /b 1
-)
-node --env-file-if-exists=.env.local server.mjs
-pause
