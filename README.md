@@ -4,7 +4,7 @@
 
 A free local regression investigator with an interactive Git timeline, execution receipts, portable regression scripts, and optional local open-weight AI autopsies. The prebuilt edition needs Node 22.13+ and Git. Building from source also needs npm. No account, Docker, paid API, or cloud service is required for the standard local mode.
 
-> Implemented: React coroner's console, fixed Bayer dithering, engine/CLI, reports, optional Mastra workflow, Temporal recovery and opt-in Sentry instrumentation. Local verification: 22 passing test nodes and a separate forced-worker-crash recovery check. Live Sentry delivery awaits a project DSN. Copilot review and public publication have not occurred.
+> Implemented: React coroner's console, fixed Bayer dithering, engine/CLI, reports, optional Mastra workflow, Temporal recovery and opt-in Sentry instrumentation. Local verification includes the acceptance suite and a separate forced-worker-crash recovery check; see evidence/acceptance-tests.txt for the latest counts. Live Sentry delivery awaits a project DSN. Copilot review and public publication have not occurred.
 
 ## Start
 

@@ -30,7 +30,7 @@ try{
 ```
 
 ## Recorded evidence
-Case e2f7b9d1-1603-4da5-92cd-e2a08fe0e21b; status complete; 14 check executions; 2 execution(s) per selected revision.
+Case 215bb52d-1772-41a3-8fd3-900e314fa658; status complete; 14 check executions; 2 execution(s) per selected revision.
 Candidate: 3ec8e9fa2f6eef3911cb47f656ab761fc1030812
 Passing parent: 4a4eadd3e492b882e59112b453f86e83316b7133
 
@@ -101,25 +101,25 @@ index 8f2f743..bf411e9 100644
 ```
 
 ### E11: Confirm candidate failure
-3ec8e9fa2f6eef3911cb47f656ab761fc1030812; bad; exit 1; 78 ms.
+3ec8e9fa2f6eef3911cb47f656ab761fc1030812; bad; exit 1; 73 ms.
 ```text
-PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by "exports" in C:\Users\oasis\AppData\Local\Temp\time-of-death-AP1y2G\checkout\package.json imported from C:\Users\oasis\AppData\Local\Temp\time-of-death-AP1y2G\checkout\.tod-manifest-probe\probe.cjs
+PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by "exports" in C:\Users\oasis\AppData\Local\Temp\time-of-death-zDrBVA\checkout\package.json imported from C:\Users\oasis\AppData\Local\Temp\time-of-death-zDrBVA\checkout\.tod-manifest-probe\probe.cjs
 ```
 
 ### E12: Confirm candidate failure
 3ec8e9fa2f6eef3911cb47f656ab761fc1030812; bad; exit 1; 75 ms.
 ```text
-PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by "exports" in C:\Users\oasis\AppData\Local\Temp\time-of-death-AP1y2G\checkout\package.json imported from C:\Users\oasis\AppData\Local\Temp\time-of-death-AP1y2G\checkout\.tod-manifest-probe\probe.cjs
+PACKAGE_MANIFEST_ACCESS: ERR_PACKAGE_PATH_NOT_EXPORTED: Package subpath './package.json' is not defined by "exports" in C:\Users\oasis\AppData\Local\Temp\time-of-death-zDrBVA\checkout\package.json imported from C:\Users\oasis\AppData\Local\Temp\time-of-death-zDrBVA\checkout\.tod-manifest-probe\probe.cjs
 ```
 
 ### E13: Confirm previous revision passes
-4a4eadd3e492b882e59112b453f86e83316b7133; good; exit 0; 107 ms.
+4a4eadd3e492b882e59112b453f86e83316b7133; good; exit 0; 84 ms.
 ```text
 PASS: clsx/package.json resolves for downstream tooling
 ```
 
 ### E14: Confirm previous revision passes
-4a4eadd3e492b882e59112b453f86e83316b7133; good; exit 0; 84 ms.
+4a4eadd3e492b882e59112b453f86e83316b7133; good; exit 0; 100 ms.
 ```text
 PASS: clsx/package.json resolves for downstream tooling
 ```

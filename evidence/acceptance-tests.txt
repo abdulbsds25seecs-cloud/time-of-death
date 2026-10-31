@@ -15,30 +15,30 @@ dist/index.html                                                0.51 kB │ gzip:
 dist/assets/ibm-plex-mono-latin-400-normal-DMJ8VG8y.woff2     14.70 kB
 dist/assets/im-fell-english-latin-400-normal-BhowGHCQ.woff2   59.88 kB
 dist/assets/index-q8e3DBzl.css                                24.88 kB │ gzip:  5.93 kB
-dist/assets/index-v1Gjp4bK.js                                259.53 kB │ gzip: 80.08 kB
+dist/assets/index-BesYIbSf.js                                260.06 kB │ gzip: 80.27 kB
 
-✓ built in 300ms
-✔ ordered threshold matrix has every rank exactly once (2.2575ms)
-✔ suspect range cools only after consistent repeated evidence (0.6771ms)
-✔ diff gutters distinguish old and new line numbers without colour (0.585ms)
-✔ durable case polling retains pending AI status and releases the inference lock on completion (121.3869ms)
+✓ built in 386ms
+✔ ordered threshold matrix has every rank exactly once (1.4682ms)
+✔ suspect range cools only after consistent repeated evidence (0.507ms)
+✔ diff gutters distinguish old and new line numbers without colour (0.6329ms)
+✔ durable case polling retains pending AI status and releases the inference lock on completion (103.0002ms)
 ▶ Git investigation and application acceptance suite
-  ✔ finds known boundary and preserves dirty tracked/untracked source files (5099.8232ms)
-  ✔ rejects invalid revisions, reversed range, same endpoints and relative repository (659.1806ms)
-  ✔ replays a newly written regression script across older commits (4240.9336ms)
-  ✔ rejects a purported good endpoint that actually fails (1051.9714ms)
-  ✔ rejects a purported bad endpoint that actually passes (1455.1719ms)
-  ✔ unrelated failures do not count as the target regression (1048.1075ms)
-  ✔ missing dependencies are untestable, not bad commits (1157.2737ms)
-  ✔ timeout stops a hanging check without inferring a regression (1899.3418ms)
-  ✔ shell execution failure codes cannot become bad commits (1149.4013ms)
-  ✔ cancellation terminates a running check and produces no result (1428.2846ms)
-  ✔ alternating repeated results are inconclusive (1197.3312ms)
-  ✔ skip ambiguity cannot produce a precise candidate (6758.4892ms)
-  ✔ AI output requires valid evidence references and exports preserve recorded facts (3.2347ms)
-  ✔ HTTP endpoints require origin/host validation, app token and explicit execution trust (88.8122ms)
-  ✔ process capture bounds noisy command output (96.4213ms)
-✔ Git investigation and application acceptance suite (29583.2767ms)
+  ✔ finds known boundary and preserves dirty tracked/untracked source files (4370.6518ms)
+  ✔ rejects invalid revisions, reversed range, same endpoints and relative repository (673.4855ms)
+  ✔ replays a newly written regression script across older commits (4425.2501ms)
+  ✔ rejects a purported good endpoint that actually fails (1032.5337ms)
+  ✔ rejects a purported bad endpoint that actually passes (1281.3531ms)
+  ✔ unrelated failures do not count as the target regression (1002.5851ms)
+  ✔ missing dependencies are untestable, not bad commits (985.0757ms)
+  ✔ timeout stops a hanging check without inferring a regression (1739.8336ms)
+  ✔ shell execution failure codes cannot become bad commits (1151.3754ms)
+  ✔ cancellation terminates a running check and produces no result (1502.9162ms)
+  ✔ alternating repeated results are inconclusive (1250.1936ms)
+  ✔ skip ambiguity cannot produce a precise candidate (6540.029ms)
+  ✔ AI output requires valid evidence references and exports preserve recorded facts (1.1833ms)
+  ✔ HTTP endpoints require origin/host validation, app token and explicit execution trust (59.5507ms)
+  ✔ process capture bounds noisy command output (69.4287ms)
+✔ Git investigation and application acceptance suite (28057.7978ms)
 Error executing step workflow.evidence-autopsy.step.validate-citations: Error: The model returned missing or invalid evidence references. Its report was not accepted.
     at file:///C:/Users/oasis/Documents/Codex/2026-10-27/hac/outputs/time-of-death/lib/ai.mjs:26:147
     at Array.map (<anonymous>)
@@ -50,20 +50,21 @@ Error executing step workflow.evidence-autopsy.step.validate-citations: Error: T
     at fn (file:///C:/Users/oasis/Documents/Codex/2026-10-27/hac/outputs/time-of-death/node_modules/@mastra/core/dist/agent-b2Y5GsZg.js:5376:19)
     at executeWithContext (file:///C:/Users/oasis/Documents/Codex/2026-10-27/hac/outputs/time-of-death/node_modules/@mastra/core/dist/utils-DkqXxW5a.js:1088:9)
     at runStep (file:///C:/Users/oasis/Documents/Codex/2026-10-27/hac/outputs/time-of-death/node_modules/@mastra/core/dist/agent-b2Y5GsZg.js:5374:10)
-✔ Mastra executes evidence, inference and citation validation; rejects invented references (852.1716ms)
-✔ Sentry captures nested spans locally with metadata only; no real DSN or cloud request (1016.9523ms)
+✔ Mastra executes evidence, inference and citation validation; rejects invented references (913.8789ms)
+✔ Sentry captures nested spans locally with metadata only; no real DSN or cloud request (1088.3178ms)
+✔ product HTTP flow requires trust, preserves the boundary during fix checks and exports a draft (7791.3335ms)
 ▶ readiness, proposed fix and issue-draft workflow
-  ✔ doctor checks repeated endpoints without declaring a culprit (1792.4194ms)
-  ✔ doctor diagnoses a missing check and reads scripts without running them (1294.5497ms)
-  ✔ a real patch produces pass/fail/pass receipts and preserves the source tree (2386.1938ms)
-  ✔ a proposal that still fails is rejected and an invalid patch stays inconclusive (4411.5241ms)
-  ✔ cancellation cannot produce a passing fix verdict (514.2229ms)
-✔ readiness, proposed fix and issue-draft workflow (16365.6788ms)
-ℹ tests 28
+  ✔ doctor checks repeated endpoints without declaring a culprit (1551.5542ms)
+  ✔ doctor diagnoses a missing check and reads scripts without running them (1116.8184ms)
+  ✔ a real patch produces pass/fail/pass receipts and preserves the source tree (2264.9247ms)
+  ✔ a proposal that still fails is rejected and an invalid patch stays inconclusive (6373.8924ms)
+  ✔ cancellation cannot produce a passing fix verdict (439.8646ms)
+✔ readiness, proposed fix and issue-draft workflow (17352.6571ms)
+ℹ tests 29
 ℹ suites 0
-ℹ pass 28
+ℹ pass 29
 ℹ fail 0
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 48642.8732
+ℹ duration_ms 56298.6046

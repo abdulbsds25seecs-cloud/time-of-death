@@ -20,4 +20,7 @@ $info = @{builtAt=[DateTime]::UtcNow.ToString('o');sourceCommit=(& git -C $proje
 $info | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $stage 'BUILD_INFO.json') -Encoding utf8
 Compress-Archive -LiteralPath (Get-ChildItem -LiteralPath $stage -Force).FullName -DestinationPath $archive -Force
 Get-Item -LiteralPath $archive | Select-Object FullName,Length
-Get-FileHash -LiteralPath $archive -Algorithm SHA256
+$hasher = [Security.Cryptography.SHA256]::Create()
+$stream = [IO.File]::OpenRead($archive)
+try { [PSCustomObject]@{ SHA256=([BitConverter]::ToString($hasher.ComputeHash($stream))).Replace('-',''); Path=$archive } }
+finally { $stream.Dispose(); $hasher.Dispose() }
