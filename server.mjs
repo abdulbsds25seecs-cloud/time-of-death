@@ -18,12 +18,13 @@ export async function createApp({ dataDir, port = 4317, analyzeCase = runAutopsy
   dataDir ||= path.join(root, '.data');
   await mkdir(path.join(dataDir, 'reports'), { recursive: true });
   const token = randomBytes(24).toString('hex'), instance = randomUUID();
-  const states = new Map(), clients = new Map();
+  const states = new Map(), clients = new Map(), localJobs = new Map();
   let active = null, demoPromise;
   const persist = async state => { const dest = path.join(dataDir, 'reports', `${state.id}.json`); await writeFile(dest + '.tmp', JSON.stringify(state)); await rename(dest + '.tmp', dest); };
   const publish = state => { for (const client of clients.get(state.id) || []) client.write(`data: ${JSON.stringify(state)}\n\n`); };
   const getState = async id => {
     if (!/^[\w-]{1,60}$/.test(id)) throw new Error('Invalid investigation ID.');
+    if(localJobs.has(id))return localJobs.get(id);
     if (!states.has(id)||states.get(id)?.durability) {
       const s = JSON.parse(await readFile(path.join(dataDir, 'reports', `${id}.json`), 'utf8'));
       if (!s.durability&&['queued', 'running'].includes(s.status)) { s.status = 'interrupted'; s.error = 'The app stopped before this investigation finished. Start a new investigation.'; }
@@ -99,8 +100,8 @@ export async function createApp({ dataDir, port = 4317, analyzeCase = runAutopsy
           if(active)return json(409,{error:'Wait for the active investigation to finish before running local inference.'});
           if (s.status !== 'complete') return json(400, { error: 'Complete a conclusive investigation first.' });
           if ([...states.values()].some(x => x.analysis?.status === 'running')) return json(409, { error: 'A local AI report is already being generated.' });
-          s.analysis = { status: 'running', owner:instance }; await persist(s); publish(s); json(202, s.analysis);
-          analyzeCase(s, input.model||'gemma3:1b').then(a => { s.analysis = { status: 'complete', ...a }; }).catch(e => { s.analysis = { status: 'error', error: e.message }; }).finally(async () => { states.set(s.id,s); await persist(s).catch(() => {}); publish(s); }); return;
+          s.analysis = { status: 'running', owner:instance }; localJobs.set(id,s); await persist(s); publish(s); json(202, s.analysis);
+          analyzeCase(s, input.model||'gemma3:1b').then(a => { s.analysis = { status: 'complete', ...a }; }).catch(e => { s.analysis = { status: 'error', error: e.message }; }).finally(async () => { await persist(s).catch(() => {}); states.set(id,s);localJobs.delete(id); publish(s); }); return;
         }
         if(action==='verify-fix'&&req.method==='POST'){
           if(active||[...states.values()].some(x=>x.analysis?.status==='running'))return json(409,{error:'Wait for the current investigation or local inference to finish.'});
@@ -108,10 +109,10 @@ export async function createApp({ dataDir, port = 4317, analyzeCase = runAutopsy
           if(s.status!=='complete'||!s.result)return json(400,{error:'Confirm a failure boundary first.'});
           const controller=new AbortController();active={id,controller,operation:'verify-fix'};
           s.verification={status:'running',phase:'Preparing fix verification',owner:instance,runs:[],checks:[]};
-          await persist(s);publish(s);json(202,s.verification);
+          localJobs.set(id,s);await persist(s);publish(s);json(202,s.verification);
           let writes=Promise.resolve();
           const update=value=>{s.verification={...value,owner:instance};publish(s);const snapshot=JSON.parse(JSON.stringify(s));writes=writes.then(()=>persist(snapshot)).catch(error=>{s.persistenceError=error.message;});};
-          traced('Verify proposed fix','test',{},()=>verifyFix(s,input,update,controller.signal)).catch(error=>{s.verification={...s.verification,status:'inconclusive',message:error.message};}).finally(async()=>{await writes.catch(()=>{});states.set(id,s);await persist(s).catch(()=>{});active=null;publish(s);});return;
+          traced('Verify proposed fix','test',{},()=>verifyFix(s,input,update,controller.signal)).catch(error=>{s.verification={...s.verification,status:'inconclusive',message:error.message};}).finally(async()=>{await writes.catch(()=>{});await persist(s).catch(()=>{});states.set(id,s);localJobs.delete(id);active=null;publish(s);});return;
         }
         if (action === 'report' && req.method === 'GET') {
           const format=url.searchParams.get('format'),isJSON=format==='json',isIssue=format==='issue';
