@@ -1,0 +1,49 @@
+{
+  "checkedAt": "2026-10-31T10:02:58.860Z",
+  "url": "https://abdulbsds25seecs-cloud.github.io/time-of-death/",
+  "status": "passed",
+  "checks": [
+    {
+      "url": "https://abdulbsds25seecs-cloud.github.io/time-of-death/",
+      "status": 200
+    },
+    {
+      "url": "https://abdulbsds25seecs-cloud.github.io/time-of-death/demo/",
+      "status": 200
+    },
+    {
+      "url": "https://abdulbsds25seecs-cloud.github.io/time-of-death/demo/assets/index-cnA4f_tH.js",
+      "status": 200
+    },
+    {
+      "url": "https://abdulbsds25seecs-cloud.github.io/time-of-death/demo/assets/index-whKzoP5_.css",
+      "status": 200
+    },
+    {
+      "url": "https://abdulbsds25seecs-cloud.github.io/time-of-death/demo/assets/cormorant-garamond-latin-500-BsRWmXhO.woff2",
+      "status": 200
+    },
+    {
+      "url": "https://abdulbsds25seecs-cloud.github.io/time-of-death/demo/assets/ibm-plex-mono-latin-400-normal-DMJ8VG8y.woff2",
+      "status": 200
+    },
+    {
+      "url": "https://abdulbsds25seecs-cloud.github.io/time-of-death/demo/reports/clsx-case.json",
+      "status": 200
+    },
+    {
+      "url": "https://abdulbsds25seecs-cloud.github.io/time-of-death/demo/reports/clsx-case.md",
+      "status": 200
+    },
+    {
+      "url": "https://abdulbsds25seecs-cloud.github.io/time-of-death/demo/reports/clsx-issue.md",
+      "status": 200
+    },
+    {
+      "url": "https://github.com/abdulbsds25seecs-cloud/time-of-death/releases/download/v0.2.0-preview.20261031/time-of-death-prebuilt.zip",
+      "status": 200,
+      "kind": "anonymous download HEAD"
+    }
+  ],
+  "limits": "Public HTTP delivery, fonts, scripts, styles, reports and download checked. Interaction has separate React DOM tests. Fresh visual browser QA blocked by Computer Use URL detection."
+}

@@ -1,0 +1,102 @@
+
+> time-of-death@1.0.0 test
+> npm run build && node --test --test-concurrency=1 test/*.test.mjs
+
+
+> time-of-death@1.0.0 build
+> vite build
+
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 23 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                                0.51 kB │ gzip:  0.34 kB
+dist/assets/ibm-plex-mono-latin-400-normal-DMJ8VG8y.woff2     14.70 kB
+dist/assets/newsreader-latin-400-BFBkh4jY.woff2               22.48 kB
+dist/assets/cormorant-garamond-latin-500-BsRWmXhO.woff2       23.31 kB
+dist/assets/im-fell-english-latin-400-normal-BhowGHCQ.woff2   59.88 kB
+dist/assets/index-C_KJAuyh.css                                47.61 kB │ gzip: 10.06 kB
+dist/assets/index-DJUpoPOj.js                                277.94 kB │ gzip: 85.57 kB
+
+✓ built in 238ms
+✔ negative fix controls remain rejected or inconclusive and receipts identify the reason (8594.0609ms)
+✔ cancelling an HTTP investigation leaves no false result and permits a later case (4407.285ms)
+✔ closing the server during work persists an honest interrupted case for restart inspection (1388.1723ms)
+✔ product API journey finds the known boundary, preserves the source tree, and exports receipts (8234.1791ms)
+✔ CLI reports the independently known fixture boundary and distinguishes bad environment controls (5907.1962ms)
+✔ false-positive check replacement remains reproducible through the product API (5625.7665ms)
+✔ API fix verification does not certify a proposal that weakens an imported check helper (4602.4379ms)
+✔ fix verification does not accept a patch that disables the command-based regression check (5511.9492ms)
+✔ ordered threshold matrix has every rank exactly once (1.1698ms)
+✔ suspect range cools only after consistent repeated evidence (0.384ms)
+✔ diff gutters distinguish old and new line numbers without colour (0.3152ms)
+✔ durable case polling retains pending AI status and releases the inference lock on completion (87.5911ms)
+▶ Git investigation and application acceptance suite
+  ✔ finds known boundary and preserves dirty tracked/untracked source files (4263.7889ms)
+  ✔ rejects invalid revisions, reversed range, same endpoints and relative repository (443.7189ms)
+  ✔ replays a newly written regression script across older commits (3589.3826ms)
+  ✔ rejects a purported good endpoint that actually fails (877.311ms)
+  ✔ rejects a purported bad endpoint that actually passes (1233.3337ms)
+  ✔ unrelated failures do not count as the target regression (910.1687ms)
+  ✔ missing dependencies are untestable, not bad commits (938.5226ms)
+  ✔ timeout stops a hanging check without inferring a regression (1490.6479ms)
+  ✔ shell execution failure codes cannot become bad commits (883.8416ms)
+  ✔ cancellation terminates a running check and produces no result (1178.9405ms)
+  ✔ alternating repeated results are inconclusive (971.7961ms)
+  ✔ skip ambiguity cannot produce a precise candidate (5048.9318ms)
+  ✔ AI output requires valid evidence references and exports preserve recorded facts (1.3361ms)
+  ✔ HTTP endpoints require origin/host validation, app token and explicit execution trust (61.86ms)
+  ✔ process capture bounds noisy command output (66.8142ms)
+✔ Git investigation and application acceptance suite (23973.0716ms)
+Error executing step workflow.evidence-autopsy.step.validate-citations: Error: The model returned missing or invalid evidence references. Its report was not accepted.
+    at file:///C:/Users/oasis/Documents/Codex/2026-10-27/hac/outputs/time-of-death/lib/ai.mjs:26:147
+    at Array.map (<anonymous>)
+    at validateAnalysis (file:///C:/Users/oasis/Documents/Codex/2026-10-27/hac/outputs/time-of-death/lib/ai.mjs:25:47)
+    at file:///C:/Users/oasis/Documents/Codex/2026-10-27/hac/outputs/time-of-death/lib/autopsy-workflow.mjs:23:83
+    at file:///C:/Users/oasis/Documents/Codex/2026-10-27/hac/outputs/time-of-death/lib/autopsy-workflow.mjs:15:57
+    at traced (file:///C:/Users/oasis/Documents/Codex/2026-10-27/hac/outputs/time-of-death/lib/telemetry.mjs:28:20)
+    at Object.execute (file:///C:/Users/oasis/Documents/Codex/2026-10-27/hac/outputs/time-of-death/lib/autopsy-workflow.mjs:14:50)
+    at fn (file:///C:/Users/oasis/Documents/Codex/2026-10-27/hac/outputs/time-of-death/node_modules/@mastra/core/dist/agent-b2Y5GsZg.js:5376:19)
+    at executeWithContext (file:///C:/Users/oasis/Documents/Codex/2026-10-27/hac/outputs/time-of-death/node_modules/@mastra/core/dist/utils-DkqXxW5a.js:1088:9)
+    at runStep (file:///C:/Users/oasis/Documents/Codex/2026-10-27/hac/outputs/time-of-death/node_modules/@mastra/core/dist/agent-b2Y5GsZg.js:5374:10)
+✔ Mastra executes evidence, inference and citation validation; rejects invented references (1180.5805ms)
+✔ Sentry captures nested spans locally with metadata only; no real DSN or cloud request (1246.4082ms)
+▶ public recorded explorer distinguishes replay, real evidence and local execution
+  ✔ opens on real case with clear recorded notice and runnable-app download (10.8041ms)
+  ✔ untested selection has no invented logs; tabs show original diff, six patch receipts and reviewed AI error (79.1334ms)
+  ✔ replay reveals saved receipts, can pause and restores full recording (864.951ms)
+  ✔ published reports exclude recording workstation paths and carry recorded provenance (147.0336ms)
+✔ public recorded explorer distinguishes replay, real evidence and local execution (1736.8886ms)
+✔ product HTTP flow requires trust, preserves the boundary during fix checks and exports a draft (7587.4374ms)
+▶ readiness, proposed fix and issue-draft workflow
+  ✔ doctor checks repeated endpoints without declaring a culprit (1488.9534ms)
+  ✔ doctor diagnoses a missing check and reads scripts without running them (988.4295ms)
+  ✔ a real patch produces pass/fail/pass receipts and preserves the source tree (2144.1687ms)
+  ✔ a proposal that still fails is rejected and an invalid patch stays inconclusive (3564.6977ms)
+  ✔ cancellation cannot produce a passing fix verdict (392.2079ms)
+✔ readiness, proposed fix and issue-draft workflow (13353.9258ms)
+✔ shutdown aborts AI, saves its outcome and restart preserves the established boundary (74.4618ms)
+▶ tour lifecycle, keyboard isolation, focus restoration, replay and unavailable storage
+  ✔ all nine steps can be navigated without leaking shortcuts behind the modal (1079.08ms)
+  ✔ manual replay works after dismissal and Escape closes it (574.9596ms)
+  ✔ blocked browser storage still permits onboarding and dismissal (508.5619ms)
+✔ tour lifecycle, keyboard isolation, focus restoration, replay and unavailable storage (2671.6754ms)
+✔ desktop tour can point beside an input without covering its spotlight (1.074ms)
+✔ narrow and short viewports keep readable tour cards inside the visible screen (0.3607ms)
+✔ welcome and missing tour targets use a centered card without a fake spotlight (0.1647ms)
+▶ fix integrity covers revision proposals, test inputs and injected portable checks
+  ✔ revision proposals cannot disable the entry check (1731.1661ms)
+  ✔ renaming a check and adding a test helper cannot bypass review (3421.1675ms)
+  ✔ compound shell checks request a portable check instead of certifying a fix (1746.0745ms)
+  ✔ an arbitrary added module outside the original change set is blocked even alongside a valid fix (1709.5949ms)
+  ✔ portable script stays independent of a replaced committed check (3002.8895ms)
+✔ fix integrity covers revision proposals, test inputs and injected portable checks (15908.3247ms)
+ℹ tests 56
+ℹ suites 0
+ℹ pass 56
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 115659.3634

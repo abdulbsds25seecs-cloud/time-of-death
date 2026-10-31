@@ -8,7 +8,7 @@ Time of Death is a local regression investigator: give it a working revision, a 
 
 [Explore the live recorded demo](https://abdulbsds25seecs-cloud.github.io/time-of-death/) / [Download the prebuilt preview](https://github.com/abdulbsds25seecs-cloud/time-of-death/releases/tag/v0.2.0-preview.20261031) / [Run from source](#try-it-locally) / [Usage reference](docs/USAGE.md)
 
-> **Fresh acceptance:** 51 local tests passed, including Copilot's unchanged helper reproducer. Command fix replay now restricts proposals to the original culprit change set. [Results and limits](evidence/FINAL_ACCEPTANCE.md).
+> **Fresh acceptance:** 56 local tests passed, including Copilot's unchanged helper reproducer. Command fix replay now restricts proposals to the original culprit change set. [Acceptance and limits](evidence/FINAL_ACCEPTANCE.md) / [Live demo verification](evidence/pages-live-verification.json).
 
 ![A recorded clsx investigation showing the narrowed timeline and candidate commit 3ec8e9f.](docs/screenshots/04-confirmed-boundary.jpg)
 

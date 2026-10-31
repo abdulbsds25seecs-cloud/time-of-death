@@ -41,7 +41,7 @@ index f557360..b86650a 100644
 +	type ClassArray = ClassValue[];
 +	function clsx(...inputs: ClassValue[]): string;
 +}
- 
+
 -export declare function clsx(...inputs: ClassValue[]): string;
 -export default clsx;
 +declare function clsx(...inputs: clsx.ClassValue[]): string;

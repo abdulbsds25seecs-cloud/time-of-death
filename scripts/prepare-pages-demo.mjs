@@ -11,6 +11,6 @@ const model={model:partner.inference.model,summary:partner.inference.summary,dur
 await mkdir('demo/public/reports',{recursive:true});
 await writeFile('demo/case.json',JSON.stringify({record,model},null,2));
 await writeFile('demo/public/reports/clsx-case.json',JSON.stringify(record,null,2));
-await writeFile('demo/public/reports/clsx-case.md',markdownReport(record));
-await writeFile('demo/public/reports/clsx-issue.md',issueReport(record));
+await writeFile('demo/public/reports/clsx-case.md',markdownReport(record).replace(/^[\t ]+$/gm,''));
+await writeFile('demo/public/reports/clsx-issue.md',issueReport(record).replace(/^[\t ]+$/gm,''));
 console.log('Prepared recorded public-history demo and three reports; workstation paths removed.');

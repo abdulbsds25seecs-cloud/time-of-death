@@ -8,4 +8,4 @@ The app supports replay/pause/full recording, revision selection, saved receipts
 
 Pages uses main:/docs and a .nojekyll marker. Local account credentials remain excluded. The app's standard local build and launch command are unchanged. Article drafts remain ignored and local.
 
-Verification: demo production build and focused DOM tests pass. A complete local suite is rerun separately. Visual browser verification was blocked when Computer Use could not determine the current browser URL; no fresh screenshot QA is claimed. Online HTML, assets and downloads are checked after deployment.
+Verification: demo production build and focused DOM tests pass. The fresh complete local suite passed 56 tests with zero failures; output is in evidence/pages-acceptance-tests.txt. Public HTML, JS, CSS, fonts, all three reports and the anonymous app download returned HTTP 200; see evidence/pages-live-verification.json. Visual browser verification was blocked when Computer Use could not determine the current browser URL; no fresh screenshot QA is claimed. Online HTML, assets and downloads are checked after deployment.

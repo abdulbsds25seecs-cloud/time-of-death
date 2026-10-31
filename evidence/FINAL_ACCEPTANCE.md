@@ -37,3 +37,7 @@ node scripts/verify-managed-recovery.mjs 'C:\path\to\temporal.exe'
 ```
 
 The partner script sends opt-in Sentry telemetry when a DSN is configured. The recovery script starts and cleans up its own local service. Neither script buys credits or posts a submission.
+
+## Hosted demo follow-up
+
+After adding the separate GitHub Pages recorded explorer, the complete local suite passed **56 tests, zero failures/skips**. See [full output](pages-acceptance-tests.txt) and [live HTTP checks](pages-live-verification.json). The live page, assets, bundled fonts, three reports and anonymous app download returned HTTP 200. The five added demo tests cover real receipts, absent untested logs, tab switching, patch results, model review, replay controls and report path removal. Fresh visual browser QA remains blocked by Computer Use URL detection.
