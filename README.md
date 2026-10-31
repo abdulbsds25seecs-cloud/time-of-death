@@ -1,157 +1,149 @@
 # Time of Death
 
-**Find the commit that broke your app. Follow the evidence.**
+**Find where your check started failing. Keep the evidence.**
 
-A free local regression investigator with an interactive Git timeline, execution receipts, portable regression scripts, and optional local open-weight AI autopsies. The prebuilt edition needs Node 22.13+ and Git. Building from source also needs npm. No account, Docker, paid API, or cloud service is required for the standard local mode.
+A check that used to pass now fails. Somewhere in your Git history, a change crossed that boundary. Before you can fix the behavior, you need to know which change made the difference.
 
-> **Current preview:** uploaded as a work-in-progress snapshot. Copilot's imported-check-helper reproducer is still failing: a proposal can weaken an imported helper and receive a passing fix verdict. Do not treat fix verification as check-integrity certification. See [CURRENT_BUILD.md](CURRENT_BUILD.md) and [the retest report](evidence/COPILOT_RETEST_REPORT.md). The original reproducer is included unchanged.
+Time of Death is a local regression investigator: give it a working revision, a failing revision and a repeatable check. It searches the history, records what ran, and confirms a failing commit alongside its passing parent. An optional local model offers an explanation with references to that evidence.
 
-> Implemented: React coroner's console, fixed Bayer dithering, engine/CLI, reports, optional Mastra workflow, Temporal recovery and opt-in Sentry instrumentation. Local verification includes the acceptance suite and a separate forced-worker-crash recovery check; see evidence/acceptance-tests.txt for the latest counts. Copilot supplied independent bug reproducers, now preserved with the fixes. Controlled synthetic spans were verified in the live Sentry dashboard; a real-model cloud trace and public publication remain separate work.
+[Download the prebuilt preview](https://github.com/abdulbsds25seecs-cloud/time-of-death/releases/tag/v0.1.0-preview.20261031) / [Run from source](#try-it-locally) / [Usage reference](docs/USAGE.md)
 
-## Start
+> **Preview status:** fix verification has an unresolved imported-helper integrity bug. A proposal can weaken a helper used by the check and receive a passing verdict. [Read the current limits](#what-still-needs-work) before relying on that feature.
 
-From source, run these once:
+![A recorded clsx investigation showing the narrowed timeline and candidate commit 3ec8e9f.](evidence/demo-real-boundary.png)
 
-```powershell
-npm ci
-npm run build
-```
+The console confirms a failing candidate beside its passing parent. This capture shows an earlier interface; the current preview adds the compact workspace, flowing background and guided tour. Screenshots and the metrics below come from separate recorded runs.
 
-The prebuilt edition already contains `dist/` and does not need these commands for standard mode.
+## One import, one historical boundary
 
-```powershell
-node server.mjs
-```
-
-Open **http://127.0.0.1:4317**. On Windows, you can also double-click `Start-Time-of-Death.cmd`. Keep the terminal running. Set `PORT` to choose another local port.
-
-Choose **Open the synthetic case**, then **Begin investigation**. This creates a real, explicitly synthetic Git repository and searches for a deliberately introduced session-expiration regression. The timeline and logs come from actual checks.
-
-## Investigate your project
-
-1. Choose an absolute path to a **trusted** local Git repository.
-2. Supply a working revision and a later failing revision on a linear history.
-3. Enter a reproducible command. Historical dependencies are **not installed automatically**. Prefer a focused, self-contained check.
-4. Optionally specify text that must appear in failing output. Other failures are skipped.
-5. Inspect the candidate, its passing parent, their diff, and every captured check.
-
-The source working tree is not switched, stashed, cleaned, or reset. A disposable clone contains committed files only. Ignored dependencies, `.env` files, and uncommitted work are not copied. Checks run sequentially in that clone, with timeouts and bounded output. These commands execute with your account's permissions: a disposable clone is **not a security sandbox**.
-
-### A test that did not exist in older commits
-
-Open **Replay a new check in old revisions** and paste a Node ESM script. It replaces the command field and is injected into each checked revision. Relative imports resolve against that revision.
+This is the check in the recorded public-history example:
 
 ```js
-import assert from 'node:assert/strict';
-import { sessionIsValid } from './session.mjs';
-
-assert.equal(sessionIsValid(1000, 1000), false,
-  'A session at its exact expiration must be rejected');
+require.resolve('clsx/package.json');
 ```
 
-This is useful when you have written a regression test today and want to discover when its bug first appeared. The above script is specifically for the bundled synthetic demonstration.
+It resolves against the older manifest. After an exports map is introduced, Node returns `ERR_PACKAGE_PATH_NOT_EXPORTED`: that package subpath is no longer exposed. The library's class-name function is not involved in this check.
 
-### Exit codes and confidence
+Time of Death searched the selected history and identified the commit that changed the result:
 
-| Check result | Treatment |
+The [saved execution record](evidence/real-world-case.json) identifies candidate `3ec8e9f` and passing parent `4a4eadd`. Untested revisions remain labeled separately; the app does not invent execution results for them.
+
+The example reconstructs downstream package-manifest resolution using real public history and a minimal package layout. It does not install or build clsx. The [upstream exports-map change](https://github.com/lukeed/clsx/commit/3ec8e9fa2f6eef3911cb47f656ab761fc1030812) was intentional and marked breaking; this is not a newly discovered upstream defect.
+
+In the saved Windows run, with two executions per selected revision:
+
+| Observation | Recorded result |
 | --- | --- |
-| 0 | Good |
-| 1–124 | Bad, subject to optional target-failure text |
-| 125 | Untestable; Git bisect skips the revision |
-| Timeout, abnormal execution | Investigation stops without a regression verdict |
-| Different repeated outcomes | Inconclusive; potentially flaky check |
+| Selected history | 9 commits |
+| Investigation | 14 check executions across 5 distinct revisions |
+| Failing boundary / passing parent | `3ec8e9f` / `4a4eadd` |
+| Investigation elapsed | 4.212 seconds, excluding AI inference |
+| Demonstration compatibility patch | 6 executions: parent good, culprit bad, proposal good |
 
-Missing-module errors are skipped by a limited heuristic. A precise target-failure string is preferable to relying on that heuristic. The default runs each selected revision twice. Repetition does not guarantee that a check is free of flakiness.
+The timing describes this small manifest-resolution experiment, not arbitrary application builds. The patch passes this check; it does not establish a complete fix or recommend an upstream change. Inspect the [full report](evidence/real-world-case.md), [portable check](examples/clsx-package-exports-check.mjs) and [reproduction script](scripts/real-world-demo.mjs).
 
-A confirmed result means the candidate fails and its parent passes on the supplied check, **under the assumption of a reproducible, monotonic good-to-bad transition**. It does not prove the semantic root cause. Multiple regressions and fixes can violate that assumption. Merge-containing ranges and histories exceeding 500 revisions are rejected in this version.
+## See the app at work
 
-## Optional free local AI
+These app captures predate the latest visual refresh. Each shows a specific operation and its visible result.
 
-Install [Ollama](https://ollama.com/download), then:
+### Start with a check you can repeat
+
+![Earlier interface with repository, working revision, failing revision and check-command inputs.](evidence/demo-doctor.png)
+
+The case file asks for the repository, two revisions and a command. The empty timeline has no candidate: a verdict appears only after execution.
+
+### Read the failure and preserve its receipt
+
+![Captured package-resolution stderr beside Markdown, JSON and bug-report export controls.](evidence/demo-issue-export.png)
+
+The log contains the actual package-path error and confirmation runs. The export panel shows a prepared bug-report draft. A download does not post an issue.
+
+### Compare a proposed patch with the original failure
+
+![Recorded compatibility-patch verification with parent good, original culprit bad and proposed fix good.](evidence/demo-fix-verification.png)
+
+This portable manifest-resolution example records parent good, culprit bad and proposal good. It establishes the result of this check; the unresolved imported-helper bug still limits general fix-verification trust.
+
+## Try it locally
+
+The **prebuilt preview** needs Node.js **22.13+** and Git. Extract the entire [release ZIP](https://github.com/abdulbsds25seecs-cloud/time-of-death/releases/download/v0.1.0-preview.20261031/time-of-death-prebuilt.zip), then open `Start-Time-of-Death.cmd` on Windows. On other platforms, run `node server.mjs` from the extracted folder.
+
+Open `http://127.0.0.1:4317`, keep the server running, and choose **Open the synthetic case**, then **Begin investigation**. This creates a real Git repository with a deliberately introduced session-expiration regression. It is labeled synthetic throughout the app.
+
+The first-visit **Take tour** walks through the console with section spotlights. **Do not show again** remembers your preference; the header can reopen the tour. **Typography** offers three locally bundled display fonts.
+
+To build from source:
+
+```powershell
+git clone https://github.com/abdulbsds25seecs-cloud/time-of-death.git
+cd time-of-death
+npm ci
+npm run build
+npm start
+```
+
+The repository is currently private, so access is required to clone or download it. Running the standard local tool needs no cloud account, Docker or paid API. The prebuilt edition already includes its frontend and does not need `npm ci` for standard mode.
+
+For a terminal-only synthetic demonstration:
+
+```powershell
+node cli.mjs --demo --output report.md
+```
+
+That writes a Markdown case file. To reproduce the historical example after installing source dependencies, run `npm run demo:real`; its first run downloads public Git history.
+
+## What happens during a case
+
+1. **Establish the check.** Select a trusted local repository and a linear good-to-bad range. Check readiness runs the endpoints first. A portable Node script can replay a newly written check in older revisions.
+2. **Follow the search.** Git bisect narrows the range. Select a tested revision to inspect its command, exit code, duration, stdout and stderr. The dithered texture represents the unresolved interval, not a probability.
+3. **Inspect and preserve.** Read the candidate diff, compare its failure with its passing parent, and export Markdown, JSON or a bug-report draft. Proposed-fix verification is available with the integrity limitation stated above. Nothing is posted automatically.
+
+The source working tree is not switched, stashed or cleaned. Execution happens in a disposable clone of committed files. Historical dependencies are not installed automatically. The clone runs code with your account's permissions, so use repositories and commands you trust.
+
+## Why the model runs locally
+
+The autopsy receives a bounded diff and confirmation logs, then proposes explanations and next checks with evidence references. The model can be changed without replacing the Git investigation or its reports. With the default local configuration, those inputs stay on your machine.
+
+Install Ollama separately and download a local model, for example:
 
 ```powershell
 ollama pull gemma3:1b
 ```
 
-Keep Ollama running. Use **Refresh model status** if needed; an autopsy is requested after a conclusive investigation when a local model is available. Local inference sends the bounded diff/log evidence to the configured Ollama server. The default endpoint is on this computer, `http://127.0.0.1:11434`. `qwen2.5-coder:1.5b` is another tested option; review either model's output.
+The Git result and exports remain usable without a model. Small models have misread changes in [recorded attempts](evidence/ai-first-attempt.json), even with valid citation IDs. Model prose stays labeled as a hypothesis. A custom remote Ollama endpoint sends evidence to that configured machine.
 
-For an explicitly configured Ollama server on another machine, set `OLLAMA_BASE_URL` before starting the app. In that configuration, evidence is transmitted to that machine; it is no longer strictly on-device. Only use a server you trust. The app does not support Ollama cloud-model names and does not purchase credits.
+Git supplies the search algorithm. Time of Death adds check replay, repeated outcomes, endpoint diagnosis, execution receipts and the visual workflow. Inspectable source and replaceable local models make those pieces adaptable. Model terms remain separate from the project's license.
 
-The model produces a structured summary, evidence-linked hypotheses, and suggested next checks. Evidence identifiers are validated, but **valid citations do not establish semantic accuracy**. Small models can misread a change. A deterministic comparison witness is included when a simple changed return comparison can be parsed; other changes do not receive this witness. Generated suggestions are never executed automatically.
+## What the evidence establishes
 
-Inference uses four CPU threads, a 4,096-token context, and a 450-token output cap. The model is requested to unload after responding. An 8 GB, CPU-only laptop is a design target, **not hardware on which performance has yet been verified**. The target project's own builds can need much more memory than the tool.
+These are separate recorded experiments, with different scopes:
 
-Git search and report export remain available without a model. AI analysis is deferred until after the search so modest machines do not run the model and build checks concurrently.
+| Experiment | Recorded outcome | Practical limit |
+| --- | --- | --- |
+| [Five synthetic histories](evidence/evaluation.json) | Three expected boundaries and two expected inconclusive cases | Dependency-free Windows desktop fixtures; two checks per selected revision; AI excluded |
+| [Mastra autopsy](evidence/mastra-local-autopsy.json) | Evidence collection, local inference and citation validation | Valid references do not prove a correct interpretation |
+| [Temporal worker restart](evidence/temporal-recovery.json) | Three completed checkpoints reused after a forced stop | Same local repository and checkpoint disk; an interrupted check can repeat |
+| [Sentry setup](evidence/SENTRY_LIVE_VERIFICATION.md) | Controlled synthetic spans appeared in the live dashboard | Separate from a full real-model investigation trace; tracing is opt-in |
+| [Copilot retest](evidence/COPILOT_RETEST_REPORT.md) | 42 tests passed and one helper reproducer failed in that run | Later UI changes have focused checks, not a new full acceptance claim |
 
-### Setup on this development machine
+These records show the conditions under which each result was observed. They do not establish arbitrary-repository reliability or T480 performance. [Integration setup](INTEGRATIONS.md) covers the optional SDKs and services; standard mode does not load those SDKs.
 
-The CPU-only Ollama runtime is at `Z:\Codex-time-of-death-runtime\cpu\ollama.exe`; model files are at `Z:\Codex-time-of-death-runtime\models`. These are local development paths, not requirements for other users. Ollama's own state may live in the user's `.ollama` folder. Nothing under these runtime paths should be included in the source release.
+## What still needs work
 
-## CLI
+**The current blocker is imported check code.** A proposed patch can leave `check.mjs` unchanged, weaken a helper it imports, and receive `passed`. Copilot's [unchanged reproducer](test/copilot-retest.test.mjs) still fails. A passing fix-verification receipt does not establish that the original check's integrity was preserved.
 
-```powershell
-node cli.mjs --demo --output report.md
-node cli.mjs --demo --model gemma3:1b --json --output report.json
-node cli.mjs --repo C:\Projects\app --good HEAD~20 --bad HEAD --command "node check.mjs"
-node cli.mjs --repo C:\Projects\app --good v1 --bad HEAD --check C:\Checks\regression.mjs
-```
+- The selected history must be linear and at most 500 revisions. A bug that disappears and returns can violate the good-to-bad assumption.
+- Timeouts, unstable repeats and untestable revisions can prevent a conclusive result. Missing-module detection is a limited heuristic; target failure text gives the check more specificity.
+- A disposable checkout is not a code sandbox. Exports may contain paths, logs and the portable script; review them before sharing.
+- Local AI can give a wrong explanation. Evidence references are checked, but reasoning still needs review.
+- The latest tour, focus behavior and animation need real-browser acceptance testing. T480 performance has not been measured.
 
-Run `node cli.mjs --help` for all options. Exit 0 means a boundary was confirmed; exit 2 means no conclusive result. AI errors remain separately labeled in the report.
+Run the source tests with `npm test`. The suite includes the preserved failing helper reproducer. GitHub Actions is disabled for this private preview; no green hosted CI result is implied. [CURRENT_BUILD.md](CURRENT_BUILD.md) describes the uploaded snapshot.
 
-## Reports and privacy
+## Source, credits and next steps
 
-Cases are saved under `.data/reports/` when started and as execution progresses, and shown in the case archive. Normal shutdown cancels active local work and waits for its final report. After an abrupt process exit, a saved unfinished case opens as interrupted; ordinary mode does not resume it automatically. Markdown and JSON exports contain execution output, paths, and optionally the portable script and AI evidence packet. They can contain sensitive information. Review exports before sharing. `.data/` and `.env.local` are gitignored. Fonts are bundled locally. Sentry is disabled unless a DSN is configured; see the optional integration guide for precisely what it sends.
+The project source is [MIT licensed](LICENSE). Git, Node.js, Ollama, models and dependencies retain their own licenses and terms. Font notices and the clsx license are included in [licenses/](licenses/).
 
-## Check readiness, verify a fix, export an issue draft
+Codex helped build the tool. Copilot challenged it with independent reports and executable reproducers; the findings, fixes and outstanding failure remain in [evidence/](evidence/). The coroner metaphor follows an old change still affecting today's program: establish when the check changed, then investigate why.
 
-Use **Check readiness** to run only the working/failing endpoint checks before searching. It diagnoses missing check files, unavailable dependencies, unstable outcomes and timeouts. Historical package scripts are read as suggestions; nothing is installed or run just because it appears in a manifest. A ready result does not declare a candidate commit.
-
-After a conclusive investigation, **Did the fix work?** accepts a unified patch or a descendant fix revision. It reruns the passing parent, original culprit and proposed fix in a disposable checkout. A passing result has actual pass/fail/pass receipts. Your source working files are not changed. For command-based verification, use a direct `node check.mjs` command. Changes to that entry point or recognized test/configuration files block a passing verdict. Other shell commands (including npm scripts) require rerunning the investigation with a portable check. Portable scripts are injected after the proposal for all three variants. The result records a check fingerprint and integrity explanation. These controls do not prove semantic correctness or protect against arbitrary malicious code; review imported helpers and dependency behavior.
-
-**Export bug report** produces a local Markdown draft with reproduction steps, candidate/parent evidence and the fix verification record. It never posts an issue. JSON and full Markdown exports also retain the new receipts.
-
-## Automated demonstration and release preparation
-
-See [AUTOMATION.md](AUTOMATION.md). `npm run demo:real` reconstructs a downstream package-manifest compatibility check against pinned public clsx history, finds its boundary and verifies a compatibility patch. The upstream exports-map change was intentional; this example is not a claim of a newly discovered upstream defect or a personal production incident. It uses Node's real resolver with a minimal layout containing the historical manifest, without installing/building clsx.
-
-`npm run prepare:submission` runs checks, refreshes demonstration evidence and article metrics, and prepares a prebuilt release. Optional flags manage a local Temporal fault experiment and render an offline narrated walkthrough. Account setup and public posting remain separate. No script buys credits or publishes artifacts.
-
-## Optional integrations
-
-See [INTEGRATIONS.md](INTEGRATIONS.md) for setup and verification. All three can be combined, but standard mode does not load their SDKs.
-
-- **Mastra:** schema-checked evidence collection, local inference and citation validation. Set `TOD_MASTRA=1` after installing dependencies.
-- **Temporal:** a separate durable CLI/worker mode; retries after worker failure reuse completed local check checkpoints. A local SQLite-backed Temporal service requires no cloud account. An in-flight check can repeat.
-- **Sentry:** opt-in model/check timings, token counts and status spans. Prompts, source, commands, repository paths and captured logs are excluded. Controlled synthetic setup spans were verified in the live dashboard; see `evidence/SENTRY_LIVE_VERIFICATION.md`. This is separate from a real-model end-to-end trace.
-
-On a modest laptop, use standard mode first. Temporal adds a service and worker. Do not run a durable investigation alongside a separate web investigation on the same small machine.
-
-## Verification
-
-```powershell
-npm test
-npm run evaluate
-```
-
-These commands use Node's built-in test runner. Evaluation creates synthetic histories with known answers and writes `evidence/evaluation.json`. Timings include checks and Git operations; they do not include model inference. GitHub Actions is configured for Windows and Linux; remote CI results must be checked after publishing, and are not implied by local tests.
-
-## Architecture
-
-```text
-Browser UI / CLI
-      |
-Node local investigator
-      |-- validate endpoints -> disposable Git clone -> git bisect
-      |-- capture checks -> confirm candidate/parent -> saved case
-      `-- bounded evidence -> local Gemma -> reviewable hypotheses
-```
-
-Git performs the binary search. The project adds command replay, endpoint checks, repeated outcomes, evidence capture, a visual workflow, optional local AI interpretation, and portable reports. No claim is made to have invented bisection.
-
-## Attribution and licenses
-
-Time of Death source is MIT licensed. [Git](https://git-scm.com/) is separately licensed under GPLv2; [Node.js](https://nodejs.org/) and [Ollama](https://github.com/ollama/ollama) have their own licenses. Gemma is **open-weight**, subject to [Google's Gemma terms](https://ai.google.dev/gemma/terms), and is not relicensed by this project. Models and third-party binaries are not bundled. IM Fell English and IBM Plex Mono font licenses are included in `licenses/`; dependency packages retain their respective licenses.
-
-The real-history demonstration uses [clsx](https://github.com/lukeed/clsx), MIT licensed by Luke Edwards. Its license is included in `licenses/clsx-MIT.txt`; downloaded history is not bundled. The portable check and proposed compatibility patch are demonstration artifacts, not an upstream endorsement.
-
-AI coding assistance: Codex was used to build and verify this project. Copilot supplied three review reports and three regression test files, including reproductions of test-replacement false positives and lost shutdown reports. Their assertions remain intact. See `evidence/REVIEW_RESOLUTION.md` for the resulting fixes, fresh validation and remaining limits.
+Start with the [synthetic case in the prebuilt preview](https://github.com/abdulbsds25seecs-cloud/time-of-death/releases/tag/v0.1.0-preview.20261031). For your own project, pick one repeatable failure and two revisions you can defend. The [usage reference](docs/USAGE.md) covers commands, exit codes, portable scripts, recovery, privacy and optional integrations.

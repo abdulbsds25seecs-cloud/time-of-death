@@ -6,7 +6,7 @@ tags: devchallenge, hf26challenge, git, opensource
 
 *This is a submission for the [Hacktoberfest Open-Source AI Challenge Week 4: Ghost in the Machine](https://dev.to/challenges/hacktoberfest-week4-2026-10-26).*
 
-<!-- Review draft. Add public repository/video URLs and uploaded screenshot URLs before publishing. Live Sentry delivery still needs a project DSN. No Copilot contribution is claimed. -->
+<!-- Review draft. Use app screenshots as the main demo. These captures predate the latest UI refresh. The repository is currently private; no DEV submission has been published. -->
 
 This is a small line for an upgrade to break:
 
@@ -34,11 +34,21 @@ For the theme, the ghost is an old decision still affecting today's program. The
 
 ## Demo
 
-**[Real demo/video link — add the public URL before publishing]**
+The walkthrough uses still images of the app. These captures show earlier recorded runs and an earlier interface; the current build adds a compact workspace, guided tour and flowing dither background. Timings printed inside a screenshot belong to that pictured run, separately from the saved measurement below.
 
-The local deliverable is a narrated walkthrough assembled from actual app screenshots, with an offline synthesized voice. It is not a continuous live screen recording. A separate synthetic scene demonstrates worker-crash recovery and is labeled accordingly.
+![The app confirms candidate 3ec8e9f and its passing parent in the recorded clsx investigation.](../evidence/demo-real-boundary.png)
 
-<!-- Upload evidence/demo-real-autopsy.png and evidence/demo-fix-verification.png to DEV, then insert their public image URLs here. -->
+The timeline narrows to one boundary, and the candidate tag names the commit, author, date and observed failing status. Unexecuted revisions remain separate from tested ones.
+
+![The app exposes captured package-path errors and prepares a bug-report download.](../evidence/demo-issue-export.png)
+
+The execution panel retains stderr from the portable check. The export controls prepare a local report someone else can inspect; nothing is posted automatically.
+
+![A compatibility patch produces recorded parent-good, culprit-bad and proposal-good checks.](../evidence/demo-fix-verification.png)
+
+The proposal passes this specific portable check. The current imported-helper integrity bug remains unresolved for command-based verification, so a green result must not be presented as a general proof of a correct fix.
+
+<!-- Before DEV publication, upload these screenshots and use their hosted image URLs. Replace with current-interface captures when browser capture is available. Keep the existing video as a separate artifact; it is not the main demo. -->
 
 ### A real historical compatibility break
 
@@ -54,7 +64,7 @@ The proposed compatibility patch explicitly exports `./package.json` while prese
 
 ## Code
 
-Repository: **[add the actual public repository URL before publication]**.
+Repository: [Time of Death on GitHub](https://github.com/abdulbsds25seecs-cloud/time-of-death) (currently private; public access is required before submission).
 
 The source includes the portable historical check, automated reproduction script, acceptance tests, actual reports, and a prebuilt frontend. Standard local mode can run from the prebuilt package with Node 22.13+ and Git. Building from source uses:
 
@@ -96,7 +106,7 @@ In the recorded fault test, the worker was force-stopped after three completed c
 
 Opt-in instrumentation records operation names, model names, durations, token counts, exit codes and check counts. Automatic integrations are disabled, and the instrumentation excludes prompts, model responses, diffs, commands, paths, captured logs and user identity.
 
-The actual Sentry SDK emitted nested spans into a local test transport, including spans around a real local-model run. **Live ingestion and dashboard verification are still pending project configuration.** Local envelopes are not proof of cloud delivery.
+The actual Sentry SDK emitted nested spans into a local test transport, including spans around a real local-model run. Controlled synthetic setup spans were subsequently verified in the live project dashboard. That proves ingestion for those setup spans, separately from a full real-model investigation trace. The local test envelopes alone do not establish cloud delivery.
 
 ### What the tests establish
 
