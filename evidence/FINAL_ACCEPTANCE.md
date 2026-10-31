@@ -41,3 +41,7 @@ The partner script sends opt-in Sentry telemetry when a DSN is configured. The r
 ## Hosted demo follow-up
 
 After adding the separate GitHub Pages recorded explorer, the complete local suite passed **56 tests, zero failures/skips**. See [full output](pages-acceptance-tests.txt) and [live HTTP checks](pages-live-verification.json). The live page, assets, bundled fonts, three reports and anonymous app download returned HTTP 200. The five added demo tests cover real receipts, absent untested logs, tab switching, patch results, model review, replay controls and report path removal. Fresh visual browser QA remains blocked by Computer Use URL detection.
+
+## Final submission handoff
+
+Copilot's [final independent report](COPILOT_FINAL_ACCEPTANCE_REPORT.md) found no new submission-blocking defect within its exercised API/CLI/release/HTTP scope. Its 56-test baseline and independent new test are preserved separately. After incorporating the unchanged new test, the final complete local run passed **57 tests, zero failed/skipped**; see [full output](final-submission-tests.txt). Public demo/assets/reports/download delivery was rechecked successfully. Optional integrations were not rerun by Copilot in that pass; earlier live evidence retains its original dates and scope. Fresh full visual browser/mobile QA remains incomplete.

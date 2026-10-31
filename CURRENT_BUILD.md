@@ -1,6 +1,6 @@
 # Current build: October 31, 2026 — preview 0.2
 
-This owner-requested prerelease is not a published hackathon submission or production certification.
+This owner-requested prerelease is not a published hackathon submission or production certification. The downloadable v0.2 ZIP identifies source commit bc165b29b04d85d7cb17c70973b6ff6d2b9c53ce. It is an intentional snapshot: later source work adds the separate static Pages explorer, acceptance tests and documentation. Copilot downloaded and tested the ZIP independently, including investigation, exports, CLI and restart. See [the final independent report](evidence/COPILOT_FINAL_ACCEPTANCE_REPORT.md).
 
 ## Run
 
@@ -10,7 +10,7 @@ Extract the entire time-of-death-prebuilt.zip, install Node.js 22.13+ and Git, a
 
 - Block command fix proposals outside the original culprit change set, including imported check helpers of arbitrary names. Accepted command replay is explicitly restricted; no dependency-graph proof is claimed.
 - Preserve Copilot's original reproducer unchanged; it now passes.
-- Build and complete local suite: **51 passed, zero failed/skipped**.
+- At the v0.2 build: **51 tests passed, zero failed/skipped**. Later source-suite results are recorded separately in the acceptance evidence.
 - Real HTTP journey: readiness, investigation, patch replay, three exports and reopening after restart passed.
 - React DOM tour tests cover nine steps, keyboard/focus behavior, dismissal, replay and blocked storage.
 - Fresh clsx historical case: nine commits, fourteen checks, expected boundary and six successful patch-verification receipts.
